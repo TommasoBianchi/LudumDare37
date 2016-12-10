@@ -2,15 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoomPlan : MonoBehaviour {
+public class RoomPlan {
 
-	// Use this for initialization
-	void Start () {
-		
+	public List<Burst> bursts;
+	public List<Resource> loot;
+
+	public void GeneratePlan() {
+		throw new System.NotImplementedException ();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	public void UpdatePlan() {
+		throw new System.NotImplementedException ();
+	}
+
+	public bool IsCleared() {
+		throw new System.NotImplementedException ();
 	}
 }

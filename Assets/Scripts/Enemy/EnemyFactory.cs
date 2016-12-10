@@ -8,11 +8,11 @@ public class EnemyFactory {
 	public List<Enemy> enemies;
 	public List<Enemy> bosses;
 
-	public Enemy getEnemy(int life) {
+	public static Enemy getEnemy(int life) {
 		return new Enemy ();
 	}
 
-	public Enemy getBoss(int life) {
+	public static Enemy getBoss(int life) {
 		return new Enemy ();
 	}
 }

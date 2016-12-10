@@ -2,15 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerUpManager : MonoBehaviour {
+public class PowerUpManager {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+	private PowerUp currentPowerUp;
+	private float activationTime;
 	
-	// Update is called once per frame
-	void Update () {
-		
+	public void SetPowerUp(PowerUp powerUp) {
+		this.currentPowerUp = powerUp;
+	}
+
+	public PowerUp GetPowerUp() {
+		return this.currentPowerUp;
+	}
+
+	public void Update() {
+		throw new System.NotImplementedException ();
 	}
 }

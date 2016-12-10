@@ -5,17 +5,7 @@ using UnityEngine;
 public class Weapon : MonoBehaviour {
 
     public int Tier;
-    public WeaponTypes Type;
-    public int DmgMod;
-
-    
+    public WeaponType Type;
+	public Roll roll;
 
 }
-
-public enum WeaponTypes
-{
-    Sword,
-    Lance,
-    Hammer,
-    PickAxe
-};

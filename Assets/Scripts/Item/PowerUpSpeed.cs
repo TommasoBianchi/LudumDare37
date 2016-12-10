@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerUpSpeed : MonoBehaviour {
+public class PowerUpSpeed : PowerUp {
+
+	private float mult;
 
 	// Use this for initialization
 	void Start () {
@@ -12,5 +14,25 @@ public class PowerUpSpeed : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
+	}
+
+	public PowerUpSpeed(float mult) {
+		this.mult = mult;
+	}
+
+	public void OnPickup () {
+		throw new System.NotImplementedException ();
+	}
+
+	public void OnStart() {
+		throw new System.NotImplementedException ();
+	}
+
+	public void OnFinish() {
+		throw new System.NotImplementedException ();
+	}
+
+	public void OnAttack() {
+		throw new System.NotImplementedException ();
 	}
 }

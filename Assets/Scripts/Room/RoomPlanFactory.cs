@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoomPlanFactory : MonoBehaviour {
+public class RoomPlanFactory {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+	public List<Resource> resources;
+
+	public static RoomPlan getRoomPlan(int roomID) {
+		throw new System.NotImplementedException ();
 	}
 }
