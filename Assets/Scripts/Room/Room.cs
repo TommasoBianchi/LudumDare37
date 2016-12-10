@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Room : MonoBehaviour {
 
-	public int ID;
+    public int ID { get; private set; }
     public int width;
     public int height;
 
@@ -14,7 +14,7 @@ public class Room : MonoBehaviour {
     public GameObject wallTopPrefab;
     public GameObject doorPrefab;
 
-	public RoomPlan RoomPlan;
+	private RoomPlan RoomPlan;
 
     public Door topDoor { get; private set; }
     public Door bottomDoor { get; private set; }
@@ -76,18 +76,17 @@ public class Room : MonoBehaviour {
 
         // Instantiate next room
         topDoor.linkedRoom = (Instantiate(transform.gameObject, transform.position + Vector3.up * 100, Quaternion.identity) as GameObject).GetComponent<Room>();
+        topDoor.linkedRoom.ID = this.ID + 1;
+
+        // Grab room plan
+        RoomPlan = RoomPlanFactory.getRoomPlan(this.ID);
+        RoomPlan.GeneratePlan();
     }
 
-    float timer = 0;
-    bool doorsLocked = true;
-
 	public void Update() {
-        timer += Time.deltaTime;
-        if (timer > 15 && doorsLocked)
-        {
-            doorsLocked = false;
+        RoomPlan.UpdatePlan();
+        if (RoomPlan.IsCleared())
             UnlockDoors();
-        }
 	}
 
 	public void UnlockDoors() {

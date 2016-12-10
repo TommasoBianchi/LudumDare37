@@ -10,6 +10,7 @@ public class RoomPlan {
 
     private List<Enemy> spawnedEnemies;
     private float timer = 0;
+    private bool hasSpawnedEverything = false;
 
     public RoomPlan(List<Burst> bursts, List<Resource> loot)
     {
@@ -19,20 +20,26 @@ public class RoomPlan {
     }
 
 	public void GeneratePlan() {
-		throw new System.NotImplementedException ();
+        // Not sure if useful or not
+		//throw new System.NotImplementedException ();
 	}
 
 	public void UpdatePlan() {
-        if (timer > bursts[bursts.Count - 1].time)
+        if (bursts.Count > 1 && timer > bursts[bursts.Count - 1].time)
         {
             // spawn burst
             bursts.RemoveAt(bursts.Count - 1);
+            if (bursts.Count == 0)
+                hasSpawnedEverything = true;
         }
 
         timer += Time.deltaTime;
 	}
 
 	public bool IsCleared() {
+        if (!hasSpawnedEverything)
+            return false;
+
         for (int i = 0; i < spawnedEnemies.Count; i++)
         {
             if (spawnedEnemies[i].Life > 0)

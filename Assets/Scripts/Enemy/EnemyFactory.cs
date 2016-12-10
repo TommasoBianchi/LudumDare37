@@ -4,9 +4,17 @@ using UnityEngine;
 
 public class EnemyFactory : MonoBehaviour {
 
-	public static List<PowerUp> powerUps;
-	public static List<Enemy> enemies;
-	public static List<Enemy> bosses;
+	public List<PowerUp> powerUps;
+	public List<Enemy> enemies;
+	public List<Enemy> bosses;
+
+    private static EnemyFactory instance;
+
+    void Start()
+    {
+        if (instance == null)
+            instance = this;
+    }
 
     public static Enemy getEnemy(int roomID, float lifeModifier)
     {
@@ -23,8 +31,8 @@ public class EnemyFactory : MonoBehaviour {
 	}
 
 	private static Enemy getRandomEnemy() {
-		int enemyIndex = Random.Range(0, enemies.Count);
-		return enemies[enemyIndex];
+		int enemyIndex = Random.Range(0, instance.enemies.Count);
+        return instance.enemies[enemyIndex];
 	}
 
 	private static void addWeaknessesAndResistences(Enemy enemy) {
@@ -61,8 +69,8 @@ public class EnemyFactory : MonoBehaviour {
 	}
 
 	private static Enemy getRandomBoss() {
-		int bossIndex = Random.Range(0, bosses.Count);
-		return bosses[bossIndex];
+        int bossIndex = Random.Range(0, instance.bosses.Count);
+        return instance.bosses[bossIndex];
 	}
     private static float dmg_calc(int liv, Weapon arma, Enemy enemy)
     {

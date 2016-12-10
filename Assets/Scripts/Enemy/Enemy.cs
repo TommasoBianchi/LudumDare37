@@ -13,12 +13,10 @@ public class Enemy : MonoBehaviour {
 	public float Scale;
 	public Material MaterialOverlay;
 
-	// Use this for initialization
 	void Start () {
 		
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		Move ();
 		Attack ();
