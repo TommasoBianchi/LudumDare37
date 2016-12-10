@@ -6,15 +6,18 @@ public class RoomPlanFactory : MonoBehaviour {
 
 	public List<Resource> resources;
 
-    public static RoomPlanFactory instance { get; private set; }
+    public static RoomPlanFactory instance;
+
+    public static RoomPlanFactory getInstance() {
+        return instance;
+    }
 
     void Start()
     {
-        if (instance == null)
-            instance = this;
+        instance = this;
     }
 
-	public static RoomPlan getRoomPlan(int roomID) {
+	public RoomPlan getRoomPlan(int roomID) {
         List<Burst> bursts = new List<Burst>();
         List<Resource> loot = new List<Resource>();
 
@@ -26,7 +29,7 @@ public class RoomPlanFactory : MonoBehaviour {
             dropAmount = Mathf.RoundToInt(dropAmount * 1.20f);
 
             List<Enemy> enemies = new List<Enemy>();
-            enemies.Add(EnemyFactory.getBoss(roomID, Random.Range(4f, 6f)));
+            enemies.Add(EnemyFactory.getInstance().getBoss(roomID, Random.Range(4f, 6f)));
 
             bursts.Add(new Burst(0, enemies, new Vector2(0.5f, 0.5f)));
         }
@@ -44,7 +47,7 @@ public class RoomPlanFactory : MonoBehaviour {
                 List<Enemy> enemies = new List<Enemy>();
                 for (int i = 0; i < numberOfEnemiesPerBurst; i++)
                 {
-                    enemies.Add(EnemyFactory.getEnemy(roomID, Random.Range(0.9f, 1.1f)));
+                    enemies.Add(EnemyFactory.getInstance().getEnemy(roomID, Random.Range(0.9f, 1.1f)));
                 }
                 numberOfEnemies -= numberOfEnemiesPerBurst;
                 bursts.Add(new Burst(b * Random.Range(0.5f, 2.5f), enemies, Random.insideUnitCircle));

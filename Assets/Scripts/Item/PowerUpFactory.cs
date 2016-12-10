@@ -2,9 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerUpFactory {
+public class PowerUpFactory : MonoBehaviour {
 
-	public static PowerUp GetRandomPowerUp() {
+	private static PowerUpFactory instance;
+
+	public static PowerUpFactory getInstance() {
+		return instance;
+	}
+
+	void Start() {
+		instance = this;
+	}
+
+	public PowerUp GetRandomPowerUp() {
 		int num = Random.Range(0, 100);
 		PowerUp powerUp = GetPowerUpNull();
 
@@ -18,12 +28,12 @@ public class PowerUpFactory {
 		return powerUp;
 	}
 
-	public static PowerUp GetPowerUpSpeed() {
+	public PowerUp GetPowerUpSpeed() {
 		float mult = Random.Range(Constants.POWER_UP_MIN_SPEED_MULT, Constants.POWER_UP_MAX_SPEED_MULT);
 		return new PowerUpSpeed (mult);
 	}
 
-	public static PowerUp GetPowerUpAttack() {
+	public PowerUp GetPowerUpAttack() {
 		float mult = Random.Range(Constants.POWER_UP_MIN_ATTACK_MULT, Constants.POWER_UP_MAX_ATTACK_MULT);
 		return new PowerUpAttack (mult);
 	}

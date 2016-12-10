@@ -20,6 +20,7 @@ public class Room : MonoBehaviour {
     public Door bottomDoor { get; private set; }
 
     private static bool firstRoom = true;
+    private bool doorsLocked = true;
 
     void Start () 
     {
@@ -74,19 +75,22 @@ public class Room : MonoBehaviour {
         wallTopTile.transform.localScale = new Vector3(0.1f, height + 0.72f, 1);
         wallTopTile.transform.localPosition = new Vector3(-0.45f, height / 2f + 0.19f, 0);
 
-        // Instantiate next room
-        topDoor.linkedRoom = (Instantiate(transform.gameObject, transform.position + Vector3.up * 100, Quaternion.identity) as GameObject).GetComponent<Room>();
-        topDoor.linkedRoom.ID = this.ID + 1;
-
         // Grab room plan
-        RoomPlan = RoomPlanFactory.getRoomPlan(this.ID);
+        RoomPlan = RoomPlanFactory.getInstance().getRoomPlan(this.ID);
         RoomPlan.GeneratePlan();
     }
 
 	public void Update() {
         RoomPlan.UpdatePlan();
-        if (RoomPlan.IsCleared())
+        if (RoomPlan.IsCleared() && doorsLocked) {
+            // Instantiate next room
+            topDoor.linkedRoom = (Instantiate(transform.gameObject, transform.position + Vector3.up * 100, Quaternion.identity) as GameObject).GetComponent<Room>();
+            topDoor.linkedRoom.ID = this.ID + 1;
+
+            Debug.Log("Doors unlocked");
             UnlockDoors();
+            doorsLocked = false;
+        }
 	}
 
 	public void UnlockDoors() {

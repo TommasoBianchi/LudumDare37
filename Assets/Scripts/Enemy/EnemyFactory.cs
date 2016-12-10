@@ -10,32 +10,35 @@ public class EnemyFactory : MonoBehaviour {
 
     private static EnemyFactory instance;
 
-    void Start()
-    {
-        if (instance == null)
-            instance = this;
+    public static EnemyFactory getInstance() {
+        return instance;
     }
 
-    public static Enemy getEnemy(int roomID, float lifeModifier)
+    void Start()
+    {
+        instance = this;
+    }
+
+    public Enemy getEnemy(int roomID, float lifeModifier)
     {
 		Enemy enemy = getRandomEnemy();
 
         Weapon currentPlayerWeapon = Globals.GetPlayerController().Weapon;
         enemy.Life = Mathf.RoundToInt((27 + (currentPlayerWeapon.Tier * 5)) * 5 / (dmg_calc(roomID, currentPlayerWeapon, enemy)) * lifeModifier); ;
 		addWeaknessesAndResistences(enemy);
-		enemy.PowerUp = PowerUpFactory.GetRandomPowerUp();
+		enemy.PowerUp = PowerUpFactory.getInstance().GetRandomPowerUp();
 		enemy.Scale = Random.Range(Constants.ENEMY_MIN_SCALE, Constants.ENEMY_MAX_SCALE);
 		addRandomMaterialOverlay(enemy);
 
 		return enemy;
 	}
 
-	private static Enemy getRandomEnemy() {
+	private Enemy getRandomEnemy() {
 		int enemyIndex = Random.Range(0, instance.enemies.Count);
         return instance.enemies[enemyIndex];
 	}
 
-	private static void addWeaknessesAndResistences(Enemy enemy) {
+	private void addWeaknessesAndResistences(Enemy enemy) {
 		WeaponType wt1 = RandomEnumPicker.GetRandomWeaponType();
 		WeaponType wt2;
 		do {
@@ -46,7 +49,7 @@ public class EnemyFactory : MonoBehaviour {
 		enemy.Resistences.Add(wt2);
 	}
 
-	private static void addRandomMaterialOverlay(Enemy enemy) {
+	private void addRandomMaterialOverlay(Enemy enemy) {
 		Material m = new Material("Sprites_Default");
 		m.SetColor("_TintColor", new Color(
 			Random.RandomRange(0.0f, 1.0f),
@@ -55,24 +58,24 @@ public class EnemyFactory : MonoBehaviour {
 		));
 	}
 
-	public static Enemy getBoss(int roomID, float lifeModifier) {
+	public Enemy getBoss(int roomID, float lifeModifier) {
 		Enemy boss = getRandomBoss();
 
         Weapon currentPlayerWeapon = Globals.GetPlayerController().Weapon;
         boss.Life = Mathf.RoundToInt((27 + (currentPlayerWeapon.Tier * 5)) * 5 / (dmg_calc(roomID, currentPlayerWeapon, boss)) * lifeModifier);
 		addWeaknessesAndResistences(boss);
-		boss.PowerUp = PowerUpFactory.GetRandomPowerUp();
+		boss.PowerUp = PowerUpFactory.getInstance().GetRandomPowerUp();
 		boss.Scale = Random.Range(Constants.ENEMY_MIN_SCALE, Constants.ENEMY_MAX_SCALE);
 		addRandomMaterialOverlay(boss);
 
 		return boss;
 	}
 
-	private static Enemy getRandomBoss() {
+	private Enemy getRandomBoss() {
         int bossIndex = Random.Range(0, instance.bosses.Count);
         return instance.bosses[bossIndex];
 	}
-    private static float dmg_calc(int liv, Weapon arma, Enemy enemy)
+    private float dmg_calc(int liv, Weapon arma, Enemy enemy)
     {
         float dmg_modif;
         int oldupper = 0;

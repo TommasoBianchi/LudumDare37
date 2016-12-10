@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Resource : Item {
+public class Resource : MonoBehaviour, Item {
 
 	public ResourceType type;
 
