@@ -12,7 +12,7 @@ public class LerpFollow : MonoBehaviour {
 	}
 	
 	void Update () {
-        Vector3 newPosition = Vector3.Lerp(transform.position, target.position, smoothAmount);
+        Vector3 newPosition = Vector3.Lerp(transform.position, target.position, smoothAmount * Time.smoothDeltaTime);
         newPosition.z = transform.position.z;
         transform.position = newPosition;
 	}
