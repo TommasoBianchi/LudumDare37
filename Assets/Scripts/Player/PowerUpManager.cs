@@ -5,7 +5,8 @@ using UnityEngine;
 public class PowerUpManager {
 
 	private PowerUp currentPowerUp;
-	private float activationTime;
+	private float activationTime = 0;
+	private float totalDeltaTime = 0;
 	
 	public void SetPowerUp(PowerUp powerUp) {
 		this.currentPowerUp = powerUp;
@@ -16,6 +17,9 @@ public class PowerUpManager {
 	}
 
 	public void Update() {
-		throw new System.NotImplementedException ();
+		this.totalDeltaTime += Time.deltaTime;
+		if (this.totalDeltaTime - this.activationTime > this.currentPowerUp.Duration) {
+			this.currentPowerUp = PowerUpFactory.GetPowerUpNull();
+		}
 	}
 }

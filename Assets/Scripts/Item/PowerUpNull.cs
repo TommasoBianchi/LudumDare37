@@ -4,29 +4,23 @@ using UnityEngine;
 
 public class PowerUpNull : PowerUp {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-	public void OnPickup () {
-		throw new System.NotImplementedException ();
+	public PowerUpNull() {
+		this.Duration = 10;
 	}
 
 	public void OnStart() {
-		throw new System.NotImplementedException ();
+		
 	}
 
 	public void OnFinish() {
-		throw new System.NotImplementedException ();
+		
 	}
 
 	public void OnAttack() {
-		throw new System.NotImplementedException ();
+		
+	}
+
+	public bool IsNull() {
+		return true;
 	}
 }

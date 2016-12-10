@@ -5,5 +5,8 @@ using UnityEngine;
 public enum ResourceType {
 	Wood,
 	Iron,
-	Rock
+	Rock,
+    Cryptonite,
+    Bronze,
+    Adamantium
 }

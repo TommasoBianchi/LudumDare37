@@ -5,6 +5,7 @@ using UnityEngine;
 public class PowerUpAttack : PowerUp {
 
 	private float mult;
+	private ParticleEmitter effect;
 
 	// Use this for initialization
 	void Start () {
@@ -20,19 +21,19 @@ public class PowerUpAttack : PowerUp {
 		this.mult = mult;
 	}
 
-	public void OnPickup () {
-		throw new System.NotImplementedException ();
-	}
-
 	public void OnStart() {
-		throw new System.NotImplementedException ();
+		GameObject player = Globals.GetPlayer();
+		player.GetComponent<SpriteRenderer>().material = Constants.POWER_UP_ATTACK_MATERIAL;
 	}
 
 	public void OnFinish() {
-		throw new System.NotImplementedException ();
+		GameObject player = Globals.GetPlayer();
+		player.GetComponent<SpriteRenderer>().material = Constants.DEFAULT_MATERIAL;
 	}
 
 	public void OnAttack() {
-		throw new System.NotImplementedException ();
+		GameObject player = Globals.GetPlayer();
+		Vector3 effectPos = player.transform.position + player.transform.forward;
+		Instantiate(effect, effectPos);
 	}
 }
