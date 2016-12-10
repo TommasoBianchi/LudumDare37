@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PowerUp : MonoBehaviour, Item {
 
-	public float duration;
+	public float Duration;
 
 	// Use this for initialization
 	void Start () {

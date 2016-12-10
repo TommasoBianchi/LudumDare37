@@ -4,14 +4,8 @@ using UnityEngine;
 
 public class PowerUpNull : PowerUp {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+	public PowerUpNull() {
+		this.Duration = 10;
 	}
 
 	public void OnPickup () {

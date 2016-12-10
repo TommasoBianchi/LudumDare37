@@ -28,7 +28,7 @@ public class RecipeBook : MonoBehaviour {
 		
 	}
 
-	void Randomize() {
+	public void static Randomize() {
 		throw new System.NotImplementedException ();
 	}
 }

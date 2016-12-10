@@ -14,12 +14,19 @@ public class PlayerController : MonoBehaviour {
      
 	// Use this for initialization
 	void Start () {
-		Weapon = WeaponFactory.GetWeapon (1);
+		this.Weapon = WeaponFactory.GetWeapon (1);
+        this.PowerUpManager = new PowerUpManager();
+        this.PowerUpManager.SetPowerUp(PowerUpFactory.GetPowerUpNull());
         animator = GetComponent<Animator>();
     }
 	
 	// Update is called once per frame
 	void Update () {
+        UpdateMovement();
+        PowerUpManager.Update();
+	}
+
+    private void UpdateMovement() {
         float MoveHorizontal = Input.GetAxis("Horizontal");
         float MoveVertical = Input.GetAxis("Vertical");
 
@@ -28,7 +35,7 @@ public class PlayerController : MonoBehaviour {
         transform.Translate(Movement * Speed * Time.deltaTime, Space.World);
 
         UpdateAnimator(Movement);
-	}
+    }
 
     private void UpdateAnimator(Vector2 Movement)
     {

@@ -5,6 +5,8 @@ using UnityEngine;
 public class WeaponFactory {
 
 	public static Weapon GetWeapon(int tier) {
-		throw new System.NotImplementedException ();
+		WeaponType wt = RandomEnumPicker.GetRandomWeaponType();
+		Roll roll = RandomEnumPicker.GetRandomRollType();
+		return new Weapon (wt, tier, roll);
 	}
 }
