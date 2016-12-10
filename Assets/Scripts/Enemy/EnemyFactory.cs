@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour {
+public class EnemyFactory {
 
-	// Use this for initialization
-	void Start () {
-		
+	public List<PowerUp> powerUps;
+	public List<Enemy> enemies;
+	public List<Enemy> bosses;
+
+	public Enemy getEnemy(int life) {
+		return new Enemy ();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	public Enemy getBoss(int life) {
+		return new Enemy ();
 	}
 }

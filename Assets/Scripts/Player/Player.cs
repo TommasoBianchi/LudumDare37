@@ -5,26 +5,33 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 
     public int Speed;
-    public int Vita;
-    public WeaponTypes WeaponType;
-    public float Damage;
+    public int Life;
+    public Weapon weapon;
+    public PowerUpManager powerUpManager;
 
-    private int MaxVita;
+    private int MaxLife;
      
 	// Use this for initialization
 	void Start () {
-        Damage = 0;
-        WeaponType = WeaponTypes.Sword;
+        weapon = WeaponFactory.getWeapon(1);
     }
 	
 	// Update is called once per frame
 	void Update () {
+        ManageMovement();
+        ManageAttack();
+	}
+
+    void ManageMovement() {
         float MoveHorizontal = Input.GetAxis("Horizontal");
         float MoveVertical = Input.GetAxis("Vertical");
 
         Vector2 Movement = new Vector2(MoveHorizontal, MoveVertical);
 
         transform.Translate(Movement * Speed * Time.deltaTime, Space.World);
-		
-	}
+    }
+
+    void ManageAttack() {
+        
+    }
 }
