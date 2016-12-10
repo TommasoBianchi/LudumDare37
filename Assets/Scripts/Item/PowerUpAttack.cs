@@ -23,12 +23,12 @@ public class PowerUpAttack : PowerUp {
 
 	public void OnStart() {
 		GameObject player = Globals.GetPlayer();
-		player.GetComponent<SpriteRenderer>().material = Constants.POWER_UP_ATTACK_MATERIAL;
+		player.GetComponent<SpriteRenderer>().material = Globals.PowerUpAttackMaterial;
 	}
 
 	public void OnFinish() {
 		GameObject player = Globals.GetPlayer();
-		player.GetComponent<SpriteRenderer>().material = Constants.DEFAULT_MATERIAL;
+		player.GetComponent<SpriteRenderer>().material = Globals.DefaultMaterial;
 	}
 
 	public void OnAttack() {

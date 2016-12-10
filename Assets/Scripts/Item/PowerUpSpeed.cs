@@ -27,11 +27,15 @@ public class PowerUpSpeed : PowerUp {
 	public void OnStart() {
 		PlayerController pc = Globals.GetPlayerController();
 		pc.Speed = Constants.PLAYER_BASE_SPEED * this.mult;
+		GameObject player = Globals.GetPlayer();
+		player.GetComponent<SpriteRenderer>().material = Globals.PowerUpAttackMaterial;
 	}
 
 	public void OnFinish() {
 		PlayerController pc = Globals.GetPlayerController();
 		pc.Speed = Constants.PLAYER_BASE_SPEED;
+		GameObject player = Globals.GetPlayer();
+		player.GetComponent<SpriteRenderer>().material = Globals.PowerUpAttackMaterial;
 	}
 
 	public void OnAttack() {
