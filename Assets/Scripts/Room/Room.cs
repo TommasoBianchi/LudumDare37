@@ -76,9 +76,7 @@ public class Room : MonoBehaviour {
         wallTopTile.transform.localPosition = new Vector3(-0.45f, height / 2f + 0.19f, 0);
 
         // Grab room plan
-        while (RoomPlanFactory.getInstance() == null) {
-            RoomPlan = RoomPlanFactory.getInstance().getRoomPlan(this.ID);
-        }
+        RoomPlan = RoomPlanFactory.getInstance().getRoomPlan(this.ID);
         RoomPlan.GeneratePlan();
     }
 

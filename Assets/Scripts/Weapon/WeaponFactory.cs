@@ -29,12 +29,13 @@ public class WeaponFactory : MonoBehaviour {
 		int pos = 0;
 		for (int i = 0; i < values.Length; i++)
 		{
-			if ((WeaponType)values.GetValue(i) == weaponData.Type) {
+			if ((WeaponType)(values.GetValue(i)) == weaponData.Type) {
 				pos = i;
 				break;
 			}
 		}
 
+		Debug.Log("pos: " + pos);
 		Weapon weapon = this.weapons[pos];
 
         GameObject weaponObj = Instantiate(weapon.gameObject, position, rotation) as GameObject;
