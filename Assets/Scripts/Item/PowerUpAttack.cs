@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PowerUpAttack : PowerUp {
 
+	private float mult;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -12,6 +14,10 @@ public class PowerUpAttack : PowerUp {
 	// Update is called once per frame
 	void Update () {
 		
+	}
+
+	public PowerUpAttack(float mult) {
+		this.mult = mult;
 	}
 
 	public void OnPickup () {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum WeaponTypes {
+public enum WeaponType {
 	Sword,
 	Lance,
 	Hammer,

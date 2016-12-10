@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WeaponFactory {
 
-	public static Weapon GetWeapon() {
+	public static Weapon GetWeapon(int tier) {
 		throw new System.NotImplementedException ();
 	}
 }

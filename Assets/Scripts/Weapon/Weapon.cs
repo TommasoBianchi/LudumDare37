@@ -5,7 +5,7 @@ using UnityEngine;
 public class Weapon : MonoBehaviour {
 
     public int Tier;
-    public WeaponTypes Type;
+    public WeaponType Type;
 	public Roll roll;
 
 }

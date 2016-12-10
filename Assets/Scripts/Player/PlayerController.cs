@@ -14,8 +14,7 @@ public class PlayerController : MonoBehaviour {
      
 	// Use this for initialization
 	void Start () {
-        Damage = 0;
-        WeaponType = WeaponTypes.Sword;
+		Weapon = WeaponFactory.GetWeapon (1);
         animator = GetComponent<Animator>();
     }
 	
