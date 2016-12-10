@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoomPlanFactory {
+public class WeaponFactory {
 
-	public List<Resource> resources;
-
-	public static RoomPlan getRoomPlan(int roomID) {
+	public static Weapon GetWeapon() {
 		throw new System.NotImplementedException ();
 	}
 }

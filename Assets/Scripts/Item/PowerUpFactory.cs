@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerUpFactory : MonoBehaviour {
+public class PowerUpFactory {
 
-	// Use this for initialization
-	void Start () {
-		
+	public static PowerUp GetPowerUpSpeed(float mult) {
+
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	public static PowerUp GetPowerUpAttack(float mult) {
+
+	}
+
+	public static PowerUp GetPowerUpNull() {
+		return new PowerUpNull ();
 	}
 }

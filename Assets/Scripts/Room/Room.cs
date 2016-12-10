@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Room : MonoBehaviour {
 
+	public int ID;
     public int width;
     public int height;
 
@@ -11,6 +12,8 @@ public class Room : MonoBehaviour {
     public GameObject floorPrefab;
     public GameObject floorNearWallPrefab;
     public GameObject wallTopPrefab;
+
+	public RoomPlan RoomPlan;
 
     void Start () 
     {
@@ -53,4 +56,12 @@ public class Room : MonoBehaviour {
         wallTopTile.transform.localScale = new Vector3(0.1f, height + 0.72f, 1);
         wallTopTile.transform.localPosition = new Vector3(-0.45f, height / 2f + 0.19f, 0);
     }
+
+	public void Update() {
+
+	}
+
+	public void UnlockDoors() {
+		throw new System.NotImplementedException ();
+	}
 }

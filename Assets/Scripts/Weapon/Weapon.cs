@@ -6,16 +6,6 @@ public class Weapon : MonoBehaviour {
 
     public int Tier;
     public WeaponTypes Type;
-    public int DmgMod;
-
-    
+	public Roll roll;
 
 }
-
-public enum WeaponTypes
-{
-    Sword,
-    Lance,
-    Hammer,
-    PickAxe
-};

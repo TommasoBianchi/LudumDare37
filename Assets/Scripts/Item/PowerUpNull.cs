@@ -13,4 +13,20 @@ public class PowerUpNull : PowerUp {
 	void Update () {
 		
 	}
+
+	public void OnPickup () {
+		throw new System.NotImplementedException ();
+	}
+
+	public void OnStart() {
+		throw new System.NotImplementedException ();
+	}
+
+	public void OnFinish() {
+		throw new System.NotImplementedException ();
+	}
+
+	public void OnAttack() {
+		throw new System.NotImplementedException ();
+	}
 }
