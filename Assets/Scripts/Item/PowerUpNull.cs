@@ -8,19 +8,19 @@ public class PowerUpNull : PowerUp {
 		this.Duration = 10;
 	}
 
-	public void OnPickup () {
-		throw new System.NotImplementedException ();
-	}
-
 	public void OnStart() {
-		throw new System.NotImplementedException ();
+		
 	}
 
 	public void OnFinish() {
-		throw new System.NotImplementedException ();
+		
 	}
 
 	public void OnAttack() {
-		throw new System.NotImplementedException ();
+		
+	}
+
+	public bool IsNull() {
+		return true;
 	}
 }

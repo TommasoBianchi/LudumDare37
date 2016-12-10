@@ -21,18 +21,20 @@ public class PowerUpSpeed : PowerUp {
 	}
 
 	public void OnPickup () {
-		throw new System.NotImplementedException ();
+		
 	}
 
 	public void OnStart() {
-		throw new System.NotImplementedException ();
+		PlayerController pc = Globals.GetPlayerController();
+		pc.Speed = Constants.PLAYER_BASE_SPEED * this.mult;
 	}
 
 	public void OnFinish() {
-		throw new System.NotImplementedException ();
+		PlayerController pc = Globals.GetPlayerController();
+		pc.Speed = Constants.PLAYER_BASE_SPEED;
 	}
 
 	public void OnAttack() {
-		throw new System.NotImplementedException ();
+		
 	}
 }
