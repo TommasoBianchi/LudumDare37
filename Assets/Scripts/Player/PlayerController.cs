@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-    public int Speed;
+    public float Speed;
     public int Life;
 	public Weapon Weapon;
 	public PowerUpManager PowerUpManager;
@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour {
      
 	// Use this for initialization
 	void Start () {
+        this.Speed = Constants.PLAYER_BASE_SPEED;
 		this.Weapon = WeaponFactory.GetWeapon (1);
         this.PowerUpManager = new PowerUpManager();
         this.PowerUpManager.SetPowerUp(PowerUpFactory.GetPowerUpNull());
@@ -41,7 +42,7 @@ public class PlayerController : MonoBehaviour {
     {
         animator.SetFloat("AnimationSpeed", Speed);
 
-        if (Movement.sqrMagnitude > 0)
+        if (Movement.sqrMagnitude > 0.01f)
         {
             if (Mathf.Abs(Movement.x) > Mathf.Abs(Movement.y))
             {

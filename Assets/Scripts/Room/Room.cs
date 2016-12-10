@@ -12,15 +12,25 @@ public class Room : MonoBehaviour {
     public GameObject floorPrefab;
     public GameObject floorNearWallPrefab;
     public GameObject wallTopPrefab;
+    public GameObject doorPrefab;
 
 	public RoomPlan RoomPlan;
 
+    public Door topDoor { get; private set; }
+    public Door bottomDoor { get; private set; }
+
+    private static bool firstRoom = true;
+
     void Start () 
     {
-        Generate();
+        if (firstRoom)
+        {
+            Generate();
+            firstRoom = false;
+        }
 	}
 
-    void Generate()
+    public void Generate()
     {
         for (int x = 0; x < width; x++)
         {
@@ -31,12 +41,20 @@ public class Room : MonoBehaviour {
             }
         }
 
+        int topDoorPositionX = Random.Range(1, width - 1);
+        int bottomDoorPositionX = Random.Range(1, width - 1);
+
         for (int x = 0; x < width; x++)
         {
-            GameObject wallTile = Instantiate(wallPrefab, transform) as GameObject;
+            GameObject wallTile = Instantiate((x == topDoorPositionX) ? doorPrefab : wallPrefab, transform) as GameObject;
             wallTile.transform.localPosition = new Vector3(x, height, 0);
-            wallTile = Instantiate(wallPrefab, transform) as GameObject;
+            if (x == topDoorPositionX)
+                topDoor = wallTile.GetComponent<Door>();
+
+            wallTile = Instantiate((x == bottomDoorPositionX) ? doorPrefab : wallPrefab, transform) as GameObject;
             wallTile.transform.localPosition = new Vector3(x, -0.65f, 0);
+            if (x == bottomDoorPositionX)
+                bottomDoor = wallTile.GetComponent<Door>();
         }
 
         // Top
@@ -55,13 +73,25 @@ public class Room : MonoBehaviour {
         wallTopTile = Instantiate(wallTopPrefab, transform) as GameObject;
         wallTopTile.transform.localScale = new Vector3(0.1f, height + 0.72f, 1);
         wallTopTile.transform.localPosition = new Vector3(-0.45f, height / 2f + 0.19f, 0);
+
+        // Instantiate next room
+        topDoor.linkedRoom = (Instantiate(transform.gameObject, transform.position + Vector3.up * 100, Quaternion.identity) as GameObject).GetComponent<Room>();
     }
 
-	public void Update() {
+    float timer = 0;
+    bool doorsLocked = true;
 
+	public void Update() {
+        timer += Time.deltaTime;
+        if (timer > 15 && doorsLocked)
+        {
+            doorsLocked = false;
+            UnlockDoors();
+        }
 	}
 
 	public void UnlockDoors() {
-		throw new System.NotImplementedException ();
+        topDoor.Open();
+        bottomDoor.Open();
 	}
 }

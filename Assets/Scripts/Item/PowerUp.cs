@@ -17,18 +17,16 @@ public class PowerUp : MonoBehaviour, Item {
 	}
 		
 	public void OnPickup () {
-		throw new System.NotImplementedException ();
+		Globals.GetPlayerController().PowerUpManager.SetPowerUp(this);
 	}
 
-	public void OnStart() {
-		throw new System.NotImplementedException ();
-	}
+	public void OnStart() {}
 
-	public void OnFinish() {
-		throw new System.NotImplementedException ();
-	}
+	public void OnFinish() {}
 
-	public void OnAttack() {
-		throw new System.NotImplementedException ();
+	public void OnAttack() {}
+
+	public bool IsNull() {
+		return false;
 	}
 }
