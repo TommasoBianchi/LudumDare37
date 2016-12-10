@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class Recipe {
 
-    public List <Weapon> weapons;
+    public WeaponData weaponData;
     public List<KeyValuePair<ResourceType, int>> resources;
 
+    public Recipe(WeaponData wd, List<KeyValuePair<ResourceType, int>> r) {
+        this.weaponData = wd;
+        this.resources = r;
+    }
+
+    /*
     public List<TypeArmi> createListArmiRecipe() {
         Random random = new Random();
 
@@ -59,7 +65,7 @@ public class Recipe {
             }
         }
     
-    }
+    }*/
      /* Questo pezzo di codice è per accedere ai dati delle classi
       * foreach(TypeArmi temp in *nome della lista){
             temp.tier;

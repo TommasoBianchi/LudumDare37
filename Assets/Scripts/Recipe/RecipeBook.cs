@@ -11,7 +11,7 @@ public class RecipeBook : MonoBehaviour {
 		
 	}
 
-	public RecipeBook GetInstance() {
+	public static RecipeBook GetInstance() {
 		if (recipeBook == null) {
 			recipeBook = new RecipeBook ();
 		}
@@ -29,6 +29,13 @@ public class RecipeBook : MonoBehaviour {
 	}
 
 	public static void Randomize() {
-		throw new System.NotImplementedException ();
+		List<Recipe> recipeList = new List<Recipe>();
+
+		WeaponData wd = new WeaponData(WeaponType.Sword, 1, Roll.None);
+		List<KeyValuePair<ResourceType, int>> resList = new List<KeyValuePair<ResourceType, int>>();
+		resList.Add(new KeyValuePair<ResourceType, int>(ResourceType.Wood, 1));
+		recipeList.Add(new Recipe(wd, resList));
+
+		GetInstance().Recipes = recipeList;
 	}
 }

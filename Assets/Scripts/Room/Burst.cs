@@ -6,10 +6,10 @@ using UnityEngine;
 public class Burst : IComparable<Burst> {
 
     public float time { get; private set; }
-    public List<Enemy> enemies { get; private set; }
+    public List<EnemyData> enemies { get; private set; }
     public Vector2 position { get; private set; }
 
-    public Burst(float time, List<Enemy> enemies, Vector2 position)
+    public Burst(float time, List<EnemyData> enemies, Vector2 position)
     {
         this.time = time;
         this.enemies = enemies;

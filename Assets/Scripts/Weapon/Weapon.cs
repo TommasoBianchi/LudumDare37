@@ -4,20 +4,10 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour {
 
-    public int Tier;
-    public WeaponType Type;
-	public Roll Roll; //SOLO PER IL CRAFT
+    public WeaponData weaponData;
 
     //Costruttore per quando si crea l'arma
-	public Weapon(WeaponType type, int tier, Roll roll) {
-		this.Type = type;
-		this.Tier = tier;
-		this.Roll = roll;
+	public Weapon(WeaponData wd) {
+		this.weaponData = wd;
 	}
-
-    //Costruttore per la ricetta
-    public Weapon(WeaponType type, int tier) {
-        this.Type = type;
-        this.Tier = tier;
-    }
 }

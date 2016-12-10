@@ -2,21 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerUpSpeed : PowerUp {
+public class PowerUpDataSpeed : PowerUpData {
 
 	private float mult;
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-	public PowerUpSpeed(float mult) {
+	public PowerUpDataSpeed(float mult) {
 		this.mult = mult;
 	}
 

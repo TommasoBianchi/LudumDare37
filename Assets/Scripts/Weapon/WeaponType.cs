@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum WeaponType {
 	Sword,
-	Lance,
+	Umbrella,
 	Hammer,
 	PickAxe
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PowerUp : MonoBehaviour, Item {
 
-	public float Duration;
+	public PowerUpData PowerUpData;
 
 	// Use this for initialization
 	void Start () {
@@ -17,7 +17,7 @@ public class PowerUp : MonoBehaviour, Item {
 	}
 		
 	public void OnPickup () {
-		Globals.GetPlayerController().PowerUpManager.SetPowerUp(this);
+		Globals.GetPlayerController().PowerUpManager.SetPowerUp(this.PowerUpData);
 	}
 
 	public void OnStart() {}
