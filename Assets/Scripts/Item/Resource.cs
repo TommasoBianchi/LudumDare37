@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Resource : MonoBehaviour {
 
+	public ResourceType type;
+
 	// Use this for initialization
 	void Start () {
 		

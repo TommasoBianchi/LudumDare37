@@ -2,15 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Burst : MonoBehaviour {
+public class Burst {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+	public float time;
+	public List<Enemy> enemies;
+	public Vector2 position;
+
 }

@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour {
 
-	public string name;
-	public List<WeaponType> weaknesses;
-	public List<WeaponType> resistences;
-	public int life;
-	public PowerUp powerUp;
-	public float scale;
-	public Color colorOverlay;
+	public string Name;
+	public List<WeaponType> Weaknesses;
+	public List<WeaponType> Resistences;
+	public int Life;
+
+	private PowerUp powerUp;
+	private float scale;
+	private Color colorOverlay;
 
 	// Use this for initialization
 	void Start () {

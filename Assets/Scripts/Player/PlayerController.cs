@@ -5,11 +5,11 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
     public int Speed;
-    public int Vita;
-    public WeaponTypes WeaponType;
-    public float Damage;
+    public int Life;
+	public Weapon Weapon;
+	public PowerUpManager PowerUpManager;
 
-    private int MaxVita;
+    private int MaxLife;
     private Animator animator;
      
 	// Use this for initialization

@@ -2,15 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponFactory : MonoBehaviour {
+public class WeaponFactory {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+	public static Weapon GetWeapon() {
+		throw new System.NotImplementedException ();
 	}
 }
