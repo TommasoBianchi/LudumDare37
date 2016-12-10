@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface Item {
 
-	public void OnPickup();
+	void OnPickup();
 
 }

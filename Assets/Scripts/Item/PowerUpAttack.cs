@@ -34,6 +34,6 @@ public class PowerUpAttack : PowerUp {
 	public void OnAttack() {
 		GameObject player = Globals.GetPlayer();
 		Vector3 effectPos = player.transform.position + player.transform.forward;
-		Instantiate(effect, effectPos);
+		Instantiate(effect, effectPos, Quaternion.identity);
 	}
 }
