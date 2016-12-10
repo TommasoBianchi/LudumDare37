@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class TypeMateriali {
 
-    string typeMateriale;
-    int num;
-    public TypeMateriali(string typeMateriale, int num)
+    public ResourceType typeMateriale;
+    public int num;
+    public TypeMateriali(ResourceType typeMateriale, int num)
     {
         this.typeMateriale = typeMateriale;
         this.num = num;

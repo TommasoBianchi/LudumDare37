@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Recipe {
 
-    public Weapon Weapon;
+    public Weapon weapon;
     public List<KeyValuePair<ResourceType, int>> resources;
 
     public List<TypeArmi> createListArmiRecipe() {
@@ -15,19 +15,20 @@ public class Recipe {
         int numTypeMateriali = 6;
         int numTypeArmi = 4;
 
-        string[] nomiArmi = new string[numTypeArmi];
-        nomiArmi[0] = "spada";
-        nomiArmi[1] = "picca";
-        nomiArmi[2] = "martello";
-        nomiArmi[3] = "lancia";
-        
-        string[] colori = new string[numTypeMateriali];
-        colori[0] = "rosso";
-        colori[1] = "blu";
-        colori[2] = "giallo";
-        colori[3] = "viola";
-        colori[4] = "verde";
-        colori[5] = "magenta";
+        WeaponType[] wType = new WeaponType[numTypeArmi];
+        wType[0] = WeaponType.Sword;
+        wType[1] = WeaponType.PickAxe;
+        wType[2] = WeaponType.Lance;
+        wType[3] = WeaponType.Hammer;
+
+
+        ResourceType[] rType = new ResourceType[numTypeMateriali];
+        rType[0] = ResourceType.Wood;
+        rType[1] = ResourceType.Rock;
+        rType[2] = ResourceType.Bronze;
+        rType[3] = ResourceType.Iron;
+        rType[4] = ResourceType.Adamantium;
+        rType[5] = ResourceType.Cryptonite;
 
         List<TypeArmi> armi = new List<TypeArmi>();
         List<Combinazioni> combinazioni = new List<Combinazioni>();
@@ -37,17 +38,30 @@ public class Recipe {
             baseMateriali = baseMateriali+25;
             for(int j=0;j<numTypeArmi;j++){
                 //System.out.println("tier: "+i);
-                TypeArmi arma = new TypeArmi(nomiArmi[j], i);
-                Combinazioni comb = arma.setMateriale(colori,i+1, baseMateriali, combinazioni);
+                TypeArmi arma = new TypeArmi(wType[j], i);
+                Combinazioni comb = arma.setMateriale(rType,i+1, baseMateriali, combinazioni);
                 combinazioni.Add(comb);
                 armi.Add(arma);
                 cont++;
             }
         }
         return armi;
-    }       
+    }
 
-     /*foreach(TypeArmi temp in *nome della lista){
+    //Costruttore delle ricette, setta 
+    public Recipe() {
+
+        List<TypeArmi> armi = createListArmiRecipe();
+        foreach (TypeArmi temp in armi) {
+            weapon = new Weapon(temp.tipoArma, temp.tier);
+            foreach (TypeMateriali mTemp in temp.materiali) {
+                resources.Add(new KeyValuePair<ResourceType, int>(mTemp.typeMateriale, mTemp.num));
+            }
+        }
+    
+    }
+     /* Questo pezzo di codice è per accedere ai dati delle classi
+      * foreach(TypeArmi temp in *nome della lista){
             temp.tier;
             temp.tipoArma;
             foreach(TypeMateriali matTemp in temp.materiali){
