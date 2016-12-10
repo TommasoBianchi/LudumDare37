@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour {
     {
         animator.SetFloat("AnimationSpeed", Speed);
 
-        if (Movement.sqrMagnitude > 0)
+        if (Movement.sqrMagnitude > 0.01f)
         {
             if (Mathf.Abs(Movement.x) > Mathf.Abs(Movement.y))
             {

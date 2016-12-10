@@ -16,15 +16,21 @@ public class Room : MonoBehaviour {
 
 	public RoomPlan RoomPlan;
 
-    private Door topDoor;
-    private Door bottomDoor;
+    public Door topDoor { get; private set; }
+    public Door bottomDoor { get; private set; }
+
+    private static bool firstRoom = true;
 
     void Start () 
     {
-        Generate();
+        if (firstRoom)
+        {
+            Generate();
+            firstRoom = false;
+        }
 	}
 
-    void Generate()
+    public void Generate()
     {
         for (int x = 0; x < width; x++)
         {
@@ -67,10 +73,21 @@ public class Room : MonoBehaviour {
         wallTopTile = Instantiate(wallTopPrefab, transform) as GameObject;
         wallTopTile.transform.localScale = new Vector3(0.1f, height + 0.72f, 1);
         wallTopTile.transform.localPosition = new Vector3(-0.45f, height / 2f + 0.19f, 0);
+
+        // Instantiate next room
+        topDoor.linkedRoom = (Instantiate(transform.gameObject, transform.position + Vector3.up * 100, Quaternion.identity) as GameObject).GetComponent<Room>();
     }
 
-	public void Update() {
+    float timer = 0;
+    bool doorsLocked = true;
 
+	public void Update() {
+        timer += Time.deltaTime;
+        if (timer > 15 && doorsLocked)
+        {
+            doorsLocked = false;
+            UnlockDoors();
+        }
 	}
 
 	public void UnlockDoors() {
