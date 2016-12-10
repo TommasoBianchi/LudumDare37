@@ -12,8 +12,12 @@ public class Room : MonoBehaviour {
     public GameObject floorPrefab;
     public GameObject floorNearWallPrefab;
     public GameObject wallTopPrefab;
+    public GameObject doorPrefab;
 
 	public RoomPlan RoomPlan;
+
+    private Door topDoor;
+    private Door bottomDoor;
 
     void Start () 
     {
@@ -31,12 +35,20 @@ public class Room : MonoBehaviour {
             }
         }
 
+        int topDoorPositionX = Random.Range(1, width - 1);
+        int bottomDoorPositionX = Random.Range(1, width - 1);
+
         for (int x = 0; x < width; x++)
         {
-            GameObject wallTile = Instantiate(wallPrefab, transform) as GameObject;
+            GameObject wallTile = Instantiate((x == topDoorPositionX) ? doorPrefab : wallPrefab, transform) as GameObject;
             wallTile.transform.localPosition = new Vector3(x, height, 0);
-            wallTile = Instantiate(wallPrefab, transform) as GameObject;
+            if (x == topDoorPositionX)
+                topDoor = wallTile.GetComponent<Door>();
+
+            wallTile = Instantiate((x == bottomDoorPositionX) ? doorPrefab : wallPrefab, transform) as GameObject;
             wallTile.transform.localPosition = new Vector3(x, -0.65f, 0);
+            if (x == bottomDoorPositionX)
+                bottomDoor = wallTile.GetComponent<Door>();
         }
 
         // Top
@@ -62,6 +74,7 @@ public class Room : MonoBehaviour {
 	}
 
 	public void UnlockDoors() {
-		throw new System.NotImplementedException ();
+        topDoor.Open();
+        bottomDoor.Open();
 	}
 }
