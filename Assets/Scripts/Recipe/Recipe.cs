@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Recipe {
 
-    public Weapon weapon;
+    public List <Weapon> weapons;
     public List<KeyValuePair<ResourceType, int>> resources;
 
     public List<TypeArmi> createListArmiRecipe() {
@@ -53,7 +53,7 @@ public class Recipe {
 
         List<TypeArmi> armi = createListArmiRecipe();
         foreach (TypeArmi temp in armi) {
-            weapon = new Weapon(temp.tipoArma, temp.tier);
+            weapons.Add(new Weapon(temp.tipoArma, temp.tier));
             foreach (TypeMateriali mTemp in temp.materiali) {
                 resources.Add(new KeyValuePair<ResourceType, int>(mTemp.typeMateriale, mTemp.num));
             }
