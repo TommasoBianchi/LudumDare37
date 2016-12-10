@@ -7,6 +7,6 @@ public class Resource : Item {
 	public ResourceType type;
 
 	public void OnPickup() {
-		
+		Globals.GetPlayerController().AddResource(this);
 	}
 }

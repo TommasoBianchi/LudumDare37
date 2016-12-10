@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour {
     public int Life;
 	public Weapon Weapon;
 	public PowerUpManager PowerUpManager;
+    public List<KeyValuePair<ResourceType, int>> resources;
 
     private int MaxLife;
     private Animator animator;
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour {
 		this.Weapon = WeaponFactory.GetWeapon (1);
         this.PowerUpManager = new PowerUpManager();
         this.PowerUpManager.SetPowerUp(PowerUpFactory.GetPowerUpNull());
+        this.resources = new List<KeyValuePair<ResourceType, int>>();
         animator = GetComponent<Animator>();
     }
 	
@@ -63,5 +65,23 @@ public class PlayerController : MonoBehaviour {
         {
             animator.SetInteger("Direction", -1); // idle
         }
+    }
+
+    public void AddResource(Resource resource) {
+        bool found = false;
+        for (int i = 0; i < this.resources.Count; i++) {
+            KeyValuePair<ResourceType, int> pair = this.resources[i];
+            if (resource.type == pair.Key) {
+                found = true;
+                this.resources[i] = new KeyValuePair<ResourceType, int>(pair.Key, pair.Value + 1);
+            }
+        }
+        if (found) {
+            this.resources.Add(new KeyValuePair<ResourceType, int>(resource.type, 1));
+        }
+    }
+
+    public void ClearResources() {
+        this.resources = new List<KeyValuePair<ResourceType, int>>();
     }
 }
