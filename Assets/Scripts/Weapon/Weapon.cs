@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapons : MonoBehaviour {
+public class Weapon : MonoBehaviour {
 
     public int Tier;
     public WeaponTypes Type;
