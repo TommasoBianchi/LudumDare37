@@ -1,8 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class WeaponFactory : MonoBehaviour {
+
+	public List<Weapon> weapons;
+
 	private static WeaponFactory instance;
 
 	public static WeaponFactory getInstance() {
@@ -13,9 +17,29 @@ public class WeaponFactory : MonoBehaviour {
 		instance = this;
 	}
 
-	public static Weapon GetWeapon(int tier) {
+	public static WeaponData GetWeapon(int tier) {
 		WeaponType wt = RandomEnumPicker.GetRandomWeaponType();
 		Roll roll = RandomEnumPicker.GetRandomRollType();
-		return new Weapon (wt, tier, roll);
+		WeaponData wd = new WeaponData(wt, tier, roll);
+		return wd;
+	}
+
+	public GameObject InstantiateShot(WeaponData weaponData, Vector3 position, Quaternion rotation) {
+		Array values = Enum.GetValues(typeof(WeaponType));
+		int pos = 0;
+		for (int i = 0; i < values.Length; i++)
+		{
+			if ((WeaponType)values.GetValue(i) == weaponData.Type) {
+				pos = i;
+				break;
+			}
+		}
+
+		Weapon weapon = this.weapons[pos];
+
+        GameObject weaponObj = Instantiate(weapon.gameObject, position, rotation) as GameObject;
+		weaponObj.GetComponent<Weapon>().weaponData = weaponData;
+
+        return weaponObj;
 	}
 }

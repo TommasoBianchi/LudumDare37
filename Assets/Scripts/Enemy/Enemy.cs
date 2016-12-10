@@ -4,14 +4,10 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour {
 
-	public string Name;
 	public List<WeaponType> Weaknesses;
 	public List<WeaponType> Resistences;
 	public int Life;
-
-	public PowerUp PowerUp = PowerUpFactory.GetPowerUpNull();
-	public float Scale;
-	public Material MaterialOverlay;
+	public PowerUpData PowerUpData = PowerUpFactory.GetPowerUpNull();
 
 	void Start () {
 		

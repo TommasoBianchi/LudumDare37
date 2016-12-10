@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnemyFactory : MonoBehaviour {
 
-	public List<PowerUp> powerUps;
 	public List<Enemy> enemies;
 	public List<Enemy> bosses;
 
@@ -19,26 +18,26 @@ public class EnemyFactory : MonoBehaviour {
         instance = this;
     }
 
-    public Enemy getEnemy(int roomID, float lifeModifier)
+    public EnemyData getEnemy(int roomID, float lifeModifier)
     {
-		Enemy enemy = getRandomEnemy();
+		EnemyData enemyData = new EnemyData();
+        
+        enemyData.type = getRandomEnemyIndex();
+        WeaponData currentPlayerWeapon = Globals.GetPlayerController().WeaponData;
+        enemyData.Life = Mathf.RoundToInt((27 + (currentPlayerWeapon.Tier * 5)) * 5 / (dmg_calc(roomID, currentPlayerWeapon, enemyData)) * lifeModifier);
+		addWeaknessesAndResistences(enemyData);
+		enemyData.PowerUpData = PowerUpFactory.getInstance().GetRandomPowerUp();
+		enemyData.Scale = Random.Range(Constants.ENEMY_MIN_SCALE, Constants.ENEMY_MAX_SCALE);
+		addRandomColorOverlay(enemyData);
 
-        Weapon currentPlayerWeapon = Globals.GetPlayerController().Weapon;
-        enemy.Life = Mathf.RoundToInt((27 + (currentPlayerWeapon.Tier * 5)) * 5 / (dmg_calc(roomID, currentPlayerWeapon, enemy)) * lifeModifier); ;
-		addWeaknessesAndResistences(enemy);
-		enemy.PowerUp = PowerUpFactory.getInstance().GetRandomPowerUp();
-		enemy.Scale = Random.Range(Constants.ENEMY_MIN_SCALE, Constants.ENEMY_MAX_SCALE);
-		addRandomMaterialOverlay(enemy);
-
-		return enemy;
+		return enemyData;
 	}
 
-	private Enemy getRandomEnemy() {
-		int enemyIndex = Random.Range(0, instance.enemies.Count);
-        return instance.enemies[enemyIndex];
+	private int getRandomEnemyIndex() {
+		return Random.Range(0, instance.enemies.Count);
 	}
 
-	private void addWeaknessesAndResistences(Enemy enemy) {
+	private void addWeaknessesAndResistences(EnemyData enemy) {
 		WeaponType wt1 = RandomEnumPicker.GetRandomWeaponType();
 		WeaponType wt2;
 		do {
@@ -49,33 +48,31 @@ public class EnemyFactory : MonoBehaviour {
 		enemy.Resistences.Add(wt2);
 	}
 
-	private void addRandomMaterialOverlay(Enemy enemy) {
-		Material m = new Material("Sprites_Default");
-		m.SetColor("_TintColor", new Color(
+	private void addRandomColorOverlay(EnemyData enemyData) {
+		enemyData.ColorOverlay = new Color(
 			Random.RandomRange(0.0f, 1.0f),
 			Random.RandomRange(0.0f, 1.0f),
 			Random.RandomRange(0.0f, 1.0f)
-		));
+		);
 	}
 
-	public Enemy getBoss(int roomID, float lifeModifier) {
-		Enemy boss = getRandomBoss();
+	public EnemyData getBoss(int roomID, float lifeModifier) {
+		EnemyData bossData = new EnemyData();
+        
+        bossData.type = getRandomBossIndex();
+        WeaponData currentPlayerWeapon = Globals.GetPlayerController().WeaponData;
+        bossData.Life = Mathf.RoundToInt((27 + (currentPlayerWeapon.Tier * 5)) * 5 / (dmg_calc(roomID, currentPlayerWeapon, bossData)));
+		bossData.PowerUpData = PowerUpFactory.getInstance().GetRandomPowerUp();
+		bossData.Scale = Random.Range(Constants.ENEMY_MIN_SCALE, Constants.ENEMY_MAX_SCALE);
+		addRandomColorOverlay(bossData);
 
-        Weapon currentPlayerWeapon = Globals.GetPlayerController().Weapon;
-        boss.Life = Mathf.RoundToInt((27 + (currentPlayerWeapon.Tier * 5)) * 5 / (dmg_calc(roomID, currentPlayerWeapon, boss)) * lifeModifier);
-		addWeaknessesAndResistences(boss);
-		boss.PowerUp = PowerUpFactory.getInstance().GetRandomPowerUp();
-		boss.Scale = Random.Range(Constants.ENEMY_MIN_SCALE, Constants.ENEMY_MAX_SCALE);
-		addRandomMaterialOverlay(boss);
-
-		return boss;
+		return bossData;
 	}
 
-	private Enemy getRandomBoss() {
-        int bossIndex = Random.Range(0, instance.bosses.Count);
-        return instance.bosses[bossIndex];
+	private int getRandomBossIndex() {
+        return Random.Range(0, instance.bosses.Count);
 	}
-    private float dmg_calc(int liv, Weapon arma, Enemy enemy)
+    private float dmg_calc(int liv, WeaponData arma, EnemyData enemy)
     {
         float dmg_modif;
         int oldupper = 0;
@@ -118,5 +115,19 @@ public class EnemyFactory : MonoBehaviour {
         }
 
         return dmg_modif;
+    }
+
+    public GameObject InstantiateEnemy(EnemyData enemyData, Vector2 position, Quaternion rotation) {
+        Enemy enemy = this.enemies[enemyData.type];
+
+        GameObject enemyObj = Instantiate(enemy.gameObject, position, rotation) as GameObject;
+        enemyObj.transform.transform.localScale = new Vector3(enemyData.Scale, enemyData.Scale, enemyData.Scale);
+        enemyObj.GetComponent<Enemy>().Life = enemyData.Life;
+        enemyObj.GetComponent<SpriteRenderer>().material.SetColor("_TintColor", enemyData.ColorOverlay);
+        enemyObj.GetComponent<Enemy>().Weaknesses = enemyData.Weaknesses;
+        enemyObj.GetComponent<Enemy>().Resistences = enemyData.Resistences;
+        enemyObj.GetComponent<Enemy>().PowerUpData = enemyData.PowerUpData;
+
+        return enemyObj;
     }
 }

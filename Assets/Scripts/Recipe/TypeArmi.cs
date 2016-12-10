@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TypeArmi {
+public class TypeArmi {/*
     public WeaponType tipoArma;
     public TypeMateriali[] materiali;
     public int tier;
@@ -51,5 +51,5 @@ public class TypeArmi {
             
         }
        return comb;
-    }
+    }*/
 }

@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour {
 
     public float Speed;
     public int Life;
-	public Weapon Weapon;
+	public WeaponData WeaponData;
 	public PowerUpManager PowerUpManager;
     public List<KeyValuePair<ResourceType, int>> resources;
 
@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         this.Speed = Constants.PLAYER_BASE_SPEED;
-		this.Weapon = WeaponFactory.GetWeapon (1);
+		this.WeaponData = WeaponFactory.GetWeapon (1);
         this.PowerUpManager = new PowerUpManager();
         this.PowerUpManager.SetPowerUp(PowerUpFactory.GetPowerUpNull());
         this.resources = new List<KeyValuePair<ResourceType, int>>();

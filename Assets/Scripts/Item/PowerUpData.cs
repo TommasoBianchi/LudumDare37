@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerUpNull : PowerUp {
+public class PowerUpData {
 
-	public PowerUpNull() {
-		this.Duration = 10;
-	}
+	public int type; // attack == 0; speed == 1; none == 2;
+	public float Duration;
+	public float mult;
 
 	public void OnStart() {
 		
@@ -18,9 +18,5 @@ public class PowerUpNull : PowerUp {
 
 	public void OnAttack() {
 		
-	}
-
-	public bool IsNull() {
-		return true;
 	}
 }

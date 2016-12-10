@@ -2,22 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerUpAttack : PowerUp {
+public class PowerUpDataAttack : PowerUpData {
 
 	private float mult;
-	private ParticleEmitter effect;
+	//private ParticleEmitter effect;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-	public PowerUpAttack(float mult) {
+	public PowerUpDataAttack(float mult) {
 		this.mult = mult;
 	}
 
@@ -32,8 +22,8 @@ public class PowerUpAttack : PowerUp {
 	}
 
 	public void OnAttack() {
-		GameObject player = Globals.GetPlayer();
+		/*GameObject player = Globals.GetPlayer();
 		Vector3 effectPos = player.transform.position + player.transform.up;
-		Instantiate(effect, effectPos, Quaternion.identity);
+		Instantiate(effect, effectPos, Quaternion.identity);*/
 	}
 }

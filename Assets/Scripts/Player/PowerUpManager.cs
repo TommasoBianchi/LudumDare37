@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class PowerUpManager {
 
-	private PowerUp currentPowerUp;
+	private PowerUpData currentPowerUp;
 	private float activationTime = 0;
 	private float totalDeltaTime = 0;
 	
-	public void SetPowerUp(PowerUp powerUp) {
+	public void SetPowerUp(PowerUpData powerUp) {
 		this.currentPowerUp = powerUp;
 	}
 
-	public PowerUp GetPowerUp() {
+	public PowerUpData GetPowerUp() {
 		return this.currentPowerUp;
 	}
 

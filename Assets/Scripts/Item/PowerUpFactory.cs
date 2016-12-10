@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PowerUpFactory : MonoBehaviour {
 
+	public List<PowerUp> powerUps;
+
 	private static PowerUpFactory instance;
 
 	public static PowerUpFactory getInstance() {
@@ -14,31 +16,51 @@ public class PowerUpFactory : MonoBehaviour {
 		instance = this;
 	}
 
-	public PowerUp GetRandomPowerUp() {
+	public PowerUpData GetRandomPowerUp() {
 		int num = Random.Range(0, 100);
-		PowerUp powerUp = GetPowerUpNull();
+		PowerUpData powerUpData = GetPowerUpNull();
 
 		if (num <= 10) {
-			powerUp = GetPowerUpAttack();
+			powerUpData = GetPowerUpAttack();
 		}
 		else if (num <= 20) {
-			powerUp = GetPowerUpSpeed();
+			powerUpData = GetPowerUpSpeed();
 		}
 
-		return powerUp;
+		return powerUpData;
 	}
 
-	public PowerUp GetPowerUpSpeed() {
+	public PowerUpData GetPowerUpSpeed() {
 		float mult = Random.Range(Constants.POWER_UP_MIN_SPEED_MULT, Constants.POWER_UP_MAX_SPEED_MULT);
-		return new PowerUpSpeed (mult);
+		PowerUpData powerUpData = new PowerUpData();
+		powerUpData.type = 1;
+		powerUpData.Duration = 5;
+		powerUpData.mult = mult;
+		return powerUpData;
 	}
 
-	public PowerUp GetPowerUpAttack() {
+	public PowerUpData GetPowerUpAttack() {
 		float mult = Random.Range(Constants.POWER_UP_MIN_ATTACK_MULT, Constants.POWER_UP_MAX_ATTACK_MULT);
-		return new PowerUpAttack (mult);
+		PowerUpData powerUpData = new PowerUpData();
+		powerUpData.type = 0;
+		powerUpData.Duration = 5;
+		powerUpData.mult = mult;
+		return powerUpData;
 	}
 
-	public static PowerUp GetPowerUpNull() {
-		return new PowerUpNull ();
+	public static PowerUpData GetPowerUpNull() {
+		PowerUpData powerUpData = new PowerUpData();
+		powerUpData.type = 2;
+		powerUpData.Duration = 100;
+		return powerUpData;
+	}
+
+	public GameObject InstantiatePowerUp(PowerUpData powerUpData, Vector3 position, Quaternion rotation) {
+		PowerUp powerUp = this.powerUps[powerUpData.type];
+
+        GameObject powerUpObj = Instantiate(powerUp.gameObject, position, rotation) as GameObject;
+		powerUpObj.GetComponent<PowerUp>().PowerUpData = powerUpData;
+
+        return powerUpObj;
 	}
 }
