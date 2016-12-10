@@ -8,7 +8,6 @@ public class Weapon : MonoBehaviour {
     public WeaponType Type;
 	public Roll Roll; //SOLO PER IL CRAFT
 
-
     //Costruttore per quando si crea l'arma
 	public Weapon(WeaponType type, int tier, Roll roll) {
 		this.Type = type;
