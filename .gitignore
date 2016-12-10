@@ -29,5 +29,9 @@ sysinfo.txt
 *.apk
 *.unitypackage
 
+<<<<<<< HEAD
 # DS_Store
+=======
+# DSStore
+>>>>>>> dev
 .DS_Store
