@@ -14,6 +14,8 @@ public class PowerUpFactory {
 		else if (num <= 20) {
 			powerUp = GetPowerUpSpeed();
 		}
+
+		return powerUp;
 	}
 
 	public static PowerUp GetPowerUpSpeed() {

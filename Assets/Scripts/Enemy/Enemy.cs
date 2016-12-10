@@ -9,8 +9,8 @@ public class Enemy : MonoBehaviour {
 	public List<WeaponType> Resistences;
 	public int Life;
 
-	private PowerUp powerUp = PowerUpFactory.GetPowerUpNull();
-	private float scale;
+	public PowerUp PowerUp = PowerUpFactory.GetPowerUpNull();
+	public float Scale;
 	public Material MaterialOverlay;
 
 	// Use this for initialization
