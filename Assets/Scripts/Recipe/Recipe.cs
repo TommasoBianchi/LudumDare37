@@ -46,11 +46,11 @@ public class Recipe {
     }       
 
      /*foreach(TypeArmi temp in *nome della lista){
-            temp.tier;
-            temp.tipoArma;
+            int temp.tier;
+            TypeArmi temp.tipoArma;
             foreach(TypeMateriali matTemp in temp.materiali){
-                matTemp.typeMateriale
-                matTemp.num
+                String matTemp.typeMateriale
+               int matTemp.num
             }
             
         }*/
