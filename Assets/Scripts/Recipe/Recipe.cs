@@ -5,7 +5,7 @@ using UnityEngine;
 public class Recipe {
 
     public Weapon Weapon;
-    public List<KeyValuePair<Resource, int>> resources;
+    public List<KeyValuePair<ResourceType, int>> resources;
 
     public List<TypeArmi> createListArmiRecipe() {
         Random random = new Random();
