@@ -10,12 +10,13 @@ public class PlayerController : MonoBehaviour {
 	public PowerUpManager PowerUpManager;
     public List<KeyValuePair<ResourceType, int>> resources;
 
+    public float fireRate;
+    public GameObject shootPrefab;
+
     private int MaxLife;
     private Animator animator;
      
-	// Use this for initialization
 	void Start () {
-        this.Speed = Constants.PLAYER_BASE_SPEED;
 		this.WeaponData = WeaponFactory.GetWeapon (1);
         this.PowerUpManager = new PowerUpManager();
         this.PowerUpManager.SetPowerUp(PowerUpFactory.GetPowerUpNull());
@@ -23,7 +24,6 @@ public class PlayerController : MonoBehaviour {
         animator = GetComponent<Animator>();
     }
 	
-	// Update is called once per frame
 	void Update () {
         UpdateMovement();
         PowerUpManager.Update();
@@ -38,6 +38,26 @@ public class PlayerController : MonoBehaviour {
         transform.Translate(Movement * Speed * Time.deltaTime, Space.World);
 
         UpdateAnimator(Movement);
+
+        UpdateAttack();
+    }
+
+    private float timer = 0;
+
+    private void UpdateAttack()
+    {
+        if (Input.GetButton("Fire1") && timer <= 0)
+        {
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 mouseDelta = mousePosition - transform.position;
+            mouseDelta.z = 0;
+            Instantiate(shootPrefab, transform.position + mouseDelta.normalized, Quaternion.LookRotation(Vector3.forward, mouseDelta));
+            timer = 1f / fireRate;
+        }
+        else
+        {
+            timer -= Time.deltaTime;
+        }
     }
 
     private void UpdateAnimator(Vector2 Movement)

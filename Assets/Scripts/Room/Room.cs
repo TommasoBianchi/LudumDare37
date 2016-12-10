@@ -84,7 +84,7 @@ public class Room : MonoBehaviour {
 
 	public void Update() {
         RoomPlan.UpdatePlan();
-        if (RoomPlan.IsCleared() && doorsLocked) {
+        if (false && RoomPlan.IsCleared() && doorsLocked) {
             // Instantiate next room
             topDoor.linkedRoom = (Instantiate(transform.gameObject, transform.position + Vector3.up * 100, Quaternion.identity) as GameObject).GetComponent<Room>();
             topDoor.linkedRoom.ID = this.ID + 1;
