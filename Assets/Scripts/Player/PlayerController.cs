@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour {
 	public PowerUpManager PowerUpManager;
     public List<KeyValuePair<ResourceType, int>> resources;
     public LayerMask wallsLayerMask;
-    public GameObject Text;
 
     public float fireRate;
 
@@ -23,6 +22,8 @@ public class PlayerController : MonoBehaviour {
 
     private bool invincible = false;
     private float timeInvincible = 0;
+
+    private Rigidbody2D myRigidbody2D;
      
 	void Start () {
 		this.WeaponData = WeaponFactory.getInstance().GetWeapon(1);
@@ -134,7 +135,7 @@ public class PlayerController : MonoBehaviour {
         {
             Life--;
             if (Life <= 0) {
-                Application.LoadLevel("Test");
+                Application.LoadLevel("MainMenu");
             }
 
             lifeHUD.SetLife(Life, MaxLife);
