@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RoomPlan {
 
-    public List<Resource> loot { get; private set; }
+    public List<ResourceType> loot { get; private set; }
 
     private List<Burst> bursts;
 
@@ -16,7 +16,7 @@ public class RoomPlan {
 
     private Room room;
 
-    public RoomPlan(List<Burst> bursts, List<Resource> loot, Room room)
+    public RoomPlan(List<Burst> bursts, List<ResourceType> loot, Room room)
     {
         this.bursts = bursts;
         bursts.Sort();
