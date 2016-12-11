@@ -373,7 +373,7 @@ public class Room : MonoBehaviour {
             topDoor.linkedRoom.roomPrefab = roomPrefab;
             topDoor.linkedRoom.ID = this.ID + 1;
 
-            Debug.Log("Doors unlocked");
+            //Debug.Log("Doors unlocked");
             UnlockDoors();
             doorsLocked = false;
         }

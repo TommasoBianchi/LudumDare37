@@ -61,7 +61,7 @@ public class EnemyFactory : MonoBehaviour {
         
         bossData.type = getRandomBossIndex();
         WeaponData currentPlayerWeapon = Globals.GetPlayerController().WeaponData;
-        bossData.Life = lifeModifier * Random.Range(3f, 4f) * (((currentPlayerWeapon.Tier * Random.Range(5f, 20f))) + ((roomID * 5) * Random.Range(1f, 1.5f)));//Mathf.RoundToInt((27 + (currentPlayerWeapon.Tier * 5)) * 5 / (dmg_calc(roomID, currentPlayerWeapon, bossData)));
+        bossData.Life = lifeModifier * (((currentPlayerWeapon.Tier * Random.Range(5f, 20f))) + ((roomID * 5) * Random.Range(1f, 1.5f)));//Mathf.RoundToInt((27 + (currentPlayerWeapon.Tier * 5)) * 5 / (dmg_calc(roomID, currentPlayerWeapon, bossData)));
 		bossData.PowerUpData = PowerUpFactory.getInstance().GetRandomPowerUp();
 		bossData.Scale = Random.Range(Constants.ENEMY_MIN_SCALE, Constants.ENEMY_MAX_SCALE);
 		addRandomColorOverlay(bossData);
@@ -73,10 +73,10 @@ public class EnemyFactory : MonoBehaviour {
         return Random.Range(0, instance.bosses.Count);
 	}
 
-    public float calculateDamage(EnemyData enemyData) {
+    public float calculateDamage(Enemy enemy) {
         WeaponData currentPlayerWeapon = Globals.GetPlayerController().WeaponData;
         float baseDamage = currentPlayerWeapon.Tier * 10;
-        float damageModifier = 1f;
+        float damageModifier = Random.Range(0.8f, 1.2f);
 
         switch (currentPlayerWeapon.Roll) {
             case Roll.Strong:
@@ -91,13 +91,13 @@ public class EnemyFactory : MonoBehaviour {
             default:
                 break;
         }
-/*
-        if (enemyData.Weaknesses.Contains(currentPlayerWeapon.Type)) {
+
+        if (enemy.Weaknesses.Contains(currentPlayerWeapon.Type)) {
             damageModifier *= (1 + 0.30f);
         }
-        else if (enemyData.Resistences.Contains(currentPlayerWeapon.Type)) {
+        else if (enemy.Resistences.Contains(currentPlayerWeapon.Type)) {
             damageModifier *= (1 - 0.12f);
-        }*/
+        }
 
         return baseDamage * damageModifier;
     }
@@ -153,13 +153,14 @@ public class EnemyFactory : MonoBehaviour {
         Enemy enemy = this.enemies[enemyData.type];
 
         GameObject enemyObj = Instantiate(enemy.gameObject, position, rotation) as GameObject;
-        enemyObj.transform.transform.localScale = new Vector3(enemyData.Scale, enemyData.Scale, enemyData.Scale);
+        enemyObj.transform.localScale = new Vector3(enemyData.Scale, enemyData.Scale, enemyData.Scale);
         enemyObj.GetComponent<Enemy>().Life = enemyData.Life;
+        enemyObj.GetComponent<Enemy>().MaxLife = enemyData.Life;
+        Debug.Log("Setted max life to " + enemyObj.GetComponent<Enemy>().MaxLife);
         enemyObj.GetComponent<SpriteRenderer>().material.SetColor("_TintColor", enemyData.ColorOverlay);
         enemyObj.GetComponent<Enemy>().Weaknesses = enemyData.Weaknesses;
         enemyObj.GetComponent<Enemy>().Resistences = enemyData.Resistences;
         enemyObj.GetComponent<Enemy>().PowerUpData = enemyData.PowerUpData;
-        enemyObj.GetComponent<Enemy>().enemyData = enemyData;
 
         return enemyObj;
     }

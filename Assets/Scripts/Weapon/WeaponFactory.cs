@@ -35,7 +35,6 @@ public class WeaponFactory : MonoBehaviour {
 			}
 		}
 
-		Debug.Log("pos: " + pos);
 		Weapon weapon = this.weapons[pos];
 
         GameObject weaponObj = Instantiate(weapon.gameObject, position, rotation) as GameObject;
