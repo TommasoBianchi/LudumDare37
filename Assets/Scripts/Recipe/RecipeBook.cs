@@ -2,28 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RecipeBook : MonoBehaviour {
-	private static RecipeBook recipeBook = null;
+public class RecipeBook : MonoBehaviour
+{
 
-	public List<Recipe> Recipes;
+    public List<Recipe> Recipes { get; private set; }
+
+    public RectTransform recipeUIPrefab;
+    public RectTransform whereToSpawnRecipeUI;
+
+	private static RecipeBook recipeBook = null;
 
 	private RecipeBook() {
 		
 	}
 
 	public static RecipeBook GetInstance() {
-		if (recipeBook == null) {
-			recipeBook = new RecipeBook ();
-		}
 		return recipeBook;
 	}
-	
-	// Use this for initialization
-	void Start () {
-		
+
+    void Start()
+    {
+        if (recipeBook == null)
+        {
+            recipeBook = this;
+        }
+
+        Randomize();
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		
 	}
@@ -31,10 +37,19 @@ public class RecipeBook : MonoBehaviour {
 	public static void Randomize() {
 		List<Recipe> recipeList = new List<Recipe>();
 
-		WeaponData wd = new WeaponData(WeaponType.Sword, 1, Roll.None);
-		List<KeyValuePair<ResourceType, int>> resList = new List<KeyValuePair<ResourceType, int>>();
-		resList.Add(new KeyValuePair<ResourceType, int>(ResourceType.Wood, 1));
-		recipeList.Add(new Recipe(wd, resList));
+        List<Weapon> weapons = WeaponFactory.getInstance().weapons;
+
+        for (int i = 0; i < weapons.Count; i++)
+        {
+            for (int tier = 1; tier <= 5; tier++)
+            {
+                Recipe recipe = new Recipe(weapons[i].weaponData, tier);
+
+                recipeList.Add(recipe);
+                GameObject newRecipePanel = Instantiate(recipeBook.recipeUIPrefab.gameObject, recipeBook.whereToSpawnRecipeUI) as GameObject;
+                newRecipePanel.GetComponent<ItemRecipeUI>().SetRecipe(recipe, tier);
+            }
+        }
 
 		GetInstance().Recipes = recipeList;
 	}

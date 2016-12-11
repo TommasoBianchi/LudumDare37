@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class WeaponFactory : MonoBehaviour {
 
@@ -26,17 +27,8 @@ public class WeaponFactory : MonoBehaviour {
 	}
 
 	public GameObject InstantiateShot(WeaponData weaponData, Vector3 position, Quaternion rotation) {
-		Array values = Enum.GetValues(typeof(WeaponType));
-		int pos = 0;
-		for (int i = 0; i < values.Length; i++)
-		{
-			if ((WeaponType)(values.GetValue(i)) == weaponData.Type) {
-				pos = i;
-				break;
-			}
-		}
 
-		Weapon weapon = this.weapons[pos];
+        Weapon weapon = this.weapons.Find(w => w.weaponData.Type == weaponData.Type);
 
         GameObject weaponObj = Instantiate(weapon.gameObject, position, rotation) as GameObject;
 		weaponObj.GetComponent<Weapon>().weaponData = weaponData;

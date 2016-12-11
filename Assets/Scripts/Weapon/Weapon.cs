@@ -10,4 +10,9 @@ public class Weapon : MonoBehaviour {
 	public Weapon(WeaponData wd) {
 		this.weaponData = wd;
 	}
+
+    public override string ToString()
+    {
+        return weaponData.ToString();
+    }
 }
