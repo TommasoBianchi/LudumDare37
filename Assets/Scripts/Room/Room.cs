@@ -104,7 +104,7 @@ public class Room : MonoBehaviour {
             }
         }
 
-        RoomPlan = RoomPlanFactory.getInstance().getRoomPlan(this.ID);
+        RoomPlan = RoomPlanFactory.getInstance().getRoomPlan(this.ID, this);
         RoomPlan.GeneratePlan();
     }
 

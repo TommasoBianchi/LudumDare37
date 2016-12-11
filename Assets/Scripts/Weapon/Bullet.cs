@@ -21,4 +21,10 @@ public class Bullet : MonoBehaviour {
         if (distanceTravelled > Range)
             Destroy(gameObject);
 	}
+
+    void OnTriggerEnter2D(Collider2D other) {
+        if (other.gameObject.layer == 8) { // enemy
+            other.gameObject.GetComponent<Enemy>().Hit(this);
+        }
+    }
 }

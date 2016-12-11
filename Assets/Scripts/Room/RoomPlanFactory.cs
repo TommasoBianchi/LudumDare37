@@ -17,7 +17,7 @@ public class RoomPlanFactory : MonoBehaviour {
         instance = this;
     }
 
-	public RoomPlan getRoomPlan(int roomID) {
+	public RoomPlan getRoomPlan(int roomID, Room room) {
 
         Debug.Log("Starting getRoomPlan");
 
@@ -27,7 +27,7 @@ public class RoomPlanFactory : MonoBehaviour {
         int dropAmount = Random.Range(3, 7);
 
         bool bossRoom = Random.Range(0, 5) == 0;
-        Debug.Log("A");
+        
         if (bossRoom)
         {
             dropAmount = Mathf.RoundToInt(dropAmount * 1.20f);
@@ -57,7 +57,6 @@ public class RoomPlanFactory : MonoBehaviour {
                 bursts.Add(new Burst(b * Random.Range(0.5f, 2.5f), enemies, Random.insideUnitCircle));
             }
         }
-        Debug.Log("A");
 
         for (int i = 0, remainingLoot = dropAmount; i < instance.resources.Count; i++)
         {
@@ -73,6 +72,6 @@ public class RoomPlanFactory : MonoBehaviour {
 
         Debug.Log("Returning RoomPlan with " + bursts.Count + " bursts and " + loot.Count + " loot");
 
-        return new RoomPlan(bursts, loot);
+        return new RoomPlan(bursts, loot, room);
 	}    
 }

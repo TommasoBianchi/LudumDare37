@@ -57,4 +57,14 @@ public class Enemy : MonoBehaviour {
             animator.SetInteger("Direction", -1); // idle
         }
     }
+
+    public void Hit(Bullet bullet) {
+        this.gameObject.GetComponent<Rigidbody2D>().velocity = bullet.gameObject.GetComponent<Rigidbody2D>().velocity;
+        Destroy(bullet.gameObject);
+        //float damage = EnemyFactory.getInstance().dm
+        this.Life -= 50;
+        if (this.Life <= 0) {
+            Destroy(this.gameObject);
+        }
+    }
 }

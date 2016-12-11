@@ -12,11 +12,14 @@ public class RoomPlan {
     private float timer = 0;
     private bool hasSpawnedEverything = false;
 
-    public RoomPlan(List<Burst> bursts, List<Resource> loot)
+    private Room room;
+
+    public RoomPlan(List<Burst> bursts, List<Resource> loot, Room room)
     {
         this.bursts = bursts;
         bursts.Sort();
         this.loot = loot;
+        this.room = room;
 
         if (bursts.Count == 0)
             hasSpawnedEverything = true;
@@ -33,7 +36,8 @@ public class RoomPlan {
             Burst burst = bursts[bursts.Count - 1];
             for (int i = 0; i < burst.enemies.Count; i++)
             {
-                GameObject enemy = EnemyFactory.getInstance().InstantiateEnemy(burst.enemies[i], burst.position, Quaternion.identity); // TODO: fix viewport position
+                Vector3 burstPos = new Vector3(burst.position.x * room.width, burst.position.y * room.height, 0);
+                GameObject enemy = EnemyFactory.getInstance().InstantiateEnemy(burst.enemies[i], burstPos, Quaternion.identity); // TODO: fix viewport position
                 enemy.GetComponent<AICoreUnity.MovementAI>().target = Globals.GetPlayer().GetComponent<Rigidbody2D>();
             }
 

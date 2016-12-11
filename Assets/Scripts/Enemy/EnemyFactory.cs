@@ -72,7 +72,8 @@ public class EnemyFactory : MonoBehaviour {
 	private int getRandomBossIndex() {
         return Random.Range(0, instance.bosses.Count);
 	}
-    private float dmg_calc(int liv, WeaponData arma, EnemyData enemy)
+
+    public float dmg_calc(int liv, WeaponData arma, EnemyData enemy)
     {
         float dmg_modif;
         int oldupper = 0;
