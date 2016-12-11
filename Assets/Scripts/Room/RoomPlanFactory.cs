@@ -8,6 +8,8 @@ public class RoomPlanFactory : MonoBehaviour {
 
     public static RoomPlanFactory instance;
 
+    private const float BOSS_PROB = 0.2f;
+
     public static RoomPlanFactory getInstance() {
         return instance;
     }
@@ -24,7 +26,7 @@ public class RoomPlanFactory : MonoBehaviour {
 
         int dropAmount = Random.Range(3, 7);
 
-        bool bossRoom = Random.Range(0, 5) == 0;
+        bool bossRoom = Random.value < BOSS_PROB;
         
         if (bossRoom)
         {
@@ -37,8 +39,8 @@ public class RoomPlanFactory : MonoBehaviour {
         }
         else
         {
-            int numberOfEnemies = Random.Range(3, 5);
-            int numberOfBursts = 2;
+            int numberOfEnemies = Random.Range(3, 5) + roomID;
+            int numberOfBursts = 2 + roomID / 4;
             int numberOfEnemiesPerBurst = numberOfEnemies / numberOfBursts;
 
             for (int b = 0; b < numberOfBursts; b++)
@@ -52,7 +54,7 @@ public class RoomPlanFactory : MonoBehaviour {
                     enemies.Add(EnemyFactory.getInstance().getEnemy(roomID, Random.Range(0.9f, 1.1f)));
                 }
                 numberOfEnemies -= numberOfEnemiesPerBurst;
-                bursts.Add(new Burst(b * Random.Range(2.5f, 5f), enemies, (Random.insideUnitCircle + Vector2.one) / 2f));
+                bursts.Add(new Burst(b * Random.Range(1.5f, 3f), enemies, (Random.insideUnitCircle + Vector2.one) / 2f));
             }
         }
 

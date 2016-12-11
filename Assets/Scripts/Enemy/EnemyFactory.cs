@@ -50,9 +50,9 @@ public class EnemyFactory : MonoBehaviour {
 
 	private void addRandomColorOverlay(EnemyData enemyData) {
 		enemyData.ColorOverlay = new Color(
-			Random.RandomRange(0.0f, 1.0f),
-			Random.RandomRange(0.0f, 1.0f),
-			Random.RandomRange(0.0f, 1.0f)
+			Random.RandomRange(0.25f, 1.0f),
+			Random.RandomRange(0.25f, 1.0f),
+            Random.RandomRange(0.25f, 1.0f)
 		);
 	}
 
@@ -70,7 +70,7 @@ public class EnemyFactory : MonoBehaviour {
 	}
 
 	private int getRandomBossIndex() {
-        return Random.Range(0, instance.bosses.Count);
+        return Random.Range(0, instance.bosses.Count) + enemies.Count;
 	}
 
     public float calculateDamage(Enemy enemy) {
@@ -150,7 +150,7 @@ public class EnemyFactory : MonoBehaviour {
     }
 */
     public GameObject InstantiateEnemy(EnemyData enemyData, Vector2 position, Quaternion rotation) {
-        Enemy enemy = this.enemies[enemyData.type];
+        Enemy enemy = (enemyData.type < this.enemies.Count) ? this.enemies[enemyData.type] : this.bosses[enemyData.type - enemies.Count];
 
         GameObject enemyObj = Instantiate(enemy.gameObject, position, rotation) as GameObject;
         enemyObj.transform.localScale = new Vector3(enemyData.Scale, enemyData.Scale, enemyData.Scale);

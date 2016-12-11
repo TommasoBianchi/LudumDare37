@@ -41,7 +41,14 @@ public class RoomPlan {
             Burst burst = bursts[bursts.Count - 1];
             for (int i = 0; i < burst.enemies.Count; i++)
             {
-                Vector3 burstPos = room.ViewportToWorldPoint(burst.position);
+                Vector2 vieportSpawnPosition = burst.position;
+
+                vieportSpawnPosition.x += ((Random.Range(0, 2) == 0) ? 1 : -1) * Random.Range(0.01f, 0.1f);
+                vieportSpawnPosition.x = Mathf.Clamp01(vieportSpawnPosition.x);
+                vieportSpawnPosition.y += ((Random.Range(0, 2) == 0) ? 1 : -1) * Random.Range(0.01f, 0.1f);
+                vieportSpawnPosition.y = Mathf.Clamp01(vieportSpawnPosition.y);
+
+                Vector3 burstPos = room.ViewportToWorldPoint(vieportSpawnPosition);
                 GameObject enemy = EnemyFactory.getInstance().InstantiateEnemy(burst.enemies[i], burstPos, Quaternion.identity);
                 enemy.GetComponent<AICoreUnity.MovementAI>().target = Globals.GetPlayer().GetComponent<Rigidbody2D>();
                 spawnedEnemies.Add(enemy.GetComponent<Enemy>());

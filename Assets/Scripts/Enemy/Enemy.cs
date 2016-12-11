@@ -9,6 +9,8 @@ public class Enemy : MonoBehaviour {
 	public List<WeaponType> Resistences = new List<WeaponType>();
 	public float Life;
     public float MaxLife;
+    [Range(0f, 1f)]
+    public float stunAmount = 1f;
 	public PowerUpData PowerUpData = PowerUpFactory.GetPowerUpNull();
 
     private Rigidbody2D myRigidbody2D;
@@ -62,8 +64,15 @@ public class Enemy : MonoBehaviour {
         }
     }
 
+    private void Stun(Vector3 direction)
+    {
+        myRigidbody2D.AddForce(direction * 5 * stunAmount, ForceMode2D.Impulse);
+    }
+
     public void Hit(Bullet bullet) {
-        this.gameObject.GetComponent<Rigidbody2D>().velocity = bullet.gameObject.GetComponent<Rigidbody2D>().velocity;
+        // Stun
+        Stun(bullet.transform.up);
+
         float damage = EnemyFactory.getInstance().calculateDamage(this);
         this.Life -= damage;
         GameObject text = Instantiate(DamageText, transform.position, Quaternion.identity) as GameObject;
