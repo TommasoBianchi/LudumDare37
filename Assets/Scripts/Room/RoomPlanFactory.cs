@@ -19,8 +19,6 @@ public class RoomPlanFactory : MonoBehaviour {
 
 	public RoomPlan getRoomPlan(int roomID, Room room) {
 
-        Debug.Log("Starting getRoomPlan");
-
         List<Burst> bursts = new List<Burst>();
         List<Resource> loot = new List<Resource>();
 
@@ -69,8 +67,6 @@ public class RoomPlanFactory : MonoBehaviour {
                 loot.Add(instance.resources[i]);
             }
         }
-
-        Debug.Log("Returning RoomPlan with " + bursts.Count + " bursts and " + loot.Count + " loot");
 
         return new RoomPlan(bursts, loot, room);
 	}    

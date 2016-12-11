@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour {
     private Animator animator;
      
 	void Start () {
-		this.WeaponData = new WeaponData(WeaponType.Umbrella, 1, Roll.None);
+		this.WeaponData = new WeaponData(WeaponType.Sword, 1, Roll.None);
         this.PowerUpManager = new PowerUpManager();
         this.PowerUpManager.SetPowerUp(PowerUpFactory.GetPowerUpNull());
         this.resources = new List<KeyValuePair<ResourceType, int>>();

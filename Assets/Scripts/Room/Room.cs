@@ -350,7 +350,7 @@ public class Room : MonoBehaviour {
             topDoor.linkedRoom = (Instantiate(transform.gameObject, transform.position + Vector3.up * 100, Quaternion.identity) as GameObject).GetComponent<Room>();
             topDoor.linkedRoom.ID = this.ID + 1;
 
-            Debug.Log("Doors unlocked");
+            //Debug.Log("Doors unlocked");
             UnlockDoors();
             doorsLocked = false;
         }
