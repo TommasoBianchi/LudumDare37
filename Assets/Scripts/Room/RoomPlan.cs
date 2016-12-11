@@ -29,7 +29,14 @@ public class RoomPlan {
 	public void UpdatePlan() {
         if (bursts.Count >= 1 && timer > bursts[bursts.Count - 1].time)
         {
-            // spawn burst
+            // Spawn burst
+            Burst burst = bursts[bursts.Count - 1];
+            for (int i = 0; i < burst.enemies.Count; i++)
+            {
+                GameObject enemy = EnemyFactory.getInstance().InstantiateEnemy(burst.enemies[i], burst.position, Quaternion.identity); // TODO: fix viewport position
+                enemy.GetComponent<AICoreUnity.MovementAI>().target = Globals.GetPlayer().GetComponent<Rigidbody2D>();
+            }
+
             bursts.RemoveAt(bursts.Count - 1);
             if (bursts.Count == 0)
                 hasSpawnedEverything = true;
