@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour {
 	
 	void Update () 
     {
-        if (FadeScreen.IsAnimating() == false && RecipeBook.GetInstance().gameObject.activeSelf == false)
+        if (FadeScreen.IsAnimating() == false && (RecipeBook.GetInstance() == null || RecipeBook.GetInstance().gameObject.activeSelf == false))
         {
             UpdateMovement();
 
