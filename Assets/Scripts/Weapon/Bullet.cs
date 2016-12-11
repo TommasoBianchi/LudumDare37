@@ -23,7 +23,7 @@ public class Bullet : MonoBehaviour {
 	}
 
     void OnTriggerEnter2D(Collider2D other) {
-        if (other.gameObject.layer == 8) { // enemy
+        if (other.gameObject.layer == 8 || other.gameObject.layer == 13) { // enemy or wall enemy
             other.gameObject.GetComponent<Enemy>().Hit(this);
         }
     }
