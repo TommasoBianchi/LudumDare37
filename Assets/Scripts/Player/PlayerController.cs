@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour {
 	public PowerUpManager PowerUpManager;
     public List<KeyValuePair<ResourceType, int>> resources;
     public LayerMask wallsLayerMask;
+    public GameObject Text;
 
     public float fireRate;
 
@@ -21,7 +22,7 @@ public class PlayerController : MonoBehaviour {
     private Rigidbody2D myRigidbody2D;
      
 	void Start () {
-		this.WeaponData = new WeaponData(WeaponType.Sword, 1, Roll.None);
+		this.WeaponData = WeaponFactory.getInstance().GetWeapon(1);
         this.PowerUpManager = new PowerUpManager();
         this.PowerUpManager.SetPowerUp(PowerUpFactory.GetPowerUpNull());
         this.resources = new List<KeyValuePair<ResourceType, int>>();

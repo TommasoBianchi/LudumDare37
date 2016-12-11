@@ -9,7 +9,6 @@ public class PowerUpManager {
 	
 	public void SetPowerUp(PowerUpData powerUp) {
 		this.currentPowerUp = powerUp;
-		Debug.Log("Power up setted");
 		powerUp.OnStart();
 	}
 
@@ -22,7 +21,6 @@ public class PowerUpManager {
 			this.totalDeltaTime += Time.deltaTime;
 			if (this.totalDeltaTime > this.currentPowerUp.Duration) {
 				this.currentPowerUp.OnFinish();
-				Debug.Log("Power up finished");
 				this.currentPowerUp = PowerUpFactory.GetPowerUpNull();
 				this.totalDeltaTime = 0;
 			}

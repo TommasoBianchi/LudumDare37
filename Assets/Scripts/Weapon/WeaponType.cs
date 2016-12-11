@@ -5,6 +5,6 @@ using UnityEngine;
 public enum WeaponType {
 	Sword,
 	Umbrella,
-	Hammer,
-	PickAxe
+	Club,
+	HugeSword
 }

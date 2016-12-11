@@ -17,15 +17,12 @@ public class PowerUp : MonoBehaviour, Item {
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {
-		Debug.Log("Collision with PowerUp and layer " + other.gameObject.layer);
         if (other.gameObject.layer == 10) { // player
-			Debug.Log("Collision between PowerUp and player");
             OnPickup();
         }
     }
 		
 	public void OnPickup () {
-		Debug.Log("Taken power up with type " + this.PowerUpData.type);
 		Globals.GetPlayerController().PowerUpManager.SetPowerUp(this.PowerUpData);
 		Destroy(gameObject);
 	}
