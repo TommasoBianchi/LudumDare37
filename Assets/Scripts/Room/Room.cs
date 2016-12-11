@@ -22,6 +22,8 @@ public class Room : MonoBehaviour {
     private static bool firstRoom = true;
     private bool doorsLocked = true;
 
+    private Vector2[,] nearestTiles;
+
     void Start () 
     {
         if (firstRoom)
@@ -93,6 +95,7 @@ public class Room : MonoBehaviour {
 
         RemoveUnconnectedParts(map);
 
+        nearestTiles = new Vector2[width, height];
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
@@ -100,9 +103,16 @@ public class Room : MonoBehaviour {
                 if (map[x, y])
                 {
                     InstantiateFloorTile(map, x, y);
+                    nearestTiles[x, y] = new Vector2(x, y);
+                }
+                else
+                {
+                    nearestTiles[x, y] = -Vector2.one;
                 }
             }
         }
+
+        PrefillNearestTiles(map);
 
         RoomPlan = RoomPlanFactory.getInstance().getRoomPlan(this.ID, this);
         RoomPlan.GeneratePlan();
@@ -341,6 +351,39 @@ public class Room : MonoBehaviour {
         }
     }
 
+    private void PrefillNearestTiles(bool[,] map)
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (nearestTiles[x, y] == -Vector2.one)
+                {
+                    // Find nearest tile
+                    int minDistSqr = int.MaxValue;
+                    Vector2 nearestTile = new Vector2(x, y);
+                    for (int h = 0; h < width; h++)
+                    {
+                        for (int k = 0; k < height; k++)
+                        {
+                            if (map[h, k] == true)
+                            {
+                                int distSqr = (h - x) * (h - x) + (k - y) * (k - y);
+                                if (distSqr > 0 && distSqr < minDistSqr)
+                                {
+                                    minDistSqr = distSqr;
+                                    nearestTile = new Vector2(h, k);
+                                }
+                            }
+                        }
+                    }
+
+                    nearestTiles[x, y] = nearestTile;
+                }
+            }
+        }
+    }
+
 	public void Update() {
         RoomPlan.UpdatePlan();
         if (false && RoomPlan.IsCleared() && doorsLocked) {
@@ -358,4 +401,12 @@ public class Room : MonoBehaviour {
         topDoor.Open();
         bottomDoor.Open();
 	}
+
+    public Vector3 ViewportToWorldPoint(Vector2 viewportPoint)
+    {
+        int tileX = Mathf.FloorToInt(viewportPoint.x * width);
+        int tileY = Mathf.FloorToInt(viewportPoint.y * height);
+        Vector3 nearestTile = nearestTiles[tileX, tileY];
+        return nearestTile + transform.position;
+    }
 }

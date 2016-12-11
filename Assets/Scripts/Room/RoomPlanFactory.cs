@@ -54,7 +54,7 @@ public class RoomPlanFactory : MonoBehaviour {
                     enemies.Add(EnemyFactory.getInstance().getEnemy(roomID, Random.Range(0.9f, 1.1f)));
                 }
                 numberOfEnemies -= numberOfEnemiesPerBurst;
-                bursts.Add(new Burst(b * Random.Range(0.5f, 2.5f), enemies, Random.insideUnitCircle));
+                bursts.Add(new Burst(b * Random.Range(2.5f, 5f), enemies, (Random.insideUnitCircle + Vector2.one) / 2f));
             }
         }
 

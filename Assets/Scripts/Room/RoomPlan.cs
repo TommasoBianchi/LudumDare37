@@ -36,8 +36,8 @@ public class RoomPlan {
             Burst burst = bursts[bursts.Count - 1];
             for (int i = 0; i < burst.enemies.Count; i++)
             {
-                Vector3 burstPos = new Vector3(burst.position.x * room.width, burst.position.y * room.height, 0);
-                GameObject enemy = EnemyFactory.getInstance().InstantiateEnemy(burst.enemies[i], burstPos, Quaternion.identity); // TODO: fix viewport position
+                Vector3 burstPos = room.ViewportToWorldPoint(burst.position);
+                GameObject enemy = EnemyFactory.getInstance().InstantiateEnemy(burst.enemies[i], burstPos, Quaternion.identity);
                 enemy.GetComponent<AICoreUnity.MovementAI>().target = Globals.GetPlayer().GetComponent<Rigidbody2D>();
             }
 
@@ -45,7 +45,6 @@ public class RoomPlan {
             if (bursts.Count == 0)
                 hasSpawnedEverything = true;
         }
-
 
         timer += Time.deltaTime;
 	}
