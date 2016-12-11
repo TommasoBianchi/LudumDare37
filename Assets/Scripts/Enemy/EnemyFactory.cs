@@ -157,7 +157,7 @@ public class EnemyFactory : MonoBehaviour {
         enemyObj.GetComponent<Enemy>().Life = enemyData.Life;
         enemyObj.GetComponent<Enemy>().MaxLife = enemyData.Life;
         Debug.Log("Setted max life to " + enemyObj.GetComponent<Enemy>().MaxLife);
-        enemyObj.GetComponent<SpriteRenderer>().material.SetColor("_TintColor", enemyData.ColorOverlay);
+        enemyObj.GetComponent<SpriteRenderer>().material.SetColor("_Color", enemyData.ColorOverlay);
         enemyObj.GetComponent<Enemy>().Weaknesses = enemyData.Weaknesses;
         enemyObj.GetComponent<Enemy>().Resistences = enemyData.Resistences;
         enemyObj.GetComponent<Enemy>().PowerUpData = enemyData.PowerUpData;
