@@ -372,16 +372,20 @@ public class Room : MonoBehaviour {
     }
 
 	public void Update() {
-        RoomPlan.UpdatePlan();
-        if (RoomPlan.IsCleared() && doorsLocked) {
-            // Instantiate next room
-            topDoor.linkedRoom = (Instantiate(roomPrefab, Vector3.zero, Quaternion.identity) as GameObject).GetComponent<Room>();
-            topDoor.linkedRoom.roomPrefab = roomPrefab;
-            topDoor.linkedRoom.ID = this.ID + 1;
+        if (RoomPlan != null)
+        {
+            RoomPlan.UpdatePlan();
+            if (RoomPlan.IsCleared() && doorsLocked)
+            {
+                // Instantiate next room
+                topDoor.linkedRoom = (Instantiate(roomPrefab, Vector3.zero, Quaternion.identity) as GameObject).GetComponent<Room>();
+                topDoor.linkedRoom.roomPrefab = roomPrefab;
+                topDoor.linkedRoom.ID = this.ID + 1;
 
-            //Debug.Log("Doors unlocked");
-            UnlockDoors();
-            doorsLocked = false;
+                //Debug.Log("Doors unlocked");
+                UnlockDoors();
+                doorsLocked = false;
+            }
         }
 	}
 

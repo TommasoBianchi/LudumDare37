@@ -13,12 +13,6 @@ public class Door : MonoBehaviour {
     {
         GetComponent<SpriteRenderer>().sprite = openedDoorSprite;
         GetComponent<Collider2D>().isTrigger = true;
-
-        if (linkedRoom != null)
-        {
-            linkedRoom.Generate();
-            linkedRoom.transform.position = transform.position + Vector3.up * 100;
-        }
     }
 
     void OnTriggerEnter2D(Collider2D collider)
@@ -29,9 +23,11 @@ public class Door : MonoBehaviour {
         {
             if (linkedRoom != null)
             {
+                linkedRoom.Generate();
+                linkedRoom.transform.position = transform.position + Vector3.up * 0;
                 FindObjectOfType<PlayerController>().transform.position = linkedRoom.bottomDoor.transform.position + Vector3.up * 2;
                 Destroy(room.gameObject);
-                linkedRoom.StartRoom();
+                linkedRoom.StartRoom(); 
             }
         });
     }
