@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 public class FadeScreen : MonoBehaviour {
 
-    public static FadeScreen instance;
+    static FadeScreen instance;
 
     Image fadePanel;
     float timer;
@@ -32,17 +32,18 @@ public class FadeScreen : MonoBehaviour {
             fadePanel.color = color;
             timer += Time.deltaTime;
 
-            if (timer >= duration / 2f)
+            if (timer >= duration / 2f && callback != null)
             {
                 callback.Invoke();
+                callback = null;
             }
         }
     }
 
-    public void Animate(float duration, UnityAction callback)
+    public static void Animate(float duration, UnityAction callback)
     {
-        this.callback = callback;
-        this.duration = duration;
-        this.timer = 0;
+        instance.callback = callback;
+        instance.duration = duration;
+        instance.timer = 0;
     }
 }

@@ -8,6 +8,7 @@ public class Room : MonoBehaviour {
     public int width;
     public int height;
 
+    public GameObject roomPrefab;
     public GameObject wallPrefab;
     public GameObject floorPrefab;
     public GameObject floorNearWallPrefab;
@@ -24,63 +25,18 @@ public class Room : MonoBehaviour {
 
     private Vector2[,] nearestTiles;
 
-    void Start () 
+    private Vector2 fallbackTopDoorPosition = -Vector2.one;
+    private Vector2 fallbackBottomDoorPosition = -Vector2.one;
+
+    void Start() 
     {
         if (firstRoom)
         {
             Generate();
             firstRoom = false;
+            StartRoom();
         }
 	}
-
-    //public void Generate()
-    //{
-    //    for (int x = 0; x < width; x++)
-    //    {
-    //        for (int y = 0; y < height; y++)
-    //        {
-    //            GameObject floorTile = Instantiate((y == height - 1) ? floorNearWallPrefab : floorPrefab, transform) as GameObject;
-    //            floorTile.transform.localPosition = new Vector3(x, y, 0);
-    //        }
-    //    }
-
-    //    int topDoorPositionX = Random.Range(1, width - 1);
-    //    int bottomDoorPositionX = Random.Range(1, width - 1);
-
-    //    for (int x = 0; x < width; x++)
-    //    {
-    //        GameObject wallTile = Instantiate((x == topDoorPositionX) ? doorPrefab : wallPrefab, transform) as GameObject;
-    //        wallTile.transform.localPosition = new Vector3(x, height, 0);
-    //        if (x == topDoorPositionX)
-    //            topDoor = wallTile.GetComponent<Door>();
-
-    //        wallTile = Instantiate((x == bottomDoorPositionX) ? doorPrefab : wallPrefab, transform) as GameObject;
-    //        wallTile.transform.localPosition = new Vector3(x, -0.65f, 0);
-    //        if (x == bottomDoorPositionX)
-    //            bottomDoor = wallTile.GetComponent<Door>();
-    //    }
-
-    //    // Top
-    //    GameObject wallTopTile = Instantiate(wallTopPrefab, transform) as GameObject;
-    //    wallTopTile.transform.localScale = new Vector3(width, 0.1f, 1);
-    //    wallTopTile.transform.localPosition = new Vector3(width / 2f - 0.5f, height + 0.5f, 0);
-    //    // Bottom
-    //    wallTopTile = Instantiate(wallTopPrefab, transform) as GameObject;
-    //    wallTopTile.transform.localScale = new Vector3(width, 0.1f, 1);
-    //    wallTopTile.transform.localPosition = new Vector3(width / 2f - 0.5f, -0.1f, 0);
-    //    // Right
-    //    wallTopTile = Instantiate(wallTopPrefab, transform) as GameObject;
-    //    wallTopTile.transform.localScale = new Vector3(0.1f, height + 0.72f, 1);
-    //    wallTopTile.transform.localPosition = new Vector3(width - 0.55f, height / 2f + 0.19f, 0);
-    //    // Left
-    //    wallTopTile = Instantiate(wallTopPrefab, transform) as GameObject;
-    //    wallTopTile.transform.localScale = new Vector3(0.1f, height + 0.72f, 1);
-    //    wallTopTile.transform.localPosition = new Vector3(-0.45f, height / 2f + 0.19f, 0);
-
-    //    // Grab room plan
-    //    RoomPlan = RoomPlanFactory.getInstance().getRoomPlan(this.ID);
-    //    RoomPlan.GeneratePlan();
-    //}
 
     public void Generate()
     {
@@ -114,8 +70,25 @@ public class Room : MonoBehaviour {
 
         PrefillNearestTiles(map);
 
+        if (topDoor == null)
+        {
+            GameObject door = Instantiate(doorPrefab, fallbackTopDoorPosition, Quaternion.identity, transform) as GameObject;
+            topDoor = door.GetComponent<Door>();
+            Debug.LogWarning("Top door in fallback position");
+        }
+        topDoor.room = this;
+
+        if (bottomDoor == null)
+        {
+            GameObject door = Instantiate(doorPrefab, fallbackBottomDoorPosition, Quaternion.identity, transform) as GameObject;
+            bottomDoor = door.GetComponent<Door>();
+            Debug.LogWarning("Bottom door in fallback position");
+        }
+        bottomDoor.room = this;
+
         RoomPlan = RoomPlanFactory.getInstance().getRoomPlan(this.ID, this);
-        RoomPlan.GeneratePlan();
+
+        Globals.currentLevel ++;
     }
 
     private void RemoveUnconnectedParts(bool[,] map)
@@ -200,7 +173,7 @@ public class Room : MonoBehaviour {
 
             // Top door 
             bool okForDoor = true;
-            for (int i = -2; i <= 2; i++)
+            for (int i = -1; i <= 1; i++)
             {
                 okForDoor = okForDoor && x + i < width && x + i >= 0 && map[x + i, y] == true && (y == height - 1 || map[x + i, y + 1] == false);
             }
@@ -210,6 +183,10 @@ public class Room : MonoBehaviour {
                 GameObject door = Instantiate(doorPrefab, new Vector3(x, y + 1, 0), Quaternion.identity, transform) as GameObject;
                 topDoor = door.GetComponent<Door>();
             }                
+
+            // Fallback top door position (to use in case I'm not able to find a place where to spawn a door
+            if (fallbackTopDoorPosition == -Vector2.one || y + 1 > fallbackTopDoorPosition.y)
+                fallbackTopDoorPosition = new Vector2(x, y + 1);
         }
         else
         {
@@ -240,7 +217,7 @@ public class Room : MonoBehaviour {
 
             // Bottom door 
             bool okForDoor = true;
-            for (int i = -2; i <= 2; i++)
+            for (int i = -1; i <= 1; i++)
             {
                 okForDoor = okForDoor && x + i < width && x + i >= 0 && map[x + i, y] == true && (y == 0 || map[x + i, y - 1] == false);
             }
@@ -249,7 +226,11 @@ public class Room : MonoBehaviour {
                 Destroy(wall);
                 GameObject door = Instantiate(doorPrefab, new Vector3(x, y - 1, 0), Quaternion.identity, transform) as GameObject;
                 bottomDoor = door.GetComponent<Door>();
-            }  
+            }
+
+            // Fallback bottom door position (to use in case I'm not able to find a place where to spawn a door
+            if (fallbackBottomDoorPosition == -Vector2.one || y - 1 < fallbackBottomDoorPosition.y)
+                fallbackBottomDoorPosition = new Vector2(x, y - 1);
         }
 
         // Right wall
@@ -386,9 +367,10 @@ public class Room : MonoBehaviour {
 
 	public void Update() {
         RoomPlan.UpdatePlan();
-        if (false && RoomPlan.IsCleared() && doorsLocked) {
+        if (RoomPlan.IsCleared() && doorsLocked) {
             // Instantiate next room
-            topDoor.linkedRoom = (Instantiate(transform.gameObject, transform.position + Vector3.up * 100, Quaternion.identity) as GameObject).GetComponent<Room>();
+            topDoor.linkedRoom = (Instantiate(roomPrefab, Vector3.zero, Quaternion.identity) as GameObject).GetComponent<Room>();
+            topDoor.linkedRoom.roomPrefab = roomPrefab;
             topDoor.linkedRoom.ID = this.ID + 1;
 
             Debug.Log("Doors unlocked");
@@ -408,5 +390,10 @@ public class Room : MonoBehaviour {
         int tileY = Mathf.FloorToInt(viewportPoint.y * height);
         Vector3 nearestTile = nearestTiles[tileX, tileY];
         return nearestTile + transform.position;
+    }
+
+    public void StartRoom()
+    {
+        RoomPlan.StartPlan();
     }
 }
