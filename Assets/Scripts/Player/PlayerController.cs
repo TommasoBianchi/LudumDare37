@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
+    public GameObject cazzoDiPrefab;
+
     public float Speed;
     public int Life;
 	public WeaponData WeaponData;
@@ -26,7 +28,21 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
         UpdateMovement();
         PowerUpManager.Update();
+        Mouseclicked();
 	}
+
+    void Mouseclicked()
+    {
+        Vector3 mous= Input.mousePosition;
+        if(Input.GetMouseButton(0))
+        {
+            //GameObject aaaaa 
+
+        }
+
+
+    }
+
 
     private void UpdateMovement() {
         float MoveHorizontal = Input.GetAxis("Horizontal");
