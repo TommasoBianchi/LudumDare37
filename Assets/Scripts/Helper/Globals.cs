@@ -16,4 +16,6 @@ public class Globals {
 		return GetPlayer().GetComponent<PlayerController>();
 	}
 
+	public static int currentLevel = 0;
+
 }

@@ -24,7 +24,7 @@ public class EnemyFactory : MonoBehaviour {
         
         enemyData.type = getRandomEnemyIndex();
         WeaponData currentPlayerWeapon = Globals.GetPlayerController().WeaponData;
-        enemyData.Life = Mathf.RoundToInt((27 + (currentPlayerWeapon.Tier * 5)) * 5 / (dmg_calc(roomID, currentPlayerWeapon, enemyData)) * lifeModifier);
+        enemyData.Life = lifeModifier * ((currentPlayerWeapon.Tier * Random.Range(5f, 20f))) + ((roomID * 5) * Random.Range(1f, 1.5f));//Mathf.RoundToInt((27 + (currentPlayerWeapon.Tier * 5)) * 5 / (dmg_calc(roomID, currentPlayerWeapon, enemyData)) * lifeModifier);
 		addWeaknessesAndResistences(enemyData);
 		enemyData.PowerUpData = PowerUpFactory.getInstance().GetRandomPowerUp();
 		enemyData.Scale = Random.Range(Constants.ENEMY_MIN_SCALE, Constants.ENEMY_MAX_SCALE);
@@ -61,7 +61,7 @@ public class EnemyFactory : MonoBehaviour {
         
         bossData.type = getRandomBossIndex();
         WeaponData currentPlayerWeapon = Globals.GetPlayerController().WeaponData;
-        bossData.Life = Mathf.RoundToInt((27 + (currentPlayerWeapon.Tier * 5)) * 5 / (dmg_calc(roomID, currentPlayerWeapon, bossData)));
+        bossData.Life = lifeModifier * Random.Range(3f, 4f) * (((currentPlayerWeapon.Tier * Random.Range(5f, 20f))) + ((roomID * 5) * Random.Range(1f, 1.5f)));//Mathf.RoundToInt((27 + (currentPlayerWeapon.Tier * 5)) * 5 / (dmg_calc(roomID, currentPlayerWeapon, bossData)));
 		bossData.PowerUpData = PowerUpFactory.getInstance().GetRandomPowerUp();
 		bossData.Scale = Random.Range(Constants.ENEMY_MIN_SCALE, Constants.ENEMY_MAX_SCALE);
 		addRandomColorOverlay(bossData);
@@ -73,8 +73,38 @@ public class EnemyFactory : MonoBehaviour {
         return Random.Range(0, instance.bosses.Count);
 	}
 
-    public float dmg_calc(int liv, WeaponData arma, EnemyData enemy)
+    public float calculateDamage(EnemyData enemyData) {
+        WeaponData currentPlayerWeapon = Globals.GetPlayerController().WeaponData;
+        float baseDamage = currentPlayerWeapon.Tier * 10;
+        float damageModifier = 1f;
+
+        switch (currentPlayerWeapon.Roll) {
+            case Roll.Strong:
+                damageModifier *= (1);
+                break;
+            case Roll.Audacious:
+                damageModifier *= (1 + 0.22f);
+                break;
+            case Roll.Cruel:
+                damageModifier *= (1 - 0.18f);
+                break;
+            default:
+                break;
+        }
+/*
+        if (enemyData.Weaknesses.Contains(currentPlayerWeapon.Type)) {
+            damageModifier *= (1 + 0.30f);
+        }
+        else if (enemyData.Resistences.Contains(currentPlayerWeapon.Type)) {
+            damageModifier *= (1 - 0.12f);
+        }*/
+
+        return baseDamage * damageModifier;
+    }
+/*
+    private float dmg_calc(int liv, WeaponData arma, EnemyData enemy)
     {
+        /*
         float dmg_modif;
         int oldupper = 0;
         int upper = 0;
@@ -105,7 +135,8 @@ public class EnemyFactory : MonoBehaviour {
             default:
                 break;
         }
-
+        
+        //Debug.Log("Enemy weaknesses: " + enemy.Weaknesses[0] + ", arma type: " + arma.Type);
         if (enemy.Weaknesses.Contains(arma.Type))
         {
             dmg_modif = dmg_modif * (1 + 0.30f);
@@ -117,7 +148,7 @@ public class EnemyFactory : MonoBehaviour {
 
         return dmg_modif;
     }
-
+*/
     public GameObject InstantiateEnemy(EnemyData enemyData, Vector2 position, Quaternion rotation) {
         Enemy enemy = this.enemies[enemyData.type];
 
@@ -128,6 +159,7 @@ public class EnemyFactory : MonoBehaviour {
         enemyObj.GetComponent<Enemy>().Weaknesses = enemyData.Weaknesses;
         enemyObj.GetComponent<Enemy>().Resistences = enemyData.Resistences;
         enemyObj.GetComponent<Enemy>().PowerUpData = enemyData.PowerUpData;
+        enemyObj.GetComponent<Enemy>().enemyData = enemyData;
 
         return enemyObj;
     }

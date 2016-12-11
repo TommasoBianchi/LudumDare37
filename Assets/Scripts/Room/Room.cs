@@ -106,6 +106,8 @@ public class Room : MonoBehaviour {
 
         RoomPlan = RoomPlanFactory.getInstance().getRoomPlan(this.ID, this);
         RoomPlan.GeneratePlan();
+
+        Globals.currentLevel ++;
     }
 
     private void RemoveUnconnectedParts(bool[,] map)
