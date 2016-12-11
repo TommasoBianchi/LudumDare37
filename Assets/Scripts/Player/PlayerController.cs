@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour {
     public int Life;
 	public WeaponData WeaponData;
 	public PowerUpManager PowerUpManager;
-    public Dictionary<ResourceType, int> resources;
+    public Dictionary<ResourceType, int> resources = new Dictionary<ResourceType, int>();
     public LayerMask wallsLayerMask;
 
     public float fireRate;

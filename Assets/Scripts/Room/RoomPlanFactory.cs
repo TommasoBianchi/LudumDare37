@@ -22,7 +22,7 @@ public class RoomPlanFactory : MonoBehaviour {
 	public RoomPlan getRoomPlan(int roomID, Room room) {
 
         List<Burst> bursts = new List<Burst>();
-        List<Resource> loot = new List<Resource>();
+        List<ResourceType> loot = new List<ResourceType>();
 
         int dropAmount = Random.Range(3, 7);
 
@@ -66,7 +66,7 @@ public class RoomPlanFactory : MonoBehaviour {
             int resourceLootAmount = Random.Range(0, remainingLoot);
             for (int j = 0; j < resourceLootAmount; j++)
             {
-                loot.Add(instance.resources[i]);
+                loot.Add(instance.resources[i].type);
             }
         }
 

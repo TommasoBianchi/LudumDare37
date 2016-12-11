@@ -8,6 +8,6 @@ public class Resource : MonoBehaviour, Item {
 	public ResourceType type;
 
 	public void OnPickup() {
-		Globals.GetPlayerController().AddResource(this.type);
+		Globals.GetPlayerController().AddResource(type);
 	}
 }
