@@ -1,5 +1,7 @@
 using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using AICoreUnity;
 using AICore;
 
@@ -41,6 +43,7 @@ namespace AICoreUnity {
 			KinematicAdapter.UpdateRigidbody2DWithKinematic(character, characterKinematic);
         }
 
+        #if UNITY_EDITOR
 		public void ManageEditor(MovementAIEditor editor) {
 			AIType aiType = (AIType)editor.aiType_Prop.enumValueIndex;
 			AIAlgorithm aiAlgorithm = (AIAlgorithm)editor.aiAlgorithm_Prop.enumValueIndex;
@@ -83,5 +86,6 @@ namespace AICoreUnity {
 					break;
 			}
 		}
+        #endif
     }
 }

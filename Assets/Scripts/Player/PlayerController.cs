@@ -14,8 +14,9 @@ public class PlayerController : MonoBehaviour {
 
     public float fireRate;
 
-    private int MaxLife;
+    private int MaxLife = 3;
     private Animator animator;
+    private LifeHUD lifeHUD;
      
 	void Start () {
 		this.WeaponData = new WeaponData(WeaponType.Sword, 1, Roll.None);
@@ -23,26 +24,19 @@ public class PlayerController : MonoBehaviour {
         this.PowerUpManager.SetPowerUp(PowerUpFactory.GetPowerUpNull());
         this.resources = new List<KeyValuePair<ResourceType, int>>();
         animator = GetComponent<Animator>();
+
+        Life = MaxLife;
+        lifeHUD = GetComponent<LifeHUD>();
+        lifeHUD.SetLife(Life, MaxLife);
     }
 	
 	void Update () {
         UpdateMovement();
+
         PowerUpManager.Update();
-        Mouseclicked();
+
+        UpdateAttack();
 	}
-
-    void Mouseclicked()
-    {
-        Vector3 mous= Input.mousePosition;
-        if(Input.GetMouseButton(0))
-        {
-            //GameObject aaaaa 
-
-        }
-
-
-    }
-
 
     private void UpdateMovement() {
         float MoveHorizontal = Input.GetAxis("Horizontal");
@@ -53,8 +47,6 @@ public class PlayerController : MonoBehaviour {
         transform.Translate(Movement * Speed * Time.deltaTime, Space.World);
 
         UpdateAnimator(Movement);
-
-        UpdateAttack();
     }
 
     private float timer = 0;
@@ -118,5 +110,14 @@ public class PlayerController : MonoBehaviour {
 
     public void ClearResources() {
         this.resources = new List<KeyValuePair<ResourceType, int>>();
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        {
+            Life--;
+            lifeHUD.SetLife(Life, MaxLife);
+        }
     }
 }

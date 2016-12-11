@@ -59,7 +59,10 @@ public class Room : MonoBehaviour {
                 if (map[x, y])
                 {
                     InstantiateFloorTile(map, x, y);
-                    nearestTiles[x, y] = new Vector2(x, y);
+                    if (IsFloor(map, x, y + 1) && IsFloor(map, x, y - 1) && IsFloor(map, x + 1, y) && IsFloor(map, x - 1, y))
+                        nearestTiles[x, y] = new Vector2(x, y);
+                    else
+                        nearestTiles[x, y] = -Vector2.one;
                 }
                 else
                 {
@@ -87,8 +90,11 @@ public class Room : MonoBehaviour {
         bottomDoor.room = this;
 
         RoomPlan = RoomPlanFactory.getInstance().getRoomPlan(this.ID, this);
+    }
 
-        Globals.currentLevel ++;
+    private bool IsFloor(bool[,] map, int x, int y)
+    {
+        return x >= 0 && x < map.GetLength(0) && y >= 0 && y < map.GetLength(1) && map[x, y] == true;
     }
 
     private void RemoveUnconnectedParts(bool[,] map)
@@ -386,8 +392,12 @@ public class Room : MonoBehaviour {
 
     public Vector3 ViewportToWorldPoint(Vector2 viewportPoint)
     {
+        viewportPoint.x = Mathf.Clamp01(viewportPoint.x);
+        viewportPoint.y = Mathf.Clamp01(viewportPoint.y);
+
         int tileX = Mathf.FloorToInt(viewportPoint.x * width);
         int tileY = Mathf.FloorToInt(viewportPoint.y * height);
+
         Vector3 nearestTile = nearestTiles[tileX, tileY];
         return nearestTile + transform.position;
     }
@@ -395,5 +405,7 @@ public class Room : MonoBehaviour {
     public void StartRoom()
     {
         RoomPlan.StartPlan();
+
+        Globals.CurrentLevel++;
     }
 }
