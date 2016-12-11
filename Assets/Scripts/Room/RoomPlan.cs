@@ -9,7 +9,9 @@ public class RoomPlan {
     private List<Burst> bursts;
 
     private List<Enemy> spawnedEnemies = new List<Enemy>();
-    private float timer = 0;
+    private float timer = -5; // 5 seconds starting delay
+
+    private bool canSpawn = false;
     private bool hasSpawnedEverything = false;
 
     private Room room;
@@ -25,20 +27,24 @@ public class RoomPlan {
             hasSpawnedEverything = true;
     }
 
-	public void GeneratePlan() {
-        // Not sure if useful or not
+	public void StartPlan() {
+        canSpawn = true;
 	}
 
 	public void UpdatePlan() {
+        if (!canSpawn)
+            return;
+
         if (bursts.Count >= 1 && timer > bursts[bursts.Count - 1].time)
         {
             // Spawn burst
             Burst burst = bursts[bursts.Count - 1];
             for (int i = 0; i < burst.enemies.Count; i++)
             {
-                Vector3 burstPos = new Vector3(burst.position.x * room.width, burst.position.y * room.height, 0);
-                GameObject enemy = EnemyFactory.getInstance().InstantiateEnemy(burst.enemies[i], burstPos, Quaternion.identity); // TODO: fix viewport position
+                Vector3 burstPos = room.ViewportToWorldPoint(burst.position);
+                GameObject enemy = EnemyFactory.getInstance().InstantiateEnemy(burst.enemies[i], burstPos, Quaternion.identity);
                 enemy.GetComponent<AICoreUnity.MovementAI>().target = Globals.GetPlayer().GetComponent<Rigidbody2D>();
+                spawnedEnemies.Add(enemy.GetComponent<Enemy>());
             }
 
             bursts.RemoveAt(bursts.Count - 1);
@@ -46,18 +52,20 @@ public class RoomPlan {
                 hasSpawnedEverything = true;
         }
 
-
         timer += Time.deltaTime;
 	}
 
-	public bool IsCleared() {
+    public bool IsCleared()
+    {
         if (!hasSpawnedEverything)
             return false;
 
         for (int i = 0; i < spawnedEnemies.Count; i++)
         {
             if (spawnedEnemies[i].Life > 0)
+            {
                 return false;
+            }
         }
 
         return true;

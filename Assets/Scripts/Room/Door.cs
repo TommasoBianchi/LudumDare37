@@ -6,6 +6,7 @@ public class Door : MonoBehaviour {
 
     public Sprite openedDoorSprite;
 
+    public Room room;
     public Room linkedRoom;
 
     public void Open()
@@ -16,16 +17,20 @@ public class Door : MonoBehaviour {
         if (linkedRoom != null)
         {
             linkedRoom.Generate();
+            linkedRoom.transform.position = transform.position + Vector3.up * 100;
         }
     }
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        FadeScreen.instance.Animate(4, () =>
+        FadeScreen.Animate(4, () =>
         {
-            Debug.Log("hey");
             if (linkedRoom != null)
+            {
                 FindObjectOfType<PlayerController>().transform.position = linkedRoom.bottomDoor.transform.position + Vector3.up * 2;
+                Destroy(room.gameObject);
+                linkedRoom.StartRoom();
+            }
         });
     }
 }

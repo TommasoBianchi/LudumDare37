@@ -12,5 +12,4 @@ public class EnemyData {
 	public PowerUpData PowerUpData = PowerUpFactory.GetPowerUpNull();
 	public float Scale;
 	public Color ColorOverlay;
-
 }
