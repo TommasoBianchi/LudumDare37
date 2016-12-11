@@ -62,6 +62,7 @@ public class PowerUpFactory : MonoBehaviour {
 		PowerUp powerUp = this.powerUps[powerUpData.type];
 
         GameObject powerUpObj = Instantiate(powerUp.gameObject, position, rotation) as GameObject;
+		powerUpObj.transform.parent = GameObject.FindGameObjectWithTag("Room").transform;
 		powerUpObj.GetComponent<PowerUp>().PowerUpData = powerUpData;
 
         return powerUpObj;

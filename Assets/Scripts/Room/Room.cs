@@ -401,6 +401,7 @@ public class Room : MonoBehaviour {
 
                 // Spawn chest
                 GameObject chest = Instantiate(chestPrefab, ViewportToWorldPoint(new Vector2(0.5f, 0.5f)), Quaternion.identity);
+                chest.transform.parent = GameObject.FindGameObjectWithTag("Room").transform;
                 foreach (ResourceType rt in RoomPlan.loot) {
                     chest.GetComponent<Chest>().AddResource(rt, 1);
                 }
