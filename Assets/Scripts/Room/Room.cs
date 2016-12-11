@@ -393,6 +393,7 @@ public class Room : MonoBehaviour {
                 Globals.GetPlayerController().WeaponData = WeaponFactory.getInstance().GetWeapon(Mathf.RoundToInt(ID / 3) + 1);
                 GameObject text = Instantiate(Globals.GetPlayerController().Text, Globals.GetPlayer().transform.position, Quaternion.identity) as GameObject;
                 text.transform.SetParent(GameObject.Find("OverlayCanvas").transform);
+                text.GetComponent<Text>().color = Color.white;
                 string rollName = ("" + Globals.GetPlayerController().WeaponData.Roll).Equals("None") ? "" : ("" + Globals.GetPlayerController().WeaponData.Roll);
                 text.GetComponent<Text>().text = rollName + " " + Globals.GetPlayerController().WeaponData.Type + " T" + Globals.GetPlayerController().WeaponData.Tier;
                 text.GetComponent<DestroyAfter>().after = 3.0f;
