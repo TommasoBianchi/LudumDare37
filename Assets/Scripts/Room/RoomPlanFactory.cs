@@ -8,7 +8,7 @@ public class RoomPlanFactory : MonoBehaviour {
 
     public static RoomPlanFactory instance;
 
-    private const float BOSS_PROB = 0.2f;
+    private const float BOSS_PROB = 0.25f;
 
     public static RoomPlanFactory getInstance() {
         return instance;
