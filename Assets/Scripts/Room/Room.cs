@@ -373,9 +373,11 @@ public class Room : MonoBehaviour {
     }
 
 	public void Update() {
-        if (RoomPlan != null) {
+        if (RoomPlan != null)
+        {
             RoomPlan.UpdatePlan();
-            if (RoomPlan.IsCleared() && doorsLocked) {
+            if (RoomPlan.IsCleared() && doorsLocked)
+            {
                 // Instantiate next room
                 topDoor.linkedRoom = (Instantiate(roomPrefab, Vector3.zero, Quaternion.identity) as GameObject).GetComponent<Room>();
                 topDoor.linkedRoom.roomPrefab = roomPrefab;
@@ -385,6 +387,7 @@ public class Room : MonoBehaviour {
                 UnlockDoors();
                 doorsLocked = false;
 
+                
                 // Change weapon
                 Globals.GetPlayerController().WeaponData = WeaponFactory.getInstance().GetWeapon(Mathf.RoundToInt(ID / 3) + 1);
                 GameObject text = Instantiate(Globals.GetPlayerController().Text, Globals.GetPlayer().transform.position, Quaternion.identity) as GameObject;

@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
-
-    public GameObject cazzoDiPrefab;
-
+    
     public float Speed = Constants.PLAYER_BASE_SPEED;
     public float BasePower = 1.0f;
     public int Life;
 	public WeaponData WeaponData;
 	public PowerUpManager PowerUpManager;
     public List<KeyValuePair<ResourceType, int>> resources;
+    public LayerMask wallsLayerMask;
+    public GameObject Text;
 
     public float fireRate;
 
@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour {
         this.PowerUpManager.SetPowerUp(PowerUpFactory.GetPowerUpNull());
         this.resources = new List<KeyValuePair<ResourceType, int>>();
         animator = GetComponent<Animator>();
+        myRigidbody2D = GetComponent<Rigidbody2D>();
 
         Life = MaxLife;
         lifeHUD = GetComponent<LifeHUD>();
@@ -52,9 +53,16 @@ public class PlayerController : MonoBehaviour {
 
         Vector2 Movement = new Vector2(MoveHorizontal, MoveVertical);
 
-        transform.Translate(Movement * Speed * Time.deltaTime, Space.World);
+        if (!Physics2D.Raycast(transform.position, Movement, 0.5f, wallsLayerMask))
+        {
+            transform.Translate(Movement * Speed * Time.deltaTime, Space.World);
 
-        UpdateAnimator(Movement);
+            UpdateAnimator(Movement);
+        }
+        else
+        {
+            UpdateAnimator(Vector2.zero);
+        }
     }
 
     private float timer = 0;
