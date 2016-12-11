@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour {
     public int Life;
 	public WeaponData WeaponData;
 	public PowerUpManager PowerUpManager;
-    public List<KeyValuePair<ResourceType, int>> resources;
+    public Dictionary<ResourceType, int> resources;
     public LayerMask wallsLayerMask;
 
     public float fireRate;
@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour {
 		this.WeaponData = WeaponFactory.getInstance().GetWeapon(1);
         this.PowerUpManager = new PowerUpManager();
         this.PowerUpManager.SetPowerUp(PowerUpFactory.GetPowerUpNull());
-        this.resources = new List<KeyValuePair<ResourceType, int>>();
+        this.resources = new Dictionary<ResourceType, int>();
         animator = GetComponent<Animator>();
         myRigidbody2D = GetComponent<Rigidbody2D>();
 
@@ -111,22 +111,19 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    public void AddResource(Resource resource) {
-        bool found = false;
-        for (int i = 0; i < this.resources.Count; i++) {
-            KeyValuePair<ResourceType, int> pair = this.resources[i];
-            if (resource.type == pair.Key) {
-                found = true;
-                this.resources[i] = new KeyValuePair<ResourceType, int>(pair.Key, pair.Value + 1);
-            }
+    public void AddResource(ResourceType resource) {
+        if (resources.ContainsKey(resource))
+        {
+            resources[resource]++;
         }
-        if (found) {
-            this.resources.Add(new KeyValuePair<ResourceType, int>(resource.type, 1));
+        else
+        {
+            resources[resource] = 1;
         }
     }
 
     public void ClearResources() {
-        this.resources = new List<KeyValuePair<ResourceType, int>>();
+        this.resources.Clear();
     }
 
     void OnCollisionEnter2D(Collision2D collision)

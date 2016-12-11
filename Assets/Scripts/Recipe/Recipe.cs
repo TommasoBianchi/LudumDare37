@@ -5,11 +5,23 @@ using UnityEngine;
 public class Recipe {
 
     public WeaponData weaponData;
-    public List<KeyValuePair<ResourceType, int>> resources;
+    public Dictionary<ResourceType, int> resources;
 
     public Recipe(WeaponData wd, List<KeyValuePair<ResourceType, int>> r) {
         this.weaponData = wd;
-        this.resources = r;
+        this.resources = new Dictionary<ResourceType,int>();
+
+        for (int i = 0; i < r.Count; i++)
+        {
+            if (resources.ContainsKey(r[i].Key))
+            {
+                resources[r[i].Key] += r[i].Value;
+            }
+            else
+            {
+                resources[r[i].Key] = r[i].Value;
+            }
+        }
     }
 
     /*
