@@ -15,6 +15,7 @@ public class Room : MonoBehaviour {
     public GameObject floorNearWallPrefab;
     public GameObject wallTopPrefab;
     public GameObject doorPrefab;
+    public GameObject chestPrefab;
 
 	private RoomPlan RoomPlan;
 
@@ -383,7 +384,7 @@ public class Room : MonoBehaviour {
                 topDoor.linkedRoom.roomPrefab = roomPrefab;
                 topDoor.linkedRoom.ID = this.ID + 1;
 
-                //Debug.Log("Doors unlocked");
+                // Debug.Log("Doors unlocked");
                 UnlockDoors();
                 doorsLocked = false;
 
@@ -396,6 +397,10 @@ public class Room : MonoBehaviour {
                 text.GetComponent<Text>().text = rollName + " " + Globals.GetPlayerController().WeaponData.Type + " T" + Globals.GetPlayerController().WeaponData.Tier;
                 text.GetComponent<DestroyAfter>().after = 3.0f;
                 text.GetComponent<MoveUp>().speed = 0.005f;
+
+                // Spawn chest
+                GameObject chest = Instantiate(chestPrefab, ViewportToWorldPoint(new Vector2(0.5f, 0.5f)), Quaternion.identity);
+                
             }
         }
     }

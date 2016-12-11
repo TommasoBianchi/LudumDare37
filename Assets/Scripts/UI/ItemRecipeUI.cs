@@ -9,7 +9,7 @@ public class ItemRecipeUI : MonoBehaviour {
 
     void OnEnable()
     {
-        List<KeyValuePair<ResourceType, int>> playerResources = Globals.GetPlayerController().resources;
+        Dictionary<ResourceType, int> playerResources = Globals.GetPlayerController().resources;
 
         bool enable = true;
 
