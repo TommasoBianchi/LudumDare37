@@ -26,6 +26,9 @@ public class PowerUpFactory : MonoBehaviour {
 		else if (num <= 20) {
 			powerUpData = GetPowerUpSpeed();
 		}
+		else if (num <= 90) {
+			powerUpData = GetPowerUpLife();
+		}
 
 		return powerUpData;
 	}
@@ -40,6 +43,10 @@ public class PowerUpFactory : MonoBehaviour {
 		float mult = Random.Range(Constants.POWER_UP_MIN_ATTACK_MULT, Constants.POWER_UP_MAX_ATTACK_MULT);
 		PowerUpData powerUpData = new PowerUpDataAttack(mult, Random.Range(4f, 6f));
 		return powerUpData;
+	}
+
+	public PowerUpData GetPowerUpLife() {
+		return new PowerUpDataLife();
 	}
 
 	public static PowerUpData GetPowerUpNull() {

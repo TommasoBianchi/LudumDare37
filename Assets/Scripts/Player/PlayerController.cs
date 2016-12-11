@@ -133,17 +133,23 @@ public class PlayerController : MonoBehaviour {
     {
         if (collision.gameObject.tag == "Enemy" && !this.invincible)
         {
-            Life--;
+            addLife(-1);
             if (Life <= 0) {
                 Application.LoadLevel("MainMenu");
             }
-
-            lifeHUD.SetLife(Life, MaxLife);
 
             // Set invincible;
             this.invincible = true;
             this.timeInvincible = 0;
         }
+    }
+
+    public void addLife(int amount) {
+        Life += amount;
+        if (Life > MaxLife) {
+            Life = MaxLife;
+        }
+        lifeHUD.SetLife(Life, MaxLife);
     }
 
     void UpdateInvincibility() {
