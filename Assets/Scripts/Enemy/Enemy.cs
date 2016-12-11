@@ -86,7 +86,7 @@ public class Enemy : MonoBehaviour {
         }
         transform.FindChild("HealthBar").gameObject.SetActive(true);
         transform.FindChild("HealthBar").localScale = new Vector3(scaleX, 1, 1);
-        Debug.Log("Damage " + damage + ", remaining life " + this.Life);
+        //Debug.Log("Damage " + damage + ", remaining life " + this.Life);
         if (this.Life <= 0) {
             PowerUpFactory.getInstance().InstantiatePowerUp(this.PowerUpData, transform.position, Quaternion.identity);
             Destroy(this.gameObject);

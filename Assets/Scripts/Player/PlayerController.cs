@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour {
     private Rigidbody2D myRigidbody2D;
      
 	void Start () {
-		this.WeaponData = WeaponFactory.getInstance().GetWeapon(1);
+		this.WeaponData = WeaponFactory.getInstance().GetRandomWeapon(1);
         this.PowerUpManager = new PowerUpManager();
         this.PowerUpManager.SetPowerUp(PowerUpFactory.GetPowerUpNull());
         this.resources = new Dictionary<ResourceType, int>();
@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour {
 	
 	void Update () 
     {
-        if (FadeScreen.IsAnimating() == false)
+        if (FadeScreen.IsAnimating() == false && RecipeBook.GetInstance().gameObject.activeSelf == false)
         {
             UpdateMovement();
 

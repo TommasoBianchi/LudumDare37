@@ -418,8 +418,8 @@ public class Room : MonoBehaviour {
         viewportPoint.x = Mathf.Clamp01(viewportPoint.x);
         viewportPoint.y = Mathf.Clamp01(viewportPoint.y);
 
-        int tileX = Mathf.FloorToInt(viewportPoint.x * width);
-        int tileY = Mathf.FloorToInt(viewportPoint.y * height);
+        int tileX = Mathf.RoundToInt(viewportPoint.x * (width - 1));
+        int tileY = Mathf.RoundToInt(viewportPoint.y * (height - 1));
 
         Vector3 nearestTile = nearestTiles[tileX, tileY];
         return nearestTile + transform.position;
