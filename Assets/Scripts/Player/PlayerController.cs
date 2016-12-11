@@ -11,13 +11,12 @@ public class PlayerController : MonoBehaviour {
     public List<KeyValuePair<ResourceType, int>> resources;
 
     public float fireRate;
-    public GameObject shootPrefab;
 
     private int MaxLife;
     private Animator animator;
      
 	void Start () {
-		this.WeaponData = WeaponFactory.GetWeapon (1);
+		this.WeaponData = new WeaponData(WeaponType.Umbrella, 1, Roll.None);
         this.PowerUpManager = new PowerUpManager();
         this.PowerUpManager.SetPowerUp(PowerUpFactory.GetPowerUpNull());
         this.resources = new List<KeyValuePair<ResourceType, int>>();
@@ -51,7 +50,7 @@ public class PlayerController : MonoBehaviour {
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3 mouseDelta = mousePosition - transform.position;
             mouseDelta.z = 0;
-            Instantiate(shootPrefab, transform.position + mouseDelta.normalized, Quaternion.LookRotation(Vector3.forward, mouseDelta));
+            WeaponFactory.getInstance().InstantiateShot(WeaponData, transform.position + mouseDelta.normalized, Quaternion.LookRotation(Vector3.forward, mouseDelta));
             timer = 1f / fireRate;
         }
         else
