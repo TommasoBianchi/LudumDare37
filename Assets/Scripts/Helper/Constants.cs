@@ -22,4 +22,5 @@ public class Constants {
 
 	public static float INVINCIBLE_TIME = 1.5f;
 
+    public static int RESOURCE_COST_PER_TIER = 25;
 }

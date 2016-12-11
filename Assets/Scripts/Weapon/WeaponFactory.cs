@@ -18,7 +18,7 @@ public class WeaponFactory : MonoBehaviour {
 		instance = this;
 	}
 
-	public WeaponData GetWeapon(int tier) {
+	public WeaponData GetRandomWeapon(int tier) {
 		WeaponType wt = RandomEnumPicker.GetRandomWeaponType();
 		Roll roll = RandomEnumPicker.GetRandomRollType();
 		Debug.Log("Weapon: " + wt + " " + roll + " tier " + tier);
