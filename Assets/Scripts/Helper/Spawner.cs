@@ -10,10 +10,11 @@ public class Spawner : MonoBehaviour {
 
 	private float timeSinceLastSpawn = 0;
 
+	private Enemy parent;
+
 	// Use this for initialization
 	void Start () {
-		GameObject go = Instantiate(obj, transform.position, Quaternion.identity);
-		go.GetComponent<MovementAI>().target = Globals.GetPlayer().GetComponent<Rigidbody2D>();
+		parent = transform.parent.gameObject.GetComponent<Enemy>();
 	}
 	
 	// Update is called once per frame
@@ -22,6 +23,8 @@ public class Spawner : MonoBehaviour {
 		if (timeSinceLastSpawn > timeBetweenSpawn) {
 			EnemyData ed = EnemyFactory.getInstance().getEnemy(1, Random.Range(0.9f, 1.1f));
 			GameObject go = EnemyFactory.getInstance().InstantiateEnemy(ed, transform.position, Quaternion.identity);
+			go.GetComponent<Enemy>().Life = parent.MaxLife/4;
+			go.GetComponent<Enemy>().MaxLife = parent.MaxLife/4;
 			go.GetComponent<MovementAI>().target = Globals.GetPlayer().GetComponent<Rigidbody2D>();
 			timeSinceLastSpawn = 0;
 		}
