@@ -32,6 +32,8 @@ public class WeaponFactory : MonoBehaviour {
 
         GameObject weaponObj = Instantiate(weapon.gameObject, position, rotation) as GameObject;
 		weaponObj.GetComponent<Weapon>().weaponData = weaponData;
+		weaponObj.GetComponent<Bullet>().Range = weapon.baseRange;
+		weaponObj.GetComponent<Bullet>().Speed = weapon.baseSpeed;
 
         return weaponObj;
 	}

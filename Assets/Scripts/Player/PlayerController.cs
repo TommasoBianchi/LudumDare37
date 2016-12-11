@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour {
     public Dictionary<ResourceType, int> resources = new Dictionary<ResourceType, int>();
     public LayerMask wallsLayerMask;
 
-    public float fireRate;
+    public float fireRate = 1.0f;
     private int life;
     public int Life 
     {
@@ -94,11 +94,12 @@ public class PlayerController : MonoBehaviour {
     {
         if (Input.GetButton("Fire1") && timer <= 0)
         {
+            Weapon weapon = WeaponFactory.getInstance().weapons.Find(w => w.weaponData.Type == WeaponData.Type);
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3 mouseDelta = mousePosition - transform.position;
             mouseDelta.z = 0;
             WeaponFactory.getInstance().InstantiateShot(WeaponData, transform.position + mouseDelta.normalized, Quaternion.LookRotation(Vector3.forward, mouseDelta));
-            timer = 1f / fireRate;
+            timer = 1f / (fireRate * weapon.baseFrequency);
         }
         else
         {
