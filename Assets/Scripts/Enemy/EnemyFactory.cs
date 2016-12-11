@@ -75,7 +75,7 @@ public class EnemyFactory : MonoBehaviour {
 
     public float calculateDamage(Enemy enemy) {
         WeaponData currentPlayerWeapon = Globals.GetPlayerController().WeaponData;
-        float baseDamage = currentPlayerWeapon.Tier * 10;
+        float baseDamage = currentPlayerWeapon.Tier * 10 * Globals.GetPlayerController().BasePower;
         float damageModifier = Random.Range(0.8f, 1.2f);
 
         switch (currentPlayerWeapon.Roll) {

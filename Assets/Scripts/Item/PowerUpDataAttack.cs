@@ -4,24 +4,25 @@ using UnityEngine;
 
 public class PowerUpDataAttack : PowerUpData {
 
-	private float mult;
 	//private ParticleEmitter effect;
 
-	public PowerUpDataAttack(float mult) {
+	public PowerUpDataAttack(float mult, float duration) {
+		this.type = 0;
 		this.mult = mult;
+		this.Duration = duration;
 	}
 
-	public void OnStart() {
-		GameObject player = Globals.GetPlayer();
-		player.GetComponent<SpriteRenderer>().material = Globals.PowerUpAttackMaterial;
+	override public void OnStart() {
+		Globals.GetPlayer().GetComponent<SpriteRenderer>().material.SetColor("_Color", Constants.COLOR_OVERLAY_BONUS_ATTACK);
+		Globals.GetPlayerController().BasePower = mult;
 	}
 
-	public void OnFinish() {
-		GameObject player = Globals.GetPlayer();
-		player.GetComponent<SpriteRenderer>().material = Globals.DefaultMaterial;
+	override public void OnFinish() {
+		Globals.GetPlayer().GetComponent<SpriteRenderer>().material.SetColor("_Color", Constants.COLOR_OVERLAY_DEFAULT);
+		Globals.GetPlayerController().BasePower = 1f;
 	}
 
-	public void OnAttack() {
+	override public void OnAttack() {
 		/*GameObject player = Globals.GetPlayer();
 		Vector3 effectPos = player.transform.position + player.transform.up;
 		Instantiate(effect, effectPos, Quaternion.identity);*/

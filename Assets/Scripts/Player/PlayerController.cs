@@ -6,7 +6,8 @@ public class PlayerController : MonoBehaviour {
 
     public GameObject cazzoDiPrefab;
 
-    public float Speed;
+    public float Speed = Constants.PLAYER_BASE_SPEED;
+    public float BasePower = 1.0f;
     public int Life;
 	public WeaponData WeaponData;
 	public PowerUpManager PowerUpManager;

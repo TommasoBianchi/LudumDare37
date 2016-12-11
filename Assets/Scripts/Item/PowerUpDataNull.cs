@@ -6,17 +6,19 @@ public class PowerUpDataNull : PowerUpData {
 
 	public PowerUpDataNull() {
 		this.Duration = 10;
+		this.type = 2;
 	}
 
-	public void OnFinish() {
+	override public void OnStart() {
 		
 	}
 
-	public void OnAttack() {
+	override public void OnFinish() {
 		
 	}
 
-	public bool IsNull() {
-		return true;
+	override public void OnAttack() {
+		
 	}
+
 }

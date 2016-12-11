@@ -4,30 +4,31 @@ using UnityEngine;
 
 public class PowerUpDataSpeed : PowerUpData {
 
-	private float mult;
-	public PowerUpDataSpeed(float mult) {
+	public PowerUpDataSpeed(float mult, float duration) {
+		this.type = 1;
 		this.mult = mult;
+		this.Duration = duration;
 	}
 
 	public void OnPickup () {
 		
 	}
 
-	public void OnStart() {
+	override public void OnStart() {
+		Debug.Log("SPEED INCREASED");
 		PlayerController pc = Globals.GetPlayerController();
 		pc.Speed = Constants.PLAYER_BASE_SPEED * this.mult;
-		GameObject player = Globals.GetPlayer();
-		player.GetComponent<SpriteRenderer>().material = Globals.PowerUpAttackMaterial;
+		Globals.GetPlayer().GetComponent<SpriteRenderer>().material.SetColor("_Color", Constants.COLOR_OVERLAY_BONUS_SPEED);
 	}
 
-	public void OnFinish() {
+	override public void OnFinish() {
+		Debug.Log("SPEED SET BACK TO NORMAL");
 		PlayerController pc = Globals.GetPlayerController();
 		pc.Speed = Constants.PLAYER_BASE_SPEED;
-		GameObject player = Globals.GetPlayer();
-		player.GetComponent<SpriteRenderer>().material = Globals.PowerUpAttackMaterial;
+		Globals.GetPlayer().GetComponent<SpriteRenderer>().material.SetColor("_Color", Constants.COLOR_OVERLAY_DEFAULT);
 	}
 
-	public void OnAttack() {
+	override public void OnAttack() {
 		
 	}
 }
