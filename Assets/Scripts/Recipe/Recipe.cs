@@ -16,7 +16,8 @@ public class Recipe {
         for (int i = 0; i < 1 + tier; i++)
         {
             int amount = (i == tier) ? resourceAmount : Random.Range(0, Mathf.FloorToInt(resourceAmount * 0.95f));
-            resources.Add((ResourceType)i, amount);
+            if(amount > 0)
+                resources.Add((ResourceType)i, amount);
             resourceAmount -= amount;
         }
     }

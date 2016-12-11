@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class RoomPlanFactory : MonoBehaviour {
 
-	public List<Resource> resources;
-
     public static RoomPlanFactory instance;
 
     private const float BOSS_PROB = 0.25f;
@@ -24,7 +22,7 @@ public class RoomPlanFactory : MonoBehaviour {
         List<Burst> bursts = new List<Burst>();
         List<ResourceType> loot = new List<ResourceType>();
 
-        int dropAmount = Random.Range(3, 7);
+        int dropAmount = Random.Range(((roomID % 5) + 1) * 5, ((roomID % 4) + 1) * 7);
 
         bool bossRoom = Random.value < BOSS_PROB;
         
@@ -58,16 +56,19 @@ public class RoomPlanFactory : MonoBehaviour {
             }
         }
 
-        for (int i = 0, remainingLoot = dropAmount; i < instance.resources.Count; i++)
+        var resources = System.Enum.GetValues(typeof(ResourceType));
+        for (int i = 0, remainingLoot = dropAmount; i < resources.Length; i++)
         {
             if (remainingLoot <= 0)
                 break;
 
-            int resourceLootAmount = Random.Range(0, remainingLoot);
+            int resourceLootAmount = (i == resources.Length - 1) ? remainingLoot : Random.Range(0, remainingLoot);
             for (int j = 0; j < resourceLootAmount; j++)
             {
-                loot.Add(instance.resources[i].type);
+                loot.Add((ResourceType)resources.GetValue(i));
             }
+
+            remainingLoot -= resourceLootAmount;
         }
 
         return new RoomPlan(bursts, loot, room);

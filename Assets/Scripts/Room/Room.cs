@@ -5,7 +5,18 @@ using UnityEngine.UI;
 
 public class Room : MonoBehaviour {
 
-    public int ID { get; private set; }
+    private int id = 1;
+    public int ID
+    {
+        get
+        {
+            return id;
+        }
+        private set
+        {
+            id = value;
+        }
+    }
     public int width;
     public int height;
 
@@ -377,17 +388,16 @@ public class Room : MonoBehaviour {
                 // Debug.Log("Doors unlocked");
                 UnlockDoors();
                 doorsLocked = false;
-
                 
                 // Change weapon
-                Globals.GetPlayerController().WeaponData = WeaponFactory.getInstance().GetWeapon(Mathf.RoundToInt(ID / 3) + 1);
-                GameObject text = Instantiate(Globals.GetPlayerController().Text, Globals.GetPlayer().transform.position, Quaternion.identity) as GameObject;
-                text.transform.SetParent(GameObject.Find("OverlayCanvas").transform);
-                text.GetComponent<Text>().color = Color.white;
-                string rollName = ("" + Globals.GetPlayerController().WeaponData.Roll).Equals("None") ? "" : ("" + Globals.GetPlayerController().WeaponData.Roll);
-                text.GetComponent<Text>().text = rollName + " " + Globals.GetPlayerController().WeaponData.Type + " T" + Globals.GetPlayerController().WeaponData.Tier;
-                text.GetComponent<DestroyAfter>().after = 3.0f;
-                text.GetComponent<MoveUp>().speed = 0.005f;
+                //Globals.GetPlayerController().WeaponData = WeaponFactory.getInstance().GetWeapon(Mathf.RoundToInt(ID / 3) + 1);
+                //GameObject text = Instantiate(Globals.GetPlayerController().Text, Globals.GetPlayer().transform.position, Quaternion.identity) as GameObject;
+                //text.transform.SetParent(GameObject.Find("OverlayCanvas").transform);
+                //text.GetComponent<Text>().color = Color.white;
+                //string rollName = ("" + Globals.GetPlayerController().WeaponData.Roll).Equals("None") ? "" : ("" + Globals.GetPlayerController().WeaponData.Roll);
+                //text.GetComponent<Text>().text = rollName + " " + Globals.GetPlayerController().WeaponData.Type + " T" + Globals.GetPlayerController().WeaponData.Tier;
+                //text.GetComponent<DestroyAfter>().after = 3.0f;
+                //text.GetComponent<MoveUp>().speed = 0.005f;
 
                 // Spawn chest
                 GameObject chest = Instantiate(chestPrefab, ViewportToWorldPoint(new Vector2(0.5f, 0.5f)), Quaternion.identity);

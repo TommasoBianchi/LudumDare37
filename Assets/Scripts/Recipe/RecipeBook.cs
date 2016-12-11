@@ -10,15 +10,7 @@ public class RecipeBook : MonoBehaviour
     public RectTransform recipeUIPrefab;
     public RectTransform whereToSpawnRecipeUI;
 
-	private static RecipeBook recipeBook = null;
-
-	private RecipeBook() {
-		
-	}
-
-	public static RecipeBook GetInstance() {
-		return recipeBook;
-	}
+    private static RecipeBook recipeBook = null;
 
     void Start()
     {
@@ -28,10 +20,18 @@ public class RecipeBook : MonoBehaviour
         }
 
         Randomize();
-	}
-	
-	void Update () {
-		
+
+        gameObject.SetActive(false);
+    }
+
+    public void OpenOnKeypress()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+            gameObject.SetActive(!gameObject.activeSelf);
+    }
+
+	public static RecipeBook GetInstance() {
+		return recipeBook;
 	}
 
 	public static void Randomize() {
