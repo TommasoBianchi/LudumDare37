@@ -6,11 +6,15 @@ public class Enemy : MonoBehaviour {
 
 	public List<WeaponType> Weaknesses = new List<WeaponType>();
 	public List<WeaponType> Resistences = new List<WeaponType>();
-	public int Life;
+	public float Life;
 	public PowerUpData PowerUpData = PowerUpFactory.GetPowerUpNull();
 
     private Rigidbody2D myRigidbody2D;
     private Animator animator;
+
+    public EnemyData enemyData;
+
+    public GameObject DamageText;
 
 	void Start () {
         myRigidbody2D = GetComponent<Rigidbody2D>();
@@ -60,11 +64,14 @@ public class Enemy : MonoBehaviour {
 
     public void Hit(Bullet bullet) {
         this.gameObject.GetComponent<Rigidbody2D>().velocity = bullet.gameObject.GetComponent<Rigidbody2D>().velocity;
-        Destroy(bullet.gameObject);
-        //float damage = EnemyFactory.getInstance().dm
-        this.Life -= 50;
+        float damage = EnemyFactory.getInstance().calculateDamage(this.enemyData);
+        this.Life -= damage;
+        GameObject text = Instantiate(DamageText, transform.position, Quaternion.identity) as GameObject;
+        text.transform.parent = GameObject.Find("OverlayCanvas").transform;
+        Debug.Log("Damage " + damage + ", remaining life " + this.Life);
         if (this.Life <= 0) {
             Destroy(this.gameObject);
         }
+        Destroy(bullet.gameObject);
     }
 }
