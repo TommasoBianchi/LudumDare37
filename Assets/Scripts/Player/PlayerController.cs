@@ -3,28 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
-
-    public GameObject cazzoDiPrefab;
-
+    
     public float Speed = Constants.PLAYER_BASE_SPEED;
     public float BasePower = 1.0f;
     public int Life;
 	public WeaponData WeaponData;
 	public PowerUpManager PowerUpManager;
     public List<KeyValuePair<ResourceType, int>> resources;
+    public LayerMask wallsLayerMask;
 
     public float fireRate;
 
     private int MaxLife = 3;
     private Animator animator;
     private LifeHUD lifeHUD;
+
+    public GameObject Text;
+
+    private bool invincible = false;
+    private float timeInvincible = 0;
+
+    private Rigidbody2D myRigidbody2D;
      
 	void Start () {
-		this.WeaponData = new WeaponData(WeaponType.Sword, 1, Roll.None);
+		this.WeaponData = WeaponFactory.getInstance().GetWeapon(1);
         this.PowerUpManager = new PowerUpManager();
         this.PowerUpManager.SetPowerUp(PowerUpFactory.GetPowerUpNull());
         this.resources = new List<KeyValuePair<ResourceType, int>>();
         animator = GetComponent<Animator>();
+        myRigidbody2D = GetComponent<Rigidbody2D>();
 
         Life = MaxLife;
         lifeHUD = GetComponent<LifeHUD>();
@@ -37,6 +44,8 @@ public class PlayerController : MonoBehaviour {
         PowerUpManager.Update();
 
         UpdateAttack();
+
+        UpdateInvincibility();
 	}
 
     private void UpdateMovement() {
@@ -45,9 +54,16 @@ public class PlayerController : MonoBehaviour {
 
         Vector2 Movement = new Vector2(MoveHorizontal, MoveVertical);
 
-        transform.Translate(Movement * Speed * Time.deltaTime, Space.World);
+        if (!Physics2D.Raycast(transform.position, Movement, 0.5f, wallsLayerMask))
+        {
+            transform.Translate(Movement * Speed * Time.deltaTime, Space.World);
 
-        UpdateAnimator(Movement);
+            UpdateAnimator(Movement);
+        }
+        else
+        {
+            UpdateAnimator(Vector2.zero);
+        }
     }
 
     private float timer = 0;
@@ -115,10 +131,44 @@ public class PlayerController : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.tag == "Enemy" && !this.invincible)
         {
-            Life--;
-            lifeHUD.SetLife(Life, MaxLife);
+            addLife(-1);
+            if (Life <= 0) {
+                Application.LoadLevel("MainMenu");
+            }
+
+            // Set invincible;
+            this.invincible = true;
+            this.timeInvincible = 0;
+        }
+    }
+
+    public void addLife(int amount) {
+        Life += amount;
+        if (Life > MaxLife) {
+            Life = MaxLife;
+        }
+        lifeHUD.SetLife(Life, MaxLife);
+    }
+
+    void UpdateInvincibility() {
+        if (this.invincible) {
+            this.timeInvincible += Time.deltaTime;
+            Color c = gameObject.GetComponent<SpriteRenderer>().color;
+
+            float pingpong = Mathf.PingPong(Time.time, 0.2f);
+            if (pingpong <= 0.05f) {
+                gameObject.GetComponent<SpriteRenderer>().color = new Color(c.r, c.g, c.b, 0.2f);
+            } else if (pingpong >= 0.15f) {
+                gameObject.GetComponent<SpriteRenderer>().color = new Color(c.r, c.g, c.b, 1f);
+            }
+
+            if (this.timeInvincible > Constants.INVINCIBLE_TIME) {
+                this.invincible = false;
+                this.timeInvincible = 0;
+                gameObject.GetComponent<SpriteRenderer>().color = new Color(c.r, c.g, c.b, 1f);
+            }
         }
     }
 }

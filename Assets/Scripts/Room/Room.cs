@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Room : MonoBehaviour {
 
@@ -372,18 +373,32 @@ public class Room : MonoBehaviour {
     }
 
 	public void Update() {
-        RoomPlan.UpdatePlan();
-        if (RoomPlan.IsCleared() && doorsLocked) {
-            // Instantiate next room
-            topDoor.linkedRoom = (Instantiate(roomPrefab, Vector3.zero, Quaternion.identity) as GameObject).GetComponent<Room>();
-            topDoor.linkedRoom.roomPrefab = roomPrefab;
-            topDoor.linkedRoom.ID = this.ID + 1;
+        if (RoomPlan != null)
+        {
+            RoomPlan.UpdatePlan();
+            if (RoomPlan.IsCleared() && doorsLocked)
+            {
+                // Instantiate next room
+                topDoor.linkedRoom = (Instantiate(roomPrefab, Vector3.zero, Quaternion.identity) as GameObject).GetComponent<Room>();
+                topDoor.linkedRoom.roomPrefab = roomPrefab;
+                topDoor.linkedRoom.ID = this.ID + 1;
 
-            //Debug.Log("Doors unlocked");
-            UnlockDoors();
-            doorsLocked = false;
+                //Debug.Log("Doors unlocked");
+                UnlockDoors();
+                doorsLocked = false;
+
+                
+                // Change weapon
+                Globals.GetPlayerController().WeaponData = WeaponFactory.getInstance().GetWeapon(Mathf.RoundToInt(ID / 3) + 1);
+                GameObject text = Instantiate(Globals.GetPlayerController().Text, Globals.GetPlayer().transform.position, Quaternion.identity) as GameObject;
+                text.transform.SetParent(GameObject.Find("OverlayCanvas").transform);
+                string rollName = ("" + Globals.GetPlayerController().WeaponData.Roll).Equals("None") ? "" : ("" + Globals.GetPlayerController().WeaponData.Roll);
+                text.GetComponent<Text>().text = rollName + " " + Globals.GetPlayerController().WeaponData.Type + " T" + Globals.GetPlayerController().WeaponData.Tier;
+                text.GetComponent<DestroyAfter>().after = 3.0f;
+                text.GetComponent<MoveUp>().speed = 0.005f;
+            }
         }
-	}
+    }
 
 	public void UnlockDoors() {
         topDoor.Open();
