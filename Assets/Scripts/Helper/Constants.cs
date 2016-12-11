@@ -20,4 +20,6 @@ public class Constants {
 	public static Color COLOR_OVERLAY_BONUS_ATTACK = Color.red;
 	public static Color COLOR_OVERLAY_BONUS_SPEED = Color.blue;
 
+	public static float INVINCIBLE_TIME = 1.5f;
+
 }

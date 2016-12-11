@@ -88,6 +88,8 @@ public class Enemy : MonoBehaviour {
         if (this.Life <= 0) {
             PowerUpFactory.getInstance().InstantiatePowerUp(this.PowerUpData, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
+        } else {
+
         }
         Destroy(bullet.gameObject);
     }

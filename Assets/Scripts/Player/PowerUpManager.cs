@@ -8,6 +8,7 @@ public class PowerUpManager {
 	private float totalDeltaTime = 0;
 	
 	public void SetPowerUp(PowerUpData powerUp) {
+		if (currentPowerUp != null) currentPowerUp.OnFinish();
 		this.currentPowerUp = powerUp;
 		powerUp.OnStart();
 	}

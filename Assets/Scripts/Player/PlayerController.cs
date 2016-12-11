@@ -20,6 +20,9 @@ public class PlayerController : MonoBehaviour {
     private LifeHUD lifeHUD;
 
     public GameObject Text;
+
+    private bool invincible = false;
+    private float timeInvincible = 0;
      
 	void Start () {
 		this.WeaponData = WeaponFactory.getInstance().GetWeapon(1);
@@ -39,6 +42,8 @@ public class PlayerController : MonoBehaviour {
         PowerUpManager.Update();
 
         UpdateAttack();
+
+        UpdateInvincibility();
 	}
 
     private void UpdateMovement() {
@@ -117,10 +122,38 @@ public class PlayerController : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.tag == "Enemy" && !this.invincible)
         {
             Life--;
+            if (Life <= 0) {
+                Application.LoadLevel("Test");
+            }
+
             lifeHUD.SetLife(Life, MaxLife);
+
+            // Set invincible;
+            this.invincible = true;
+            this.timeInvincible = 0;
+        }
+    }
+
+    void UpdateInvincibility() {
+        if (this.invincible) {
+            this.timeInvincible += Time.deltaTime;
+            Color c = gameObject.GetComponent<SpriteRenderer>().color;
+
+            float pingpong = Mathf.PingPong(Time.time, 0.2f);
+            if (pingpong <= 0.05f) {
+                gameObject.GetComponent<SpriteRenderer>().color = new Color(c.r, c.g, c.b, 0.2f);
+            } else if (pingpong >= 0.15f) {
+                gameObject.GetComponent<SpriteRenderer>().color = new Color(c.r, c.g, c.b, 1f);
+            }
+
+            if (this.timeInvincible > Constants.INVINCIBLE_TIME) {
+                this.invincible = false;
+                this.timeInvincible = 0;
+                gameObject.GetComponent<SpriteRenderer>().color = new Color(c.r, c.g, c.b, 1f);
+            }
         }
     }
 }
