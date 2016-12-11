@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Globals {
 
@@ -16,6 +17,23 @@ public class Globals {
 		return GetPlayer().GetComponent<PlayerController>();
 	}
 
-	public static int currentLevel = 0;
+    private static Text roomNumberUI;
+
+    private static int currentLevel = 0;
+    public static int CurrentLevel
+    {
+        get { return Globals.currentLevel; }
+        set 
+        {
+            if (roomNumberUI == null)
+                roomNumberUI = GameObject.Find("RoomNumber").GetComponentInChildren<Text>();
+            if (roomNumberUI == null)
+                throw new UnityException("Fix me!");
+
+            roomNumberUI.text = value.ToString();
+
+            Globals.currentLevel = value; 
+        }
+    }
 
 }

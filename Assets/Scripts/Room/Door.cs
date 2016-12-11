@@ -23,6 +23,8 @@ public class Door : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D collider)
     {
+        GetComponent<Collider2D>().enabled = false;
+
         FadeScreen.Animate(4, () =>
         {
             if (linkedRoom != null)
