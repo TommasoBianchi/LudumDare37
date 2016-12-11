@@ -26,7 +26,7 @@ public class PowerUpFactory : MonoBehaviour {
 		else if (num <= 20) {
 			powerUpData = GetPowerUpSpeed();
 		}
-		else if (num <= 90) {
+		else if (num <= 25) {
 			powerUpData = GetPowerUpLife();
 		}
 
