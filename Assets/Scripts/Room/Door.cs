@@ -12,6 +12,14 @@ public class Door : MonoBehaviour {
     public bool hubDoor;
     public bool doorToHub;
 
+    void Start()
+    {
+        if (doorToHub)
+        {
+            linkedRoom = Hub.instance;
+        }
+    }
+
     public void Open()
     {
         GetComponent<SpriteRenderer>().sprite = openedDoorSprite;
@@ -26,14 +34,22 @@ public class Door : MonoBehaviour {
         {
             if (linkedRoom != null)
             {
-                linkedRoom.Generate();
+                if(!doorToHub)
+                    linkedRoom.Generate();
                 linkedRoom.transform.position = (hubDoor) ? Vector3.up * 100 : transform.position;
-                Globals.GetPlayerController().transform.position = linkedRoom.bottomDoor.transform.position + Vector3.up * 2;
 
-                if(room != null)
+                if(linkedRoom.bottomDoor != null)
+                    Globals.GetPlayerController().transform.position = linkedRoom.bottomDoor.transform.position + Vector3.up * 2;
+                else
+                    Globals.GetPlayerController().transform.position = linkedRoom.topDoor.transform.position - Vector3.up * 2;
+
+                if (!doorToHub)
+                    linkedRoom.StartRoom();
+                else // prepare new first room if going back to the hub
+                    linkedRoom.topDoor.linkedRoom = (Instantiate(room.roomPrefab, Vector3.zero, Quaternion.identity) as GameObject).GetComponent<Room>();
+                
+                if (room != null)
                     Destroy(room.gameObject);
-
-                linkedRoom.StartRoom(); 
             }
         });
     }

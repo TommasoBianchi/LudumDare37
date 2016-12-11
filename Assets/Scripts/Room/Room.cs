@@ -19,26 +19,15 @@ public class Room : MonoBehaviour {
 
 	private RoomPlan RoomPlan;
 
-    public Door topDoor { get; private set; }
+    public Door topDoor { get; protected set; }
     public Door bottomDoor { get; private set; }
 
-    //private static bool firstRoom = true;
     private bool doorsLocked = true;
 
     private Vector2[,] nearestTiles;
 
     private Vector2 fallbackTopDoorPosition = -Vector2.one;
     private Vector2 fallbackBottomDoorPosition = -Vector2.one;
-
-    //void Start() 
-    //{
-    //    if (firstRoom)
-    //    {
-    //        Generate();
-    //        firstRoom = false;
-    //        StartRoom();
-    //    }
-    //}
 
     public void Generate()
     {
@@ -90,6 +79,7 @@ public class Room : MonoBehaviour {
             Debug.LogWarning("Bottom door in fallback position");
         }
         bottomDoor.room = this;
+        bottomDoor.doorToHub = true;
 
         RoomPlan = RoomPlanFactory.getInstance().getRoomPlan(this.ID, this);
     }
