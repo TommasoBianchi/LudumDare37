@@ -1,18 +1,34 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class PlayerController : MonoBehaviour {
     
     public float Speed = Constants.PLAYER_BASE_SPEED;
     public float BasePower = 1.0f;
-    public int Life;
 	public WeaponData WeaponData;
 	public PowerUpManager PowerUpManager;
     public Dictionary<ResourceType, int> resources = new Dictionary<ResourceType, int>();
     public LayerMask wallsLayerMask;
 
     public float fireRate;
+    private int life;
+    public int Life 
+    {
+        get
+        {
+            return life;
+        }
+        private set
+        {
+            if (lifeHUD == null)
+                lifeHUD = GetComponent<LifeHUD>();
+
+            lifeHUD.SetLife(value, MaxLife);
+            life = value;
+        } 
+    }
 
     private int MaxLife = 3;
     private Animator animator;
@@ -34,18 +50,24 @@ public class PlayerController : MonoBehaviour {
         myRigidbody2D = GetComponent<Rigidbody2D>();
 
         Life = MaxLife;
-        lifeHUD = GetComponent<LifeHUD>();
-        lifeHUD.SetLife(Life, MaxLife);
     }
 	
-	void Update () {
-        UpdateMovement();
+	void Update () 
+    {
+        if (FadeScreen.IsAnimating() == false)
+        {
+            UpdateMovement();
 
-        PowerUpManager.Update();
+            PowerUpManager.Update();
 
-        UpdateAttack();
+            UpdateAttack();
 
-        UpdateInvincibility();
+            UpdateInvincibility();
+        }
+        else
+        {
+            UpdateAnimator(Vector2.zero);
+        }
 	}
 
     private void UpdateMovement() {
@@ -54,7 +76,7 @@ public class PlayerController : MonoBehaviour {
 
         Vector2 Movement = new Vector2(MoveHorizontal, MoveVertical);
 
-        if (!Physics2D.Raycast(transform.position, Movement, 0.5f, wallsLayerMask))
+        if (!Physics2D.Raycast(transform.position, Movement, 0.5f * (Speed - Constants.PLAYER_BASE_SPEED + 1), wallsLayerMask))
         {
             transform.Translate(Movement * Speed * Time.deltaTime, Space.World);
 
@@ -131,13 +153,35 @@ public class PlayerController : MonoBehaviour {
         if (collision.gameObject.tag == "Enemy" && !this.invincible)
         {
             addLife(-1);
-            if (Life <= 0) {
-                Application.LoadLevel("MainMenu");
-            }
+            if (Life == 0)
+            {
+                // Die!
+                FadeScreen.Animate(8, () =>
+                {
+                    ClearResources();
+                    transform.position = Hub.instance.topDoor.transform.position - Vector3.up * 2;
+                    Life = MaxLife;
 
-            // Set invincible;
-            this.invincible = true;
-            this.timeInvincible = 0;
+                    Room currentRoom = FindObjectsOfType<Room>().Where(r => r.ID != -1).First();
+                    Hub.instance.topDoor.linkedRoom = (Instantiate(currentRoom.roomPrefab, Vector3.zero, Quaternion.identity) as GameObject).GetComponent<Room>();
+                    Hub.instance.topDoor.linkedRoom.roomPrefab = currentRoom.roomPrefab;
+                    Destroy(currentRoom.gameObject);
+
+                    Enemy[] enemies = FindObjectsOfType<Enemy>();
+                    for (int i = 0; i < enemies.Length; i++)
+                    {
+                        Destroy(enemies[i].gameObject);
+                    }
+
+                    Globals.CurrentLevel = 0;
+                }, "Game over\nYou lost all your resources\nYou idiot");
+            }
+            else
+            {
+                // Set invincible;
+                this.invincible = true;
+                this.timeInvincible = 0;
+            }
         }
     }
 
@@ -146,7 +190,6 @@ public class PlayerController : MonoBehaviour {
         if (Life > MaxLife) {
             Life = MaxLife;
         }
-        lifeHUD.SetLife(Life, MaxLife);
     }
 
     void UpdateInvincibility() {

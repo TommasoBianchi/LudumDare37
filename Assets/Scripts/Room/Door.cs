@@ -62,6 +62,7 @@ public class Door : MonoBehaviour {
                 Destroy(room.topDoor.gameObject);
                 linkedRoom.topDoor.linkedRoom = (Instantiate(room.roomPrefab, Vector3.zero, Quaternion.identity) as GameObject).GetComponent<Room>();
                 linkedRoom.topDoor.linkedRoom.roomPrefab = room.roomPrefab;
+                Globals.CurrentLevel = 0;
             }
 
             if (room != null)

@@ -12,7 +12,7 @@ public class Room : MonoBehaviour {
         {
             return id;
         }
-        private set
+        protected set
         {
             id = value;
         }

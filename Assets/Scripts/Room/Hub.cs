@@ -11,5 +11,6 @@ public class Hub : Room {
 	void Start () {
         instance = this;
         topDoor = hubDoor;
+        ID = -1;
 	}
 }
