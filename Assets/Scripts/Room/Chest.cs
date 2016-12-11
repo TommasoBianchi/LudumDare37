@@ -7,16 +7,6 @@ public class Chest : MonoBehaviour {
 
 	private Dictionary<ResourceType, int> resources = new Dictionary<ResourceType, int>();
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
 	public void AddResource(ResourceType rt, int amount) {
 		if (resources.ContainsKey(rt)) {
 			resources[rt] += amount;

@@ -28,10 +28,15 @@ public class ItemRecipeUI : MonoBehaviour {
         for (int i = 0; i < resourcesNeeded.Length; i++)
         {
             if (playerResources.ContainsKey(resourcesNeeded[i]) == false || playerResources[resourcesNeeded[i]] < recipe.resources[resourcesNeeded[i]])
+            {
                 enable = false;
+            }
         }
 
         transform.GetChild(0).gameObject.SetActive(enable);
+
+        if (enable)
+            SetLabel(recipe, playerResources, resourcesNeeded);
     }
 
     public void SetRecipe(Recipe recipe, int tier)
@@ -45,17 +50,22 @@ public class ItemRecipeUI : MonoBehaviour {
 
         ResourceType[] resourcesNeeded = recipe.resources.Keys.ToArray();
 
+        SetLabel(recipe, playerResources, resourcesNeeded);
+
+        for (int i = resourcesNeeded.Length; i < 6; i++)
+        {
+            resourcesPanel.GetChild(i).gameObject.SetActive(false);
+        }
+    }
+
+    private void SetLabel(Recipe recipe, Dictionary<ResourceType, int> playerResources, ResourceType[] resourcesNeeded)
+    {
         for (int i = 0; i < resourcesNeeded.Length; i++)
         {
             Text[] text = resourcesPanel.GetChild(i).GetComponentsInChildren<Text>();
             text[0].text = resourcesNeeded[i].ToString();
             int playerResourceAmount = playerResources.ContainsKey(resourcesNeeded[i]) ? playerResources[resourcesNeeded[i]] : 0;
-            text[1].text = "x" + recipe.resources[resourcesNeeded[i]] + " / " + playerResourceAmount;
-        }
-
-        for (int i = resourcesNeeded.Length; i < 6; i++)
-        {
-            resourcesPanel.GetChild(i).gameObject.SetActive(false);
+            text[1].text = playerResourceAmount + " / " + recipe.resources[resourcesNeeded[i]];
         }
     }
 }
