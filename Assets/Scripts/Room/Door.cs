@@ -9,6 +9,9 @@ public class Door : MonoBehaviour {
     public Room room;
     public Room linkedRoom;
 
+    public bool hubDoor;
+    public bool doorToHub;
+
     public void Open()
     {
         GetComponent<SpriteRenderer>().sprite = openedDoorSprite;
@@ -24,9 +27,12 @@ public class Door : MonoBehaviour {
             if (linkedRoom != null)
             {
                 linkedRoom.Generate();
-                linkedRoom.transform.position = transform.position + Vector3.up * 0;
-                FindObjectOfType<PlayerController>().transform.position = linkedRoom.bottomDoor.transform.position + Vector3.up * 2;
-                Destroy(room.gameObject);
+                linkedRoom.transform.position = (hubDoor) ? Vector3.up * 100 : transform.position;
+                Globals.GetPlayerController().transform.position = linkedRoom.bottomDoor.transform.position + Vector3.up * 2;
+
+                if(room != null)
+                    Destroy(room.gameObject);
+
                 linkedRoom.StartRoom(); 
             }
         });

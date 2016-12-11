@@ -21,7 +21,7 @@ public class Room : MonoBehaviour {
     public Door topDoor { get; private set; }
     public Door bottomDoor { get; private set; }
 
-    private static bool firstRoom = true;
+    //private static bool firstRoom = true;
     private bool doorsLocked = true;
 
     private Vector2[,] nearestTiles;
@@ -29,15 +29,15 @@ public class Room : MonoBehaviour {
     private Vector2 fallbackTopDoorPosition = -Vector2.one;
     private Vector2 fallbackBottomDoorPosition = -Vector2.one;
 
-    void Start() 
-    {
-        if (firstRoom)
-        {
-            Generate();
-            firstRoom = false;
-            StartRoom();
-        }
-	}
+    //void Start() 
+    //{
+    //    if (firstRoom)
+    //    {
+    //        Generate();
+    //        firstRoom = false;
+    //        StartRoom();
+    //    }
+    //}
 
     public void Generate()
     {
