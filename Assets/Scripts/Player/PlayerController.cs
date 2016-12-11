@@ -18,9 +18,11 @@ public class PlayerController : MonoBehaviour {
     private int MaxLife = 3;
     private Animator animator;
     private LifeHUD lifeHUD;
+
+    public GameObject Text;
      
 	void Start () {
-		this.WeaponData = new WeaponData(WeaponType.Sword, 1, Roll.None);
+		this.WeaponData = WeaponFactory.getInstance().GetWeapon(1);
         this.PowerUpManager = new PowerUpManager();
         this.PowerUpManager.SetPowerUp(PowerUpFactory.GetPowerUpNull());
         this.resources = new List<KeyValuePair<ResourceType, int>>();

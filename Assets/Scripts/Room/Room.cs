@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Room : MonoBehaviour {
 
@@ -382,6 +383,15 @@ public class Room : MonoBehaviour {
             //Debug.Log("Doors unlocked");
             UnlockDoors();
             doorsLocked = false;
+
+            // Change weapon
+            Globals.GetPlayerController().WeaponData = WeaponFactory.getInstance().GetWeapon(Mathf.RoundToInt(ID / 3) + 1);
+            GameObject text = Instantiate(Globals.GetPlayerController().Text, Globals.GetPlayer().transform.position, Quaternion.identity) as GameObject;
+            text.transform.SetParent(GameObject.Find("OverlayCanvas").transform);
+            string rollName = ("" + Globals.GetPlayerController().WeaponData.Roll).Equals("None") ? "" : ("" + Globals.GetPlayerController().WeaponData.Roll);
+            text.GetComponent<Text>().text = rollName + " " + Globals.GetPlayerController().WeaponData.Type + " T" + Globals.GetPlayerController().WeaponData.Tier;
+            text.GetComponent<DestroyAfter>().after = 3.0f;
+            text.GetComponent<MoveUp>().speed = 0.005f;
         }
 	}
 

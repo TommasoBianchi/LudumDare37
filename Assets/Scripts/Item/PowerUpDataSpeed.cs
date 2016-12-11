@@ -15,14 +15,12 @@ public class PowerUpDataSpeed : PowerUpData {
 	}
 
 	override public void OnStart() {
-		Debug.Log("SPEED INCREASED");
 		PlayerController pc = Globals.GetPlayerController();
 		pc.Speed = Constants.PLAYER_BASE_SPEED * this.mult;
 		Globals.GetPlayer().GetComponent<SpriteRenderer>().material.SetColor("_Color", Constants.COLOR_OVERLAY_BONUS_SPEED);
 	}
 
 	override public void OnFinish() {
-		Debug.Log("SPEED SET BACK TO NORMAL");
 		PlayerController pc = Globals.GetPlayerController();
 		pc.Speed = Constants.PLAYER_BASE_SPEED;
 		Globals.GetPlayer().GetComponent<SpriteRenderer>().material.SetColor("_Color", Constants.COLOR_OVERLAY_DEFAULT);
