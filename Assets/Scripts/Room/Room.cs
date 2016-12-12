@@ -423,7 +423,8 @@ public class Room : MonoBehaviour {
         int tileY = Mathf.RoundToInt(viewportPoint.y * (height - 1));
 
         if (nearestTiles == null)
-            Debug.LogError(gameObject.name);
+            return Hub.instance.ViewportToWorldPoint(viewportPoint);
+
         Vector3 nearestTile = nearestTiles[tileX, tileY];
         return nearestTile + transform.position;
     }
