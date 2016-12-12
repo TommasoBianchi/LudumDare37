@@ -163,6 +163,7 @@ public class Room : MonoBehaviour {
         {
             floor = Instantiate(floorNearWallPrefab, new Vector3(x, y, 0), Quaternion.identity, transform) as GameObject;
             GameObject wall = Instantiate(wallPrefab, new Vector3(x, y + 1, 0), Quaternion.identity, transform) as GameObject;
+            wall.GetComponentInChildren<Collider>().enabled = false;
 
             // Right wall
             if (x == width - 1 || map[x + 1, y] == false)
