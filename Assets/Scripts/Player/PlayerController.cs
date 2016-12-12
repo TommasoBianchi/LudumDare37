@@ -83,7 +83,6 @@ public class PlayerController : MonoBehaviour {
         {
             Room currentRoom = FindObjectsOfType<Room>().Where(r => r.ID != -1).OrderBy(r => r.ID).First() ?? Hub.instance;
             transform.position = currentRoom.ViewportToWorldPoint(Vector2.one / 2f);
-            Debug.Log("outside");
         }
     }
 
@@ -148,7 +147,17 @@ public class PlayerController : MonoBehaviour {
         this.resources.Clear();
     }
 
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        OnCollision(collision);
+    }
+
     void OnCollisionStay2D(Collision2D collision)
+    {
+        OnCollision(collision);
+    }
+
+    void OnCollision(Collision2D collision)
     {
         if (collision.gameObject.tag == "Enemy" && !this.invincible)
         {
