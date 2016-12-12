@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour {
 	public WeaponData WeaponData;
 	public PowerUpManager PowerUpManager;
     public Dictionary<ResourceType, int> resources = new Dictionary<ResourceType, int>();
-    public LayerMask wallsLayerMask;
+    public LayerMask floorLayerMask;
 
     public float fireRate;
     private int life;
@@ -75,16 +75,15 @@ public class PlayerController : MonoBehaviour {
         float MoveVertical = Input.GetAxis("Vertical");
 
         Vector2 Movement = new Vector2(MoveHorizontal, MoveVertical);
+        transform.Translate(Movement * Speed * Time.deltaTime, Space.World);
+        UpdateAnimator(Movement);
 
-        if (!Physics2D.Raycast(transform.position, Movement, 0.5f * (Speed - Constants.PLAYER_BASE_SPEED + 1), wallsLayerMask))
+        // Anti-geco code
+        if (!Physics.Raycast(transform.position + Vector3.forward * 5, -Vector3.forward, floorLayerMask))
         {
-            transform.Translate(Movement * Speed * Time.deltaTime, Space.World);
-
-            UpdateAnimator(Movement);
-        }
-        else
-        {
-            UpdateAnimator(Vector2.zero);
+            Room currentRoom = FindObjectsOfType<Room>().Where(r => r.ID != -1).OrderBy(r => r.ID).First() ?? Hub.instance;
+            transform.position = currentRoom.ViewportToWorldPoint(Vector2.one / 2f);
+            Debug.Log("outside");
         }
     }
 
