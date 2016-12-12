@@ -39,7 +39,7 @@ public class Enemy : MonoBehaviour {
 
     private void UpdateAnimator(Vector2 Movement)
     {
-        if (GetComponent<Animation>() == null) return;
+        if (GetComponent<Animator>() == null) return;
 
         animator.SetFloat("AnimationSpeed", 1);
 
