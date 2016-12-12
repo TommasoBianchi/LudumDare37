@@ -414,13 +414,16 @@ public class Room : MonoBehaviour {
         bottomDoor.Open();
 	}
 
-    public Vector3 ViewportToWorldPoint(Vector2 viewportPoint)
+    public virtual Vector3 ViewportToWorldPoint(Vector2 viewportPoint)
     {
         viewportPoint.x = Mathf.Clamp01(viewportPoint.x);
         viewportPoint.y = Mathf.Clamp01(viewportPoint.y);
 
         int tileX = Mathf.RoundToInt(viewportPoint.x * (width - 1));
         int tileY = Mathf.RoundToInt(viewportPoint.y * (height - 1));
+
+        if (nearestTiles == null)
+            return Hub.instance.ViewportToWorldPoint(viewportPoint);
 
         Vector3 nearestTile = nearestTiles[tileX, tileY];
         return nearestTile + transform.position;

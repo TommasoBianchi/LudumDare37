@@ -13,4 +13,9 @@ public class Hub : Room {
         topDoor = hubDoor;
         ID = -1;
 	}
+
+    public override Vector3 ViewportToWorldPoint(Vector2 viewportPoint)
+    {
+        return topDoor.transform.position - Vector3.up * 2;
+    }
 }

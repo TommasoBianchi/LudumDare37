@@ -51,7 +51,7 @@ public class Door : MonoBehaviour {
             }
 
             if (linkedRoom.bottomDoor != null)
-                Globals.GetPlayerController().transform.position = linkedRoom.bottomDoor.transform.position + Vector3.up * 2;
+                Globals.GetPlayerController().transform.position = linkedRoom.bottomDoor.transform.position + Vector3.up * 1f;
             else
                 Globals.GetPlayerController().transform.position = linkedRoom.topDoor.transform.position - Vector3.up * 2;
 
