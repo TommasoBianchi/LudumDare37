@@ -29,8 +29,8 @@ public class PlayerController : MonoBehaviour {
             life = value;
         } 
     }
+    public int MaxLife = 3;
 
-    private int MaxLife = 3;
     private Animator animator;
     private LifeHUD lifeHUD;
 
@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour {
 	
 	void Update () 
     {
-        if (FadeScreen.IsAnimating() == false && (RecipeBook.GetInstance() == null || RecipeBook.GetInstance().gameObject.activeSelf == false))
+        if (FadeScreen.IsAnimating() == false && (RecipeBook.GetInstance() == null || RecipeBook.GetInstance().gameObject.activeSelf == false) && Time.timeScale > 0)
         {
             UpdateMovement();
 
@@ -171,6 +171,9 @@ public class PlayerController : MonoBehaviour {
                     transform.position = Hub.instance.topDoor.transform.position - Vector3.up * 2;
                     Life = MaxLife;
 
+                    WeaponData = WeaponFactory.getInstance().GetRandomWeapon(1);
+                    PowerUpManager.SetPowerUp(PowerUpFactory.GetPowerUpNull());
+
                     Room currentRoom = FindObjectsOfType<Room>().Where(r => r.ID != -1).First();
                     Hub.instance.topDoor.linkedRoom = (Instantiate(currentRoom.roomPrefab, Vector3.zero, Quaternion.identity) as GameObject).GetComponent<Room>();
                     Hub.instance.topDoor.linkedRoom.roomPrefab = currentRoom.roomPrefab;
@@ -183,7 +186,7 @@ public class PlayerController : MonoBehaviour {
                     }
 
                     Globals.CurrentLevel = 0;
-                }, "Game over\nYou lost all your resources\nYou idiot");
+                }, "Game over\n\nYou lost all your resources");
             }
             else
             {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum ResourceType {
-	Wood,
-	Iron,
-	Rock,
-    Cryptonite,
+    Wood,
+    Rock,
     Bronze,
+	Iron,
+    Cryptonite,
     Adamantium
 }

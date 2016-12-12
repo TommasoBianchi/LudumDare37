@@ -22,7 +22,7 @@ public class RoomPlanFactory : MonoBehaviour {
         List<Burst> bursts = new List<Burst>();
         List<ResourceType> loot = new List<ResourceType>();
 
-        int dropAmount = Random.Range(((roomID % 5) + 1) * 5, ((roomID % 4) + 1) * 7);
+        int dropAmount = Random.Range(((roomID / 5) + 1) * 5, ((roomID / 4) + 1) * 7);
 
         bool bossRoom = Random.value < BOSS_PROB;
         
