@@ -22,7 +22,7 @@ public class RoomPlanFactory : MonoBehaviour {
         List<Burst> bursts = new List<Burst>();
         List<ResourceType> loot = new List<ResourceType>();
 
-        int dropAmount = Random.Range(((roomID / 5) + 1) * 5, ((roomID / 4) + 1) * 7);
+        int dropAmount = Random.Range(10, 16);
 
         bool bossRoom = Random.value < BOSS_PROB;
         
@@ -55,14 +55,18 @@ public class RoomPlanFactory : MonoBehaviour {
                 bursts.Add(new Burst(b * Random.Range(1.5f, 3f), enemies, (Random.insideUnitCircle + Vector2.one) / 2f));
             }
         }
+		
+	var roomTier = 1;
+	while(roomId - (roomTier + 1) * (roomTier + 2) / 2 >= 0)
+		roomTier++;
 
         var resources = System.Enum.GetValues(typeof(ResourceType));
-        for (int i = 0, remainingLoot = dropAmount; i < resources.Length; i++)
+        for (int i = 0, remainingLoot = dropAmount; i < Mathf.Min(resources.Length, roomTier + 2); i++)
         {
-            if (remainingLoot <= 0)
-                break;
-
-            int resourceLootAmount = (i == resources.Length - 1) ? remainingLoot : Random.Range(0, remainingLoot);
+	    int resourceLootAmount = Mathf.RoundToInt(remainingLoot * ((7 - roomTier) / 10f));
+	    if(resourceLootAmount <= 0)
+	 	resourceLootAmount = Random.Range(0, 2);
+		
             for (int j = 0; j < resourceLootAmount; j++)
             {
                 loot.Add((ResourceType)resources.GetValue(i));
