@@ -155,7 +155,9 @@ public class EnemyFactory : MonoBehaviour {
 
         GameObject enemyObj = Instantiate(enemy.gameObject, position, rotation) as GameObject;
         enemyObj.transform.parent = GameObject.FindGameObjectWithTag("Room").transform;
-        enemyObj.transform.localScale = new Vector3(enemyData.Scale, enemyData.Scale, enemyData.Scale);
+        if (enemyData.type != 5) {
+            enemyObj.transform.localScale = new Vector3(enemyData.Scale, enemyData.Scale, enemyData.Scale);
+        }
         enemyObj.GetComponent<Enemy>().Life = enemyData.Life;
         enemyObj.GetComponent<Enemy>().MaxLife = enemyData.Life;
         enemyObj.GetComponent<SpriteRenderer>().material.SetColor("_Color", enemyData.ColorOverlay);
