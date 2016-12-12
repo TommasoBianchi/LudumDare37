@@ -56,12 +56,12 @@ public class RoomPlanFactory : MonoBehaviour {
             }
         }
 		
-	var roomTier = 1;
-	while(roomId - (roomTier + 1) * (roomTier + 2) / 2 >= 0)
-		roomTier++;
+	    var roomTier = 1;
+	    while(roomID - (roomTier + 1) * (roomTier + 2) / 2 >= 0)
+		    roomTier++;
 
         var resources = System.Enum.GetValues(typeof(ResourceType));
-        for (int i = 0, remainingLoot = dropAmount; i < Mathf.Min(resources.Length, roomTier + 2); i++)
+        for (int i = 0, remainingLoot = dropAmount; i < Mathf.Min(resources.Length, roomTier + 1); i++)
         {
 	    int resourceLootAmount = Mathf.RoundToInt(remainingLoot * ((7 - roomTier) / 10f));
 	    if(resourceLootAmount <= 0)

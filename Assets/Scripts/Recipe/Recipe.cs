@@ -14,14 +14,14 @@ public class Recipe {
         int tier = wd.Tier;
 
         int totalAmount = Constants.RESOURCE_COST_PER_TIER * tier;
-        
+
         for (int i = 0, remainingResources = totalAmount; i < 1 + tier; i++)
         {
-	    int resourceAmount = Mathf.RoundToInt(remainingResources * ((7 - tier) / 10f));
-	    if(resourceAmount <= 0)
-	        resourceAmount = Random.Range(0, 2);
-            
-            if(resourceAmount > 0)
+            int resourceAmount = Mathf.RoundToInt(remainingResources * ((7 - tier) / 10f) * Random.Range(0.7f, 1.3f));
+            if (resourceAmount <= 0)
+                resourceAmount = Random.Range(0, 2);
+
+            if (resourceAmount > 0)
                 resources.Add((ResourceType)i, resourceAmount);
 
             remainingResources -= resourceAmount;

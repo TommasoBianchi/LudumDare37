@@ -44,6 +44,18 @@ public class Door : MonoBehaviour {
     {
         if (linkedRoom != null)
         {
+            var powerups = FindObjectsOfType<PowerUp>();
+            for (int i = 0; i < powerups.Length; i++)
+            {
+                Destroy(powerups[i].gameObject);
+            }
+
+            var enemies = FindObjectsOfType<Enemy>();
+            for (int i = 0; i < enemies.Length; i++)
+            {
+                Destroy(enemies[i].gameObject);
+            }
+
             if (!doorToHub)
             {
                 linkedRoom.Generate();
@@ -59,7 +71,7 @@ public class Door : MonoBehaviour {
                 linkedRoom.StartRoom();
             else // prepare new first room if going back to the hub
             {
-                Destroy(room.topDoor.gameObject);
+                Destroy(room.topDoor.linkedRoom.gameObject);
                 linkedRoom.topDoor.linkedRoom = (Instantiate(room.roomPrefab, Vector3.zero, Quaternion.identity) as GameObject).GetComponent<Room>();
                 linkedRoom.topDoor.linkedRoom.roomPrefab = room.roomPrefab;
                 Globals.CurrentLevel = 0;
@@ -67,7 +79,9 @@ public class Door : MonoBehaviour {
             }
 
             if (room != null)
+            {
                 Destroy(room.gameObject);
+            }
         }
     }
 }

@@ -9,12 +9,21 @@ public class Globals {
 	public static Material PowerUpAttackMaterial;
 	public static Material PowerUpSpeedMaterial;
 
+    private static GameObject player;
+    private static PlayerController playerController;
+
 	public static GameObject GetPlayer() {
-		return GameObject.FindGameObjectWithTag(Constants.PLAYER_TAG);
+        if (player == null)
+            player = GameObject.FindGameObjectWithTag(Constants.PLAYER_TAG);
+
+        return player;
 	}
 
 	public static PlayerController GetPlayerController() {
-		return GetPlayer().GetComponent<PlayerController>();
+        if(playerController == null)
+            playerController = GetPlayer().GetComponent<PlayerController>();
+
+        return playerController;
 	}
 
     private static Text roomNumberUI;

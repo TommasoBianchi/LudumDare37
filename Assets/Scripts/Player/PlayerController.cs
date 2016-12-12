@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Linq;
 
 public class PlayerController : MonoBehaviour {
@@ -48,6 +49,15 @@ public class PlayerController : MonoBehaviour {
         this.resources = new Dictionary<ResourceType, int>();
         animator = GetComponent<Animator>();
         myRigidbody2D = GetComponent<Rigidbody2D>();
+
+        // Print out starting weapon's name
+        GameObject text = Instantiate(Text, Globals.GetPlayer().transform.position, Quaternion.identity) as GameObject;
+        text.transform.SetParent(GameObject.Find("OverlayCanvas").transform);
+        text.GetComponent<Text>().color = Color.white;
+        string rollName = ("" + WeaponData.Roll).Equals("None") ? "" : (WeaponData.Roll.ToString());
+        text.GetComponent<Text>().text = rollName + " " + WeaponData.Type + " T" + WeaponData.Tier;
+        text.GetComponent<DestroyAfter>().after = 3.0f;
+        text.GetComponent<MoveUp>().speed = 0.005f;
 
         Life = MaxLife;
     }
