@@ -18,7 +18,7 @@ public class WeaponFactory : MonoBehaviour {
 		instance = this;
 	}
 
-	public WeaponData GetWeapon(int tier) {
+	public WeaponData GetRandomWeapon(int tier) {
 		WeaponType wt = RandomEnumPicker.GetRandomWeaponType();
 		Roll roll = RandomEnumPicker.GetRandomRollType();
 		Debug.Log("Weapon: " + wt + " " + roll + " tier " + tier);
@@ -32,6 +32,8 @@ public class WeaponFactory : MonoBehaviour {
 
         GameObject weaponObj = Instantiate(weapon.gameObject, position, rotation) as GameObject;
 		weaponObj.GetComponent<Weapon>().weaponData = weaponData;
+		weaponObj.GetComponent<Bullet>().Range = weapon.baseRange;
+		weaponObj.GetComponent<Bullet>().Speed = weapon.baseSpeed;
 
         return weaponObj;
 	}

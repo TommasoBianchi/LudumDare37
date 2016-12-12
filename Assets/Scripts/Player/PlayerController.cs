@@ -10,9 +10,9 @@ public class PlayerController : MonoBehaviour {
 	public WeaponData WeaponData;
 	public PowerUpManager PowerUpManager;
     public Dictionary<ResourceType, int> resources = new Dictionary<ResourceType, int>();
-    public LayerMask wallsLayerMask;
+    public LayerMask floorLayerMask;
 
-    public float fireRate;
+    public float fireRate = 1.0f;
     private int life;
     public int Life 
     {
@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour {
     private Rigidbody2D myRigidbody2D;
      
 	void Start () {
-		this.WeaponData = WeaponFactory.getInstance().GetWeapon(1);
+		this.WeaponData = WeaponFactory.getInstance().GetRandomWeapon(1);
         this.PowerUpManager = new PowerUpManager();
         this.PowerUpManager.SetPowerUp(PowerUpFactory.GetPowerUpNull());
         this.resources = new Dictionary<ResourceType, int>();
@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour {
 	
 	void Update () 
     {
-        if (FadeScreen.IsAnimating() == false)
+        if (FadeScreen.IsAnimating() == false && (RecipeBook.GetInstance() == null || RecipeBook.GetInstance().gameObject.activeSelf == false))
         {
             UpdateMovement();
 
@@ -75,16 +75,15 @@ public class PlayerController : MonoBehaviour {
         float MoveVertical = Input.GetAxis("Vertical");
 
         Vector2 Movement = new Vector2(MoveHorizontal, MoveVertical);
+        transform.Translate(Movement * Speed * Time.deltaTime, Space.World);
+        UpdateAnimator(Movement);
 
-        if (!Physics2D.Raycast(transform.position, Movement, 0.5f * (Speed - Constants.PLAYER_BASE_SPEED + 1), wallsLayerMask))
+        // Anti-geco code
+        if (!Physics.Raycast(transform.position + Vector3.forward * 5, -Vector3.forward, floorLayerMask))
         {
-            transform.Translate(Movement * Speed * Time.deltaTime, Space.World);
-
-            UpdateAnimator(Movement);
-        }
-        else
-        {
-            UpdateAnimator(Vector2.zero);
+            Room currentRoom = FindObjectsOfType<Room>().Where(r => r.ID != -1).OrderBy(r => r.ID).First() ?? Hub.instance;
+            transform.position = currentRoom.ViewportToWorldPoint(Vector2.one / 2f);
+            Debug.Log("outside");
         }
     }
 
@@ -94,11 +93,12 @@ public class PlayerController : MonoBehaviour {
     {
         if (Input.GetButton("Fire1") && timer <= 0)
         {
+            Weapon weapon = WeaponFactory.getInstance().weapons.Find(w => w.weaponData.Type == WeaponData.Type);
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3 mouseDelta = mousePosition - transform.position;
             mouseDelta.z = 0;
             WeaponFactory.getInstance().InstantiateShot(WeaponData, transform.position + mouseDelta.normalized, Quaternion.LookRotation(Vector3.forward, mouseDelta));
-            timer = 1f / fireRate;
+            timer = 1f / (fireRate * weapon.baseFrequency);
         }
         else
         {

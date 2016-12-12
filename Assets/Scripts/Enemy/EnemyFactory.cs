@@ -75,7 +75,8 @@ public class EnemyFactory : MonoBehaviour {
 
     public float calculateDamage(Enemy enemy) {
         WeaponData currentPlayerWeapon = Globals.GetPlayerController().WeaponData;
-        float baseDamage = currentPlayerWeapon.Tier * 10 * Globals.GetPlayerController().BasePower;
+        Weapon weapon = WeaponFactory.getInstance().weapons.Find(w => w.weaponData.Type == currentPlayerWeapon.Type);
+        float baseDamage = currentPlayerWeapon.Tier * 10 * Globals.GetPlayerController().BasePower * weapon.baseDamage;
         float damageModifier = Random.Range(0.8f, 1.2f);
 
         switch (currentPlayerWeapon.Roll) {
@@ -153,6 +154,7 @@ public class EnemyFactory : MonoBehaviour {
         Enemy enemy = (enemyData.type < this.enemies.Count) ? this.enemies[enemyData.type] : this.bosses[enemyData.type - enemies.Count];
 
         GameObject enemyObj = Instantiate(enemy.gameObject, position, rotation) as GameObject;
+        enemyObj.transform.parent = GameObject.FindGameObjectWithTag("Room").transform;
         enemyObj.transform.localScale = new Vector3(enemyData.Scale, enemyData.Scale, enemyData.Scale);
         enemyObj.GetComponent<Enemy>().Life = enemyData.Life;
         enemyObj.GetComponent<Enemy>().MaxLife = enemyData.Life;

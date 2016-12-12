@@ -401,6 +401,7 @@ public class Room : MonoBehaviour {
 
                 // Spawn chest
                 GameObject chest = Instantiate(chestPrefab, ViewportToWorldPoint(new Vector2(0.5f, 0.5f)), Quaternion.identity);
+                chest.transform.parent = GameObject.FindGameObjectWithTag("Room").transform;
                 foreach (ResourceType rt in RoomPlan.loot) {
                     chest.GetComponent<Chest>().AddResource(rt, 1);
                 }
@@ -413,13 +414,16 @@ public class Room : MonoBehaviour {
         bottomDoor.Open();
 	}
 
-    public Vector3 ViewportToWorldPoint(Vector2 viewportPoint)
+    public virtual Vector3 ViewportToWorldPoint(Vector2 viewportPoint)
     {
         viewportPoint.x = Mathf.Clamp01(viewportPoint.x);
         viewportPoint.y = Mathf.Clamp01(viewportPoint.y);
 
-        int tileX = Mathf.FloorToInt(viewportPoint.x * width);
-        int tileY = Mathf.FloorToInt(viewportPoint.y * height);
+        int tileX = Mathf.RoundToInt(viewportPoint.x * (width - 1));
+        int tileY = Mathf.RoundToInt(viewportPoint.y * (height - 1));
+
+        if (nearestTiles == null)
+            return Hub.instance.ViewportToWorldPoint(viewportPoint);
 
         Vector3 nearestTile = nearestTiles[tileX, tileY];
         return nearestTile + transform.position;

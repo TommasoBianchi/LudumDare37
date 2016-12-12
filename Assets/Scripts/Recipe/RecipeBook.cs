@@ -43,12 +43,28 @@ public class RecipeBook : MonoBehaviour
         {
             for (int tier = 1; tier <= 5; tier++)
             {
-                Recipe recipe = new Recipe(weapons[i].weaponData, tier);
+                Recipe recipe = new Recipe(new WeaponData(weapons[i].weaponData.Type, tier, Roll.None));
 
-                recipeList.Add(recipe);
-                GameObject newRecipePanel = Instantiate(recipeBook.recipeUIPrefab.gameObject, recipeBook.whereToSpawnRecipeUI) as GameObject;
-                newRecipePanel.GetComponent<ItemRecipeUI>().SetRecipe(recipe, tier);
+                recipeList.Add(recipe);                
             }
+        }
+
+        // Randomize list positions
+        for (int i = 0; i < recipeList.Count * 2; i++)
+        {
+            int firstIndex = Random.Range(0, recipeList.Count);
+            int secondIndex = Random.Range(0, recipeList.Count);
+
+            Recipe tmp = recipeList[firstIndex];
+            recipeList[firstIndex] = recipeList[secondIndex];
+            recipeList[secondIndex] = tmp;
+        }
+
+        // Generate UI
+        for (int i = 0; i < recipeList.Count; i++)
+        {
+            GameObject newRecipePanel = Instantiate(recipeBook.recipeUIPrefab.gameObject, recipeBook.whereToSpawnRecipeUI) as GameObject;
+            newRecipePanel.GetComponent<ItemRecipeUI>().SetRecipe(recipeList[i]);
         }
 
 		GetInstance().Recipes = recipeList;
