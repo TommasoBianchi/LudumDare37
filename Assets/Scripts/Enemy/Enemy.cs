@@ -80,7 +80,7 @@ public class Enemy : MonoBehaviour {
         GameObject text = Instantiate(DamageText, transform.position, Quaternion.identity) as GameObject;
         text.transform.SetParent(GameObject.Find("OverlayCanvas").transform);
         text.GetComponent<Text>().text = damage.ToString();
-        float scaleX = 4 * (Life / MaxLife);
+        float scaleX = 4 * (Life / MaxLife) + 0.1f;
         if (scaleX < 0) {
             scaleX = 0;
         }

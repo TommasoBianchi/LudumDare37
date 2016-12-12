@@ -28,6 +28,9 @@ public class RecipeBook : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
             gameObject.SetActive(!gameObject.activeSelf);
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+            gameObject.SetActive(false);
     }
 
 	public static RecipeBook GetInstance() {
