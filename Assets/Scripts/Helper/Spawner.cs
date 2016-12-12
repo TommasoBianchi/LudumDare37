@@ -21,8 +21,8 @@ public class Spawner : MonoBehaviour {
 	void Update () {
 		timeSinceLastSpawn += Time.deltaTime;
 		if (timeSinceLastSpawn > timeBetweenSpawn) {
-			EnemyData ed = EnemyFactory.getInstance().getEnemy(1, Random.Range(0.9f, 1.1f));
-			GameObject go = EnemyFactory.getInstance().InstantiateEnemy(ed, transform.position, Quaternion.identity);
+			GameObject go = Instantiate(obj, transform.position, Quaternion.identity);
+			//EnemyFactory.getInstance().InstantiateEnemy(obj, transform.position, Quaternion.identity);
 			go.transform.parent = GameObject.FindGameObjectWithTag("Room").transform;
 			go.GetComponent<Enemy>().Life = parent.MaxLife/4;
 			go.GetComponent<Enemy>().MaxLife = parent.MaxLife/4;
