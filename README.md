@@ -1,16 +1,18 @@
-# Game_title [WIP]
+# Just one more room
 
-## How to play [WIP]
+<!---## How to play-->
 
-### Windows
+<!---## Key bindings-->
 
-## Key bindings [WIP]
-
-## Authors [WIP]
+## Authors
 
 * [Tommaso Bianchi](https://github.com/tommasobianchi)
 * [Giacomo Franchini](https://github.com/JackFrank57)
+* [Fabio Chiusano](https://github.com/fabiochiusano)
+* [Gabriele Magnani](https://github.com/ilgeco)
+* [Davide Bazzanella](https://github.com/bazzadavide)
 
-## Tools [WIP]
+## Tools
 
-* Unity **version_to_place**
+* Unity 3D
+* Visual Studio
